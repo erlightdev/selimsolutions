@@ -12,9 +12,9 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useState } from "react";
 
-import Header from "@/components/header";
 import { ThemeProvider } from "@/components/theme-provider";
 import Footer from "@/layouts/footer";
+import Navbar from "@/layouts/navbar";
 import { link, type orpc } from "@/utils/orpc";
 
 import "../index.css";
@@ -58,9 +58,12 @@ function RootComponent() {
 				disableTransitionOnChange
 				storageKey="vite-ui-theme"
 			>
-				<div className="grid min-h-svh grid-rows-[auto_1fr_auto]">
-					<Header />
-					<Outlet />
+				<div className="grid min-h-svh grid-rows-[1fr_auto]">
+					<Navbar />
+					{/* pt clears the fixed navbar (announcement bar + header) */}
+					<main className="pt-23">
+						<Outlet />
+					</main>
 					<Footer />
 				</div>
 				<Toaster richColors />
