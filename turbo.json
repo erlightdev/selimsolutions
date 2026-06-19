@@ -20,6 +20,16 @@
     "db:push": {
       "cache": false
     },
+    "db:push:prod": {
+      "cache": false
+    },
+    "db:migrate:prod": {
+      "cache": false
+    },
+    "db:studio:prod": {
+      "cache": false,
+      "persistent": true
+    },
     "db:generate": {
       "cache": false
     },

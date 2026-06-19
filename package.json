@@ -20,6 +20,9 @@
     "db:watch": "turbo -F @selimsolutions/db db:watch",
     "db:stop": "turbo -F @selimsolutions/db db:stop",
     "db:down": "turbo -F @selimsolutions/db db:down",
+    "db:push:prod": "turbo -F @selimsolutions/db db:push:prod",
+    "db:migrate:prod": "turbo -F @selimsolutions/db db:migrate:prod",
+    "db:studio:prod": "turbo -F @selimsolutions/db db:studio:prod",
     "check": "biome check --write ."
   },
   "dependencies": {
