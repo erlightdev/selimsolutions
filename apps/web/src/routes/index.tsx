@@ -1,12 +1,242 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import {
+	Activity,
+	ArrowRight,
+	Bell,
+	Check,
+	ChevronDown,
+	GitBranch,
+	House,
+	LayoutGrid,
+	Settings,
+	ShieldAlert,
+	Sparkles,
+} from "lucide-react";
 
 import { orpc } from "@/utils/orpc";
 
 export const Route = createFileRoute("/")({
 	component: HomeComponent,
 });
+
+const stats = [
+	{ value: "24/7", label: "Monitoring" },
+	{ value: "<15m", label: "Avg response" },
+	{ value: "6+", label: "Core services" },
+	{ value: "100%", label: "Nepali team" },
+] as const;
+
+/* ── Hero dashboard mockup (decorative) ────────────────────────────── */
+
+const radarAxes = [
+	"External Threat",
+	"Endpoint",
+	"Network",
+	"Identity",
+	"Cloud",
+	"Applications",
+	"Email",
+	"Behavior",
+] as const;
+
+// Octagon ring points (viewBox 200×200, center 100,100).
+const RING_OUTER =
+	"100,30 149.5,50.5 170,100 149.5,149.5 100,170 50.5,149.5 30,100 50.5,50.5";
+const RING_MID =
+	"100,53 133.2,66.8 147,100 133.2,133.2 100,147 66.8,133.2 53,100 66.8,66.8";
+const RING_INNER =
+	"100,77 116.3,83.7 123,100 116.3,116.3 100,123 83.7,116.3 77,100 83.7,83.7";
+const DATA_SHAPE =
+	"100,40 128.3,71.7 168,100 124.7,124.7 100,155 78.8,121.2 50,100 68.2,68.2";
+const SPOKES = [
+	[100, 30],
+	[149.5, 50.5],
+	[170, 100],
+	[149.5, 149.5],
+	[100, 170],
+	[50.5, 149.5],
+	[30, 100],
+	[50.5, 50.5],
+] as const;
+
+function AlertRadar() {
+	return (
+		<svg
+			viewBox="0 0 200 200"
+			className="mx-auto h-44 w-44"
+			role="img"
+			aria-label="Origin of alerts radar chart"
+		>
+			<title>Origin of alerts</title>
+			<defs>
+				<radialGradient id="radar-fill" cx="50%" cy="50%" r="50%">
+					<stop offset="0%" stopColor="#fbbf24" stopOpacity="0.9" />
+					<stop offset="55%" stopColor="#f97316" stopOpacity="0.7" />
+					<stop offset="100%" stopColor="#ef4444" stopOpacity="0.55" />
+				</radialGradient>
+			</defs>
+
+			{[RING_OUTER, RING_MID, RING_INNER].map((pts) => (
+				<polygon
+					key={pts}
+					points={pts}
+					fill="none"
+					stroke="currentColor"
+					strokeWidth="1"
+					className="text-white/10"
+				/>
+			))}
+
+			{SPOKES.map(([x, y]) => (
+				<line
+					key={`${x}-${y}`}
+					x1="100"
+					y1="100"
+					x2={x}
+					y2={y}
+					stroke="currentColor"
+					strokeWidth="1"
+					className="text-white/10"
+				/>
+			))}
+
+			<polygon
+				points={DATA_SHAPE}
+				fill="url(#radar-fill)"
+				stroke="#fb923c"
+				strokeWidth="1.5"
+			/>
+		</svg>
+	);
+}
+
+function HeroDashboard() {
+	const railIcons = [House, Activity, ShieldAlert, GitBranch, Settings];
+
+	return (
+		<div className="relative mx-auto w-full max-w-md text-white">
+			{/* Main panel */}
+			<div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0a0e1f]/90 shadow-2xl shadow-black/50 backdrop-blur-sm">
+				{/* Title bar */}
+				<div className="flex items-center gap-2.5 border-white/5 border-b px-4 py-3">
+					<LayoutGrid className="h-4 w-4 text-white/40" />
+					<span className="font-bold text-sm italic tracking-tight">
+						SELIM<span className="text-[#405cfe]">7</span>
+					</span>
+				</div>
+
+				<div className="flex">
+					{/* Sidebar rail */}
+					<div className="flex flex-col items-center gap-5 border-white/5 border-r px-3 py-5 text-white/30">
+						{railIcons.map((Icon, i) => (
+							<Icon
+								key={Icon.displayName ?? i}
+								className={i === 2 ? "h-4 w-4 text-[#405cfe]" : "h-4 w-4"}
+							/>
+						))}
+					</div>
+
+					{/* Body */}
+					<div className="flex-1 p-4">
+						<p className="font-semibold text-[0.65rem] text-white/90 uppercase tracking-[0.16em]">
+							Detection &amp; Response
+						</p>
+						<div className="mt-3 rounded-xl border border-white/5 bg-white/[0.02] p-3">
+							<p className="text-center font-semibold text-white text-xs">
+								Origin of Alerts
+							</p>
+							<AlertRadar />
+							<div className="mt-1 flex flex-wrap justify-center gap-x-2 gap-y-1">
+								{radarAxes.map((a) => (
+									<span key={a} className="text-[0.55rem] text-white/40">
+										{a}
+									</span>
+								))}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* Stat chips */}
+				<div className="grid grid-cols-3 gap-2 border-white/5 border-t p-3">
+					{[
+						["86%", "triaged"],
+						["93%", "closed"],
+						["18%", "escalated"],
+					].map(([v, l]) => (
+						<div
+							key={l}
+							className="rounded-lg border border-white/5 bg-white/[0.02] px-2 py-2 text-center"
+						>
+							<p className="font-semibold text-sm text-white tabular-nums">
+								{v}
+							</p>
+							<p className="text-[0.55rem] text-white/40">Alerts {l}</p>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Floating "Suspicious Logins" card */}
+			<div className="anim-float absolute -top-8 -right-6 w-60 rounded-2xl border border-white/10 bg-[#0e1326]/95 p-4 shadow-2xl shadow-black/60 backdrop-blur">
+				<div className="flex items-center gap-2">
+					<span className="flex h-6 w-6 items-center justify-center rounded-full bg-red-500/20">
+						<ShieldAlert className="h-3.5 w-3.5 text-red-400" />
+					</span>
+					<span className="font-semibold text-sm">Suspicious Logins</span>
+				</div>
+
+				{/* Suggested next steps */}
+				<div className="mt-3 rounded-xl border border-white/10 bg-gradient-to-br from-[#405cfe]/25 to-red-500/15 p-3">
+					<div className="flex items-center gap-1.5">
+						<Sparkles className="h-3 w-3 text-white/80" />
+						<span className="font-medium text-[0.7rem] text-white/90">
+							Suggested Next Steps
+						</span>
+					</div>
+					<div className="mt-2.5 space-y-2">
+						{[28, 20, 24].map((w) => (
+							<div key={w} className="flex items-center gap-2">
+								<span className="flex h-3.5 w-3.5 items-center justify-center rounded-[4px] bg-white/15">
+									<Check className="h-2.5 w-2.5 text-white/80" />
+								</span>
+								<span
+									className="h-1.5 rounded-full bg-white/15"
+									style={{ width: `${w * 4}px` }}
+								/>
+							</div>
+						))}
+					</div>
+				</div>
+
+				<button
+					type="button"
+					className="mt-3 w-full rounded-lg bg-white px-3 py-2 font-medium text-[0.7rem] text-neutral-950 transition-[background-color,scale] duration-150 ease-out hover:bg-white/90 active:scale-[0.96]"
+				>
+					Create New Investigation
+				</button>
+
+				<div className="mt-3 flex items-center gap-2">
+					<Bell className="h-3 w-3 text-white/40" />
+					<span className="text-[0.6rem] text-white/50">Managed</span>
+					<div className="flex -space-x-1.5">
+						{[
+							"from-[#405cfe] to-cyan-400",
+							"from-orange-400 to-red-500",
+							"from-emerald-400 to-teal-500",
+						].map((g) => (
+							<span
+								key={g}
+								className={`h-4 w-4 rounded-full border border-[#0e1326] bg-gradient-to-br ${g}`}
+							/>
+						))}
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+}
 
 function HomeComponent() {
 	const healthCheck = useQuery(orpc.healthCheck.queryOptions());
@@ -23,44 +253,77 @@ function HomeComponent() {
 					loop
 					playsInline
 				/>
-				{/* readability overlay */}
-				<div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/55 to-background" />
+				{/* Layered overlays — left gradient for text contrast, bottom fade into the page */}
+				<div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-transparent" />
+				{/* Keep the bottom dark/translucent in both themes (not the light page bg) */}
+				<div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent" />
+				{/* Brand glow */}
+				<div className="pointer-events-none absolute top-1/4 -left-40 h-96 w-96 rounded-full bg-[#405cfe]/20 blur-3xl" />
 
-				<div className="relative mx-auto w-full max-w-7xl px-6 pt-32 pb-24 lg:px-10">
+				<div className="relative mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 px-6 pt-32 pb-28 lg:grid-cols-2 lg:px-10">
 					<div className="max-w-2xl text-white">
-						<span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 font-medium text-xs uppercase tracking-[0.16em] backdrop-blur-sm">
-							<ShieldCheck className="h-3.5 w-3.5 text-[#405cfe]" />
-							Nepal's vigilant SOC
-						</span>
+						{/* Live status pill */}
+						<div className="anim-fade-up inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 backdrop-blur-sm">
+							<span className="relative flex h-2 w-2">
+								<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+								<span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+							</span>
+							<span className="font-medium text-white/80 text-xs uppercase tracking-[0.16em]">
+								SOC operational · Kathmandu
+							</span>
+						</div>
 
-						<h1 className="mt-6 font-semibold text-4xl leading-[1.05] tracking-tight sm:text-6xl">
-							Clarity from the
-							<br />
-							highest ground.
+						<h1 className="anim-fade-up mt-6 text-balance font-semibold text-5xl leading-[1.02] tracking-tight [animation-delay:80ms] sm:text-6xl lg:text-7xl">
+							Clarity from the{" "}
+							<span className="bg-gradient-to-r from-white via-white to-[#7d8efc] bg-clip-text text-transparent">
+								highest ground.
+							</span>
 						</h1>
 
-						<p className="mt-6 max-w-xl text-base text-white/70 leading-relaxed sm:text-lg">
+						<p className="anim-fade-up mt-6 max-w-xl text-pretty text-base text-white/70 leading-relaxed [animation-delay:160ms] sm:text-lg">
 							Vigilant. Resilient. Nepali. Selim Solution guards Nepal's digital
-							frontier with a 24/7 SOC, threat detection and incident response —
-							from Kathmandu.
+							frontier — a 24/7 SOC with threat detection, incident response and
+							compliance, run from Kathmandu.
 						</p>
 
-						<div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+						<div className="anim-fade-up mt-9 flex flex-col gap-3 [animation-delay:240ms] sm:flex-row sm:items-center">
 							<a
 								href="/contact"
-								className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#405cfe] px-6 py-3 font-medium text-sm text-white transition-colors hover:bg-[#3550e0]"
+								className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#405cfe] px-6 py-3 font-medium text-sm text-white transition-[background-color,scale] duration-150 ease-out hover:bg-[#3550e0] active:scale-[0.96]"
 							>
 								Get Free Assessment
-								<ArrowRight className="h-4 w-4" />
+								<ArrowRight className="h-4 w-4 transition-transform duration-150 ease-out group-hover:translate-x-0.5" />
 							</a>
 							<a
 								href="/services"
-								className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 py-3 font-medium text-sm text-white backdrop-blur-sm transition-colors hover:bg-white/10"
+								className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 py-3 font-medium text-sm text-white backdrop-blur-sm transition-[background-color,scale] duration-150 ease-out hover:bg-white/10 active:scale-[0.96]"
 							>
 								Explore services
 							</a>
 						</div>
+
+						{/* Trust stats */}
+						<dl className="anim-fade-up mt-12 grid max-w-lg grid-cols-2 gap-x-8 gap-y-6 border-white/10 border-t pt-8 [animation-delay:320ms] sm:grid-cols-4">
+							{stats.map(({ value, label }) => (
+								<div key={label}>
+									<dt className="font-semibold text-2xl text-white tabular-nums tracking-tight">
+										{value}
+									</dt>
+									<dd className="mt-1 text-white/55 text-xs">{label}</dd>
+								</div>
+							))}
+						</dl>
 					</div>
+
+					{/* Right: dashboard mockup */}
+					<div className="anim-fade-up relative hidden [animation-delay:200ms] lg:block">
+						<HeroDashboard />
+					</div>
+				</div>
+
+				{/* Scroll cue */}
+				<div className="anim-fade-up absolute bottom-6 left-1/2 -translate-x-1/2 [animation-delay:480ms]">
+					<ChevronDown className="h-5 w-5 animate-bounce text-white/40" />
 				</div>
 			</section>
 

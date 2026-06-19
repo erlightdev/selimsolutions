@@ -10,24 +10,73 @@ TailwindCSS v4 + shadcn primitives from `packages/ui`. Dark theme default.
 
 ## Layout shell
 
-- `src/routes/__root.tsx` — app shell. Grid `min-h-svh grid-rows-[auto_1fr_auto]`:
-  `<Header />` / `<Outlet />` / `<Footer />`. ThemeProvider defaults dark.
-- `src/components/header.tsx` — top nav (Home, Dashboard) + ModeToggle + UserMenu.
+- `src/routes/__root.tsx` — app shell. Grid `min-h-svh grid-rows-[1fr_auto]`:
+  `<Navbar />` (fixed, see below) / `<main className="pt-23">` wrapping `<Outlet />`
+  / `<Footer />`. ThemeProvider defaults dark. `pt-23` on `<main>` clears the
+  fixed navbar; a hero opts out with `-mt-23` to bleed under it.
+- `src/layouts/navbar.tsx` — site header (see below). **Replaced** the old
+  `src/components/header.tsx` (now dead/unused — Home/Dashboard stub).
 - `src/layouts/footer.tsx` — site footer (see below).
 
 ## Routes (file-based, `src/routes/`)
 
 | Path        | File                       | State |
 |-------------|----------------------------|-------|
-| `/`         | `index.tsx`                | home / API health ping |
+| `/`         | `index.tsx`                | home — video hero + SOC dashboard mockup; API ping below |
 | `/login`    | `login.tsx`                | auth |
 | `/dashboard`| `_auth/dashboard.tsx`      | protected |
 
-**Pending routes** referenced by the footer but NOT built yet:
-`/services`, `/about`, `/case-studies`, `/contact`, `/privacy`, `/terms`,
-`/certifications`. Footer links to them via plain `<a href>` (full-page nav →
-404 until created). Do NOT use TanStack `<Link to>` for these — typed router
-throws at render for unknown routes (caused a white-screen crash, now fixed).
+**Pending routes** referenced by navbar + footer but NOT built yet:
+`/about`, `/case-studies`, `/contact`, `/services` (+ `/services/*`),
+`/solutions/*`, `/compliance/*`, `/privacy`, `/terms`, `/certifications`,
+`/downloads`. Linked via plain `<a href>` (full-page nav → 404 until created).
+Do NOT use TanStack `<Link to>` for these — typed router throws at render for
+unknown routes (caused a white-screen crash, now fixed).
+
+## Navbar (`src/layouts/navbar.tsx`)
+
+- `fixed inset-x-0 top-0 z-40` → overlaps the hero (grid row collapses). Two rows:
+  brand-blue **announcement bar** + **main header**.
+- **Light mode = solid `bg-white`** (always); **dark = translucent** `bg-background/40`
+  → `/85` on scroll, with `backdrop-blur`. Adds `shadow-sm` on scroll (light).
+  Scroll state via a `window.scroll` listener (`scrolled` > 8px).
+- **Services megamenu**: panel anchored to the full-width row (`relative` on the
+  `max-w-7xl` row) → centered on screen, NOT on the trigger button. Hover stays
+  open because the panel is a DOM descendant of the row (`onMouseLeave` ignores
+  descendants). Enter anim on the inner card only (`anim-megamenu`) so the
+  outer `-translate-x-1/2` centering isn't clobbered by the keyframe transform.
+- Logo swaps by theme via CSS: `dark:hidden` (light logo) / `hidden dark:block`.
+- Mobile: slide-in panel (`anim-drawer`) + backdrop (`anim-backdrop`).
+- Content (primaryNav, services, solutions, compliance, resources) in top-of-file
+  `const` arrays. Source of truth for nav copy.
+
+## Hero (`src/routes/index.tsx`)
+
+- Full-bleed `/hero-video.mp4` (`autoPlay muted loop playsInline`), `-mt-23` to
+  bleed under the navbar, `pt-32` to keep content clear.
+- Overlays: left dark gradient (text contrast) + **bottom `from-black/95`** kept
+  dark in BOTH themes (by request — not the light page bg) + brand glow blob.
+- Left col: live-status pill (ping dot), gradient-accent h1 (`text-balance`),
+  subtext (`text-pretty`), 2 CTAs, trust-stat strip (`tabular-nums`). Staggered
+  enter via `anim-fade-up` + `[animation-delay:*]`.
+- Right col (`lg:` only): **SOC dashboard mockup** — `AlertRadar` (pure-SVG
+  octagon radar) + stat chips + floating "Suspicious Logins" card (`anim-float`).
+  All decorative; built from local `const` coord strings.
+
+## Animation utilities (`src/index.css`)
+
+App-specific keyframes + `@theme` easing tokens (`--ease-out-strong`,
+`--ease-drawer`). Utility classes: `anim-fade-up` (staggered enter: opacity +
+lift + blur), `anim-megamenu` (origin-top scale-in), `anim-backdrop`,
+`anim-drawer`, `anim-float` (idle bob). `@media (prefers-reduced-motion)` guard
+shortens/disables them. Also sets `-webkit-font-smoothing: antialiased` on `html`.
+Tailwind built-ins `animate-ping`/`animate-bounce` are used too but do NOT
+auto-respect reduced-motion.
+
+**Design skills installed** (`.agents/skills/`, symlinked for Claude Code):
+`make-interfaces-feel-better`, `emil-design-eng`, `review-animations`. Applied:
+scale-on-press (`active:scale-[0.96]`), no `transition: all` (always specify
+props), concentric radius, 40px hit areas, staggered enters, origin-aware popover.
 
 ## Footer (`src/layouts/footer.tsx`)
 

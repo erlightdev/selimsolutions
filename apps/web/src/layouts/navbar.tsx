@@ -118,10 +118,10 @@ function AnimatedThemeToggler() {
 			type="button"
 			aria-label="Toggle theme"
 			onClick={() => setTheme(isDark ? "light" : "dark")}
-			className="relative inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border text-foreground/80 transition-colors hover:bg-foreground/5 hover:text-foreground"
+			className="relative inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border text-foreground/80 transition-[background-color,color,scale] duration-150 ease-out hover:bg-foreground/5 hover:text-foreground active:scale-[0.96]"
 		>
-			<Sun className="h-[1.1rem] w-[1.1rem] rotate-0 scale-100 transition-all duration-300 dark:-rotate-90 dark:scale-0" />
-			<Moon className="absolute h-[1.1rem] w-[1.1rem] rotate-90 scale-0 transition-all duration-300 dark:rotate-0 dark:scale-100" />
+			<Sun className="h-[1.1rem] w-[1.1rem] rotate-0 scale-100 opacity-100 transition-[transform,opacity] duration-300 ease-out dark:-rotate-90 dark:scale-0 dark:opacity-0" />
+			<Moon className="absolute h-[1.1rem] w-[1.1rem] rotate-90 scale-0 opacity-0 transition-[transform,opacity] duration-300 ease-out dark:rotate-0 dark:scale-100 dark:opacity-100" />
 		</button>
 	);
 }
@@ -228,17 +228,17 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
 			<button
 				type="button"
 				aria-label="Close menu"
-				className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+				className="anim-backdrop absolute inset-0 bg-black/40 backdrop-blur-sm"
 				onClick={onClose}
 			/>
-			<div className="absolute inset-y-0 right-0 flex w-[min(22rem,90vw)] flex-col overflow-y-auto bg-background shadow-2xl">
+			<div className="anim-drawer absolute inset-y-0 right-0 flex w-[min(22rem,90vw)] flex-col overflow-y-auto bg-background shadow-2xl">
 				<div className="flex items-center justify-between border-border border-b px-5 py-4">
 					<span className="font-semibold text-sm">Menu</span>
 					<button
 						type="button"
 						aria-label="Close menu"
 						onClick={onClose}
-						className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border text-foreground/80 transition-colors hover:bg-foreground/5"
+						className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border text-foreground/80 transition-[background-color,scale] duration-150 ease-out hover:bg-foreground/5 active:scale-[0.96]"
 					>
 						<X className="h-4 w-4" />
 					</button>
@@ -294,7 +294,7 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
 					<a
 						href="/contact"
 						onClick={onClose}
-						className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#405cfe] px-5 py-3 font-medium text-sm text-white transition-colors hover:bg-[#3550e0]"
+						className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#405cfe] px-5 py-3 font-medium text-sm text-white transition-[background-color,scale] duration-150 ease-out hover:bg-[#3550e0] active:scale-[0.96]"
 					>
 						Get Free Assessment
 						<ArrowRight className="h-4 w-4" />
@@ -348,10 +348,12 @@ export default function Navbar() {
 			{/* Main header */}
 			<div
 				className={cn(
-					"border-border/60 border-b transition-colors duration-300",
+					"border-b transition-[background-color,border-color,box-shadow] duration-300",
+					// Light: solid white always. Dark: translucent + blur.
+					"bg-white dark:bg-background/40 dark:backdrop-blur-sm",
 					scrolled
-						? "border-border bg-background/85 backdrop-blur-md"
-						: "border-transparent bg-background/40 backdrop-blur-sm",
+						? "border-border shadow-sm dark:bg-background/85 dark:shadow-none dark:backdrop-blur-md"
+						: "border-transparent",
 				)}
 			>
 				{/* biome-ignore lint/a11y/noStaticElementInteractions: hover region for the megamenu; the trigger itself is a keyboard-accessible button */}
@@ -417,7 +419,7 @@ export default function Navbar() {
 					{/* Megamenu panel — anchored to the full-width row, centered on screen */}
 					{servicesOpen && (
 						<div className="absolute top-full left-1/2 z-50 hidden w-[min(72rem,calc(100vw-2rem))] -translate-x-1/2 pt-3 lg:block">
-							<div className="overflow-hidden rounded-2xl border border-border bg-popover shadow-2xl shadow-black/20">
+							<div className="anim-megamenu overflow-hidden rounded-2xl border border-border bg-popover shadow-2xl shadow-black/20">
 								<ServicesMegamenu />
 							</div>
 						</div>
@@ -428,7 +430,7 @@ export default function Navbar() {
 						<AnimatedThemeToggler />
 						<a
 							href="/contact"
-							className="hidden items-center gap-2 rounded-xl bg-[#405cfe] px-4 py-2 font-medium text-sm text-white transition-colors hover:bg-[#3550e0] sm:inline-flex"
+							className="hidden items-center gap-2 rounded-xl bg-[#405cfe] px-4 py-2 font-medium text-sm text-white transition-[background-color,scale] duration-150 ease-out hover:bg-[#3550e0] active:scale-[0.96] sm:inline-flex"
 						>
 							Get Free Assessment
 							<ArrowRight className="h-4 w-4" />
@@ -437,7 +439,7 @@ export default function Navbar() {
 							type="button"
 							aria-label="Open menu"
 							onClick={() => setMobileOpen(true)}
-							className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border text-foreground/80 transition-colors hover:bg-foreground/5 lg:hidden"
+							className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border text-foreground/80 transition-[background-color,scale] duration-150 ease-out hover:bg-foreground/5 active:scale-[0.96] lg:hidden"
 						>
 							<Menu className="h-5 w-5" />
 						</button>
