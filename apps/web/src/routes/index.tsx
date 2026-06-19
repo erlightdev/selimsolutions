@@ -3,12 +3,16 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
 	Activity,
 	ArrowRight,
+	Award,
+	BadgeCheck,
 	Bell,
 	Check,
 	ChevronDown,
 	GitBranch,
+	Globe,
 	House,
 	LayoutGrid,
+	Lock,
 	Settings,
 	ShieldAlert,
 	Sparkles,
@@ -238,6 +242,40 @@ function HeroDashboard() {
 	);
 }
 
+const metrics = [
+	{ value: "125K", accent: "+", label: "Protected Endpoints" },
+	{ value: "24", accent: "/7", label: "Threat Monitoring" },
+	{ value: "99.99", accent: "%", label: "System Uptime" },
+	{ value: "2M", accent: "+", label: "Threats Blocked" },
+] as const;
+
+const certifications = [
+	{
+		name: "SOC 2",
+		Icon: BadgeCheck,
+		featured: true,
+		desc: "Enterprise-grade controls for secure data handling, monitoring, and operational integrity.",
+	},
+	{
+		name: "GDPR",
+		Icon: Globe,
+		featured: false,
+		desc: "Privacy-first infrastructure designed to protect customer data across global environments.",
+	},
+	{
+		name: "ISO 27001",
+		Icon: Award,
+		featured: false,
+		desc: "Internationally recognized standards for information security management systems.",
+	},
+	{
+		name: "CCPA",
+		Icon: Lock,
+		featured: false,
+		desc: "Advanced consumer privacy protection aligned with California compliance requirements.",
+	},
+] as const;
+
 function HomeComponent() {
 	const healthCheck = useQuery(orpc.healthCheck.queryOptions());
 
@@ -324,6 +362,95 @@ function HomeComponent() {
 				{/* Scroll cue */}
 				<div className="anim-fade-up absolute bottom-6 left-1/2 -translate-x-1/2 [animation-delay:480ms]">
 					<ChevronDown className="h-5 w-5 animate-bounce text-white/40" />
+				</div>
+			</section>
+
+			{/* Intro statement */}
+			<section className="bg-background py-16">
+				<div className="mx-auto max-w-3xl px-6 text-center">
+					<p className="font-medium font-mono text-xs uppercase tracking-[0.3em]">
+						<span className="bg-gradient-to-r from-[#405cfe] to-[#7d8efc] bg-clip-text text-transparent">
+							Enterprise Security
+						</span>
+					</p>
+					<h2 className="mt-6 text-balance font-serif text-5xl text-foreground leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+						Take Control of Your Cybersecurity Future
+					</h2>
+					<p className="mx-auto mt-6 max-w-xl text-pretty text-base text-muted-foreground leading-relaxed sm:text-lg">
+						Protect critical systems, monitor evolving threats, and secure every
+						digital operation with intelligent enterprise-grade defense.
+					</p>
+				</div>
+			</section>
+
+			{/* Metrics band */}
+			<section className="border-border border-t bg-background">
+				<div className="mx-auto max-w-7xl px-6 lg:px-10">
+					<dl className="grid grid-cols-2 overflow-hidden lg:grid-cols-4">
+						{metrics.map((m) => (
+							<div
+								key={m.label}
+								className="-mt-px -ml-px flex flex-col items-center gap-2 border border-border/50 px-6 py-12 text-center sm:py-16"
+							>
+								<dt className="font-semibold text-4xl text-foreground tabular-nums tracking-tight sm:text-5xl">
+									{m.value}
+									<span className="text-[#405cfe]">{m.accent}</span>
+								</dt>
+								<dd className="text-muted-foreground text-sm">{m.label}</dd>
+							</div>
+						))}
+					</dl>
+				</div>
+			</section>
+
+			{/* Security standards */}
+			<section className="bg-background py-16">
+				<div className="mx-auto max-w-3xl px-6 text-center">
+					<p className="font-medium font-mono text-xs uppercase tracking-[0.3em]">
+						<span className="bg-gradient-to-r from-[#405cfe] to-[#7d8efc] bg-clip-text text-transparent">
+							Security Standards
+						</span>
+					</p>
+					<h2 className="mt-6 text-balance font-serif text-4xl text-foreground leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
+						Certified Protection for Enterprise Operations
+					</h2>
+					<p className="mx-auto mt-6 max-w-xl text-pretty text-base text-muted-foreground leading-relaxed sm:text-lg">
+						Built to meet global cybersecurity standards with compliance-focused
+						infrastructure and trusted security frameworks.
+					</p>
+				</div>
+
+				<div className="mx-auto mt-16 max-w-5xl px-6 lg:px-10">
+					<div className="grid grid-cols-1 overflow-hidden rounded-2xl border border-border/60 sm:grid-cols-2">
+						{certifications.map(({ name, Icon, desc, featured }) => (
+							<div
+								key={name}
+								className={`-mt-px -ml-px flex flex-col items-center gap-4 border border-border/40 px-8 py-12 text-center ${
+									featured
+										? "bg-gradient-to-br from-[#405cfe]/15 via-transparent to-transparent"
+										: ""
+								}`}
+							>
+								<div
+									className={`flex h-20 w-20 items-center justify-center rounded-full border ${
+										featured
+											? "border-[#405cfe]/40 bg-[#405cfe]/10"
+											: "border-border bg-muted/30"
+									}`}
+								>
+									<Icon
+										className={`h-8 w-8 ${featured ? "text-[#405cfe]" : "text-foreground/70"}`}
+									/>
+								</div>
+								<h3 className="font-semibold text-foreground text-lg">
+									{name}
+								</h3>
+								<p className="max-w-xs text-pretty text-muted-foreground text-sm leading-relaxed">
+									{desc}
+								</p>
+							</div>
+						))}
+					</div>
 				</div>
 			</section>
 

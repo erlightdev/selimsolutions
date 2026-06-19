@@ -69,9 +69,10 @@ App-specific keyframes + `@theme` easing tokens (`--ease-out-strong`,
 `--ease-drawer`). Utility classes: `anim-fade-up` (staggered enter: opacity +
 lift + blur), `anim-megamenu` (origin-top scale-in), `anim-backdrop`,
 `anim-drawer`, `anim-float` (idle bob). `@media (prefers-reduced-motion)` guard
-shortens/disables them. Also sets `-webkit-font-smoothing: antialiased` on `html`.
-Tailwind built-ins `animate-ping`/`animate-bounce` are used too but do NOT
-auto-respect reduced-motion.
+shortens/disables them. Tailwind built-ins `animate-ping`/`animate-bounce` are
+used too but do NOT auto-respect reduced-motion.
+**Do NOT add `-webkit-font-smoothing: antialiased` globally** — it thins text and
+degrades rendering on Windows (removed after a regression).
 
 **Design skills installed** (`.agents/skills/`, symlinked for Claude Code):
 `make-interfaces-feel-better`, `emil-design-eng`, `review-animations`. Applied:

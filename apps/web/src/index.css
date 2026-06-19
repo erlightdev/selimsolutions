@@ -1,11 +1,5 @@
 @import "@selimsolutions/ui/globals.css";
 
-/* Crisper text rendering (mainly macOS). */
-html {
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
 @theme {
 	--ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
 	--ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
@@ -35,6 +29,11 @@ html {
 	/* Gentle idle float for the floating dashboard card. */
 	.anim-float {
 		animation: float 6s ease-in-out infinite;
+	}
+
+	/* Infinite marquee — track holds two copies, slides one full copy. */
+	.anim-marquee {
+		animation: marquee 30s linear infinite;
 	}
 }
 
@@ -90,6 +89,15 @@ html {
 	}
 }
 
+@keyframes marquee {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(-50%);
+	}
+}
+
 /* Reduced motion: keep opacity, drop movement/blur. */
 @media (prefers-reduced-motion: reduce) {
 	.anim-fade-up,
@@ -98,7 +106,8 @@ html {
 	.anim-drawer {
 		animation-duration: 0.01ms;
 	}
-	.anim-float {
+	.anim-float,
+	.anim-marquee {
 		animation: none;
 	}
 }
