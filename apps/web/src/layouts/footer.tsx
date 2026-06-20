@@ -66,7 +66,7 @@ export default function Footer() {
 	const year = new Date().getFullYear();
 
 	return (
-		<footer>
+		<footer className="mt-20">
 			<div className="mx-auto mb-4 max-w-6xl px-3 text-white sm:-mb-52 sm:px-0">
 				{/* CTA card — lifted to overlap content above (desktop only) */}
 				<div className="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-[#0a0a0c] px-6 py-10 shadow-2xl shadow-black/50 sm:-mt-24 sm:px-12 sm:py-16">

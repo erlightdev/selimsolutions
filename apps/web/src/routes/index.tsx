@@ -18,11 +18,28 @@ import {
 	Sparkles,
 } from "lucide-react";
 
+import { Marquee } from "@selimsolutions/ui/components/marquee";
+
+import BlogInsights from "@/components/blog-insights";
+import FeatureShowcase from "@/components/feature-showcase";
+import ServicesTabs from "@/components/services-tabs";
+import Testimonials from "@/components/testimonials";
 import { orpc } from "@/utils/orpc";
 
 export const Route = createFileRoute("/")({
 	component: HomeComponent,
 });
+
+const logos = [
+	"NepalBank",
+	"NTC",
+	"Khalti",
+	"eSewa",
+	"NIC Asia",
+	"Daraz",
+	"F1Soft",
+	"Worldlink",
+] as const;
 
 const stats = [
 	{ value: "24/7", label: "Monitoring" },
@@ -319,7 +336,7 @@ function HomeComponent() {
 						</h1>
 
 						<p className="anim-fade-up mt-6 max-w-xl text-pretty text-base text-white/70 leading-relaxed [animation-delay:160ms] sm:text-lg">
-							Vigilant. Resilient. Nepali. Selim Solution guards Nepal's digital
+							Selim Solution guards Nepal's digital
 							frontier — a 24/7 SOC with threat detection, incident response and
 							compliance, run from Kathmandu.
 						</p>
@@ -362,6 +379,26 @@ function HomeComponent() {
 				{/* Scroll cue */}
 				<div className="anim-fade-up absolute bottom-6 left-1/2 -translate-x-1/2 [animation-delay:480ms]">
 					<ChevronDown className="h-5 w-5 animate-bounce text-white/40" />
+				</div>
+			</section>
+
+			{/* Trusted-by logo marquee */}
+			<section className="border-border/60 border-b bg-background py-4">
+			
+				<div className="relative">
+					<Marquee pauseOnHover className="[--duration:30s]">
+						{logos.map((name) => (
+							<span
+								key={name}
+								className="px-8 font-semibold text-2xl text-foreground/40 tracking-tight transition-colors hover:text-foreground/70"
+							>
+								{name}
+							</span>
+						))}
+					</Marquee>
+					{/* Edge fades */}
+					<div className="pointer-events-none absolute inset-y-0 left-0 w-1/6 bg-linear-to-r from-background" />
+					<div className="pointer-events-none absolute inset-y-0 right-0 w-1/6 bg-linear-to-l from-background" />
 				</div>
 			</section>
 
@@ -454,24 +491,19 @@ function HomeComponent() {
 				</div>
 			</section>
 
-			{/* API status (dev health check) */}
-			<section className="mx-auto max-w-7xl px-6 py-12 lg:px-10">
-				<div className="rounded-lg border p-4">
-					<h2 className="mb-2 font-medium">API Status</h2>
-					<div className="flex items-center gap-2">
-						<div
-							className={`h-2 w-2 rounded-full ${healthCheck.data ? "bg-green-500" : "bg-red-500"}`}
-						/>
-						<span className="text-muted-foreground text-sm">
-							{healthCheck.isLoading
-								? "Checking..."
-								: healthCheck.data
-									? "Connected"
-									: "Disconnected"}
-						</span>
-					</div>
-				</div>
-			</section>
+			{/* Services tabs */}
+			<ServicesTabs />
+
+			{/* Feature showcase */}
+			<FeatureShowcase />
+
+			{/* Testimonials carousel */}
+			<Testimonials />
+
+			{/* Blog / Insights */}
+			<BlogInsights />
+
+			
 		</>
 	);
 }

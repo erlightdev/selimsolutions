@@ -5,7 +5,6 @@ import {
 	Mail,
 	Menu,
 	Moon,
-	ShieldCheck,
 	Sun,
 	X,
 } from "lucide-react";
@@ -331,18 +330,26 @@ export default function Navbar() {
 		<header className="fixed inset-x-0 top-0 z-40">
 			{/* Announcement bar */}
 			<div className="bg-[#405cfe] text-white">
-				<div className="mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-2 text-center text-xs sm:text-sm">
-					<ShieldCheck className="h-4 w-4 shrink-0" />
-					<span>
-						Nepal's vigilant SOC — 24/7 from Kathmandu.{" "}
-						<a
-							href="/contact"
-							className="font-semibold underline underline-offset-2"
-						>
-							Get a free assessment
-						</a>
+				<a
+					href="/contact"
+					className="group mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-2 text-center text-xs sm:text-sm"
+				>
+					{/* Live pulse */}
+					<span className="relative flex h-2 w-2 shrink-0">
+						<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
+						<span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
 					</span>
-				</div>
+					<span className="font-medium">
+						<span className="hidden sm:inline">
+							Nepal’s vigilant SOC — 24/7 from Kathmandu.{" "}
+						</span>
+						<span className="sm:hidden">24/7 SOC · Kathmandu. </span>
+						<span className="font-semibold underline-offset-2 group-hover:underline">
+							Get a free assessment
+						</span>
+					</span>
+					<ArrowRight className="h-3.5 w-3.5 shrink-0 transition-transform duration-150 ease-out group-hover:translate-x-0.5" />
+				</a>
 			</div>
 
 			{/* Main header */}

@@ -39,7 +39,8 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 		links: [
 			{
 				rel: "icon",
-				href: "/favicon.ico",
+				type: "image/svg+xml",
+				href: "/selim-favicon.svg",
 			},
 		],
 	}),
@@ -58,10 +59,10 @@ function RootComponent() {
 				disableTransitionOnChange
 				storageKey="vite-ui-theme"
 			>
-				<div className="grid min-h-svh grid-rows-[1fr_auto]">
+				<div className="grid min-h-svh grid-rows-[1fr_auto] overflow-x-clip">
 					<Navbar />
 					{/* pt clears the fixed navbar (announcement bar + header) */}
-					<main className="pt-23">
+					<main className="min-w-0 pt-23">
 						<Outlet />
 					</main>
 					<Footer />
