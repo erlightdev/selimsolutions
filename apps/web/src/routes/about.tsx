@@ -35,7 +35,6 @@ export const Route = createFileRoute("/about")({
 interface TeamMember {
 	name: string;
 	role: string;
-	desc: string;
 	certs: string[];
 	avatar: string;
 }
@@ -90,28 +89,24 @@ const team: readonly TeamMember[] = [
 	{
 		name: "Sujat Dahal",
 		role: "Founder & Chief Cyber Commander",
-		desc: "Formulates enterprise defensive strategy and guides the evolution of sovereign cybersecurity solutions. Decades of combined strategic expertise in enterprise VAPT and threat architecture.",
 		certs: ["CISSP", "OSCP", "CISM"],
 		avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&h=300&q=80",
 	},
 	{
 		name: "Aman Shrestha",
 		role: "VP of Security Operations (SOC Lead)",
-		desc: "Coordinates our 24/7/365 active monitoring desks. Oversees rapid-containment playbooks, security incident response, SIEM analytics engineering, and tactical threat hunting.",
 		certs: ["GCIA", "CEH", "Sec+"],
 		avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&h=300&q=80",
 	},
 	{
 		name: "Niranjan Thapa",
 		role: "Director of Offensive Security & VAPT",
-		desc: "Directs red-teaming engagements and manual security audits. Dedicated researcher focusing on custom exploit development, cloud security weaknesses, and bypass methodologies.",
 		certs: ["OSCP", "OSCE", "CRT"],
 		avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&h=300&q=80",
 	},
 	{
 		name: "Alisha Shakya",
 		role: "Head of Risk, Governance & Compliance (GRC)",
-		desc: "Bridges engineering with executive regulatory benchmarks. Architect of compliance structures for banking, telecommunications, and digital payments providers globally.",
 		certs: ["CISA", "ISO 27001 LA", "CRISC"],
 		avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&h=300&q=80",
 	},
@@ -122,9 +117,12 @@ function AboutPage() {
 	const [activePillar, setActivePillar] = useState(0);
 
 	return (
-		<div className="bg-background py-16 sm:py-24 relative">
+		<div className="bg-background py-16 sm:py-24 relative overflow-hidden">
+			{/* Sleek Grid Pattern Background Overlay with Radial Mask Fading */}
+			<div className="absolute inset-0 top-0 left-0 h-[600px] w-full bg-[linear-gradient(to_right,var(--border)/6_1px,transparent_1px),linear-gradient(to_bottom,var(--border)/6_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-70 pointer-events-none" />
+
 			{/* Ambient security mesh layer */}
-			<div className="pointer-events-none absolute top-0 left-1/2 h-[500px] w-full max-w-7xl -translate-x-1/2 bg-[radial-gradient(40%_40%_at_50%_0%,var(--primary)/4%,transparent_100%)]" />
+			<div className="pointer-events-none absolute top-0 left-1/2 h-[500px] w-full max-w-7xl -translate-x-1/2 bg-[radial-gradient(40%_40%_at_50%_0%,var(--primary)/6%,transparent_100%)]" />
 
 			<div className="mx-auto max-w-6xl px-6 lg:px-10">
 				{/* Back button or tiny category cue */}
@@ -322,44 +320,38 @@ function AboutPage() {
 						{team.map((m) => (
 							<div
 								key={m.name}
-								className="relative group border border-border/30 bg-foreground/[0.01] dark:bg-zinc-900/10 p-6 sm:p-8 rounded-none overflow-hidden hover:border-primary/40 transition-colors duration-200 flex flex-col justify-between"
+								className="relative group border border-border/30 bg-foreground/[0.01] dark:bg-zinc-900/10 p-6 sm:p-8 rounded-none overflow-hidden hover:border-primary/40 transition-colors duration-200"
 							>
 								{/* Card Laser Highlights */}
 								<div className="absolute top-0 left-0 w-full h-[2px] bg-linear-to-r from-transparent via-primary/30 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
 
-								<div>
-									{/* Profile Avatar Frame */}
-									<div className="relative h-64 sm:h-72 w-full overflow-hidden bg-muted mb-6 border border-border/10">
-										<img
-											src={m.avatar}
-											alt={m.name}
-											className="h-full w-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300"
-											loading="lazy"
-										/>
-										<div className="absolute inset-0 bg-linear-to-t from-background/90 via-background/20 to-transparent" />
-										
-										<div className="absolute bottom-4 left-4 flex flex-wrap gap-2">
-											{m.certs.map((c) => (
-												<span
-													key={c}
-													className="px-2 py-0.5 bg-background/90 text-primary border border-primary/25 font-mono text-[10px] uppercase font-bold tracking-wider"
-												>
-													{c}
-												</span>
-											))}
-										</div>
+								{/* Profile Avatar Frame */}
+								<div className="relative h-64 sm:h-72 w-full overflow-hidden bg-muted mb-6 border border-border/10">
+									<img
+										src={m.avatar}
+										alt={m.name}
+										className="h-full w-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300"
+										loading="lazy"
+									/>
+									<div className="absolute inset-0 bg-linear-to-t from-background/90 via-background/20 to-transparent" />
+									
+									<div className="absolute bottom-4 left-4 flex flex-wrap gap-2">
+										{m.certs.map((c) => (
+											<span
+												key={c}
+												className="px-2 py-0.5 bg-background/90 text-primary border border-primary/25 font-mono text-[10px] uppercase font-bold tracking-wider"
+											>
+												{c}
+											</span>
+										))}
 									</div>
-
-									<h3 className="font-serif text-xl sm:text-2xl text-foreground font-semibold">
-										{m.name}
-									</h3>
-									<p className="font-mono text-xs text-primary/70 uppercase tracking-widest mt-1.5 font-semibold">
-										{m.role}
-									</p>
 								</div>
-								
-								<p className="mt-4 text-sm sm:text-[15px] text-foreground/75 dark:text-zinc-300 leading-relaxed text-pretty">
-									{m.desc}
+
+								<h3 className="font-serif text-xl sm:text-2xl text-foreground font-semibold">
+									{m.name}
+								</h3>
+								<p className="font-mono text-xs text-primary/70 uppercase tracking-widest mt-1.5 font-semibold">
+									{m.role}
 								</p>
 							</div>
 						))}
