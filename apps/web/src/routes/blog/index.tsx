@@ -99,11 +99,11 @@ function BlogIndexPage() {
 								<h2 className="mt-4 text-balance font-serif text-2xl sm:text-3xl text-foreground leading-snug tracking-tight transition-colors duration-200 group-hover:text-primary">
 									{featuredPost.title}
 								</h2>
-								<p className="mt-3 text-pretty text-muted-foreground text-sm leading-relaxed max-w-[45ch]">
+								<p className="mt-3 text-pretty text-sm text-foreground/75 dark:text-zinc-300 leading-relaxed">
 									{featuredPost.excerpt}
 								</p>
 								<div className="mt-8 flex items-center justify-between border-t border-border/20 pt-4">
-									<span className="text-muted-foreground text-xs">{featuredPost.date}</span>
+									<span className="text-foreground/50 text-xs">{featuredPost.date}</span>
 									<span className="inline-flex items-center gap-1.5 font-bold text-primary text-xs uppercase tracking-widest">
 										Read Insight
 										<ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 ease-out-strong group-hover:translate-x-1" />
@@ -144,12 +144,12 @@ function BlogIndexPage() {
 							<h3 className="mt-3 text-balance font-serif text-lg sm:text-xl text-foreground leading-snug tracking-tight transition-colors duration-200 group-hover:text-primary">
 								{post.title}
 							</h3>
-							<p className="mt-2.5 flex-1 text-pretty text-muted-foreground text-xs sm:text-sm leading-relaxed max-w-[45ch]">
+							<p className="mt-2.5 flex-1 text-pretty text-sm text-foreground/70 dark:text-zinc-300 leading-relaxed">
 								{post.excerpt}
 							</p>
 							<div className="mt-6 flex items-center justify-between border-t border-border/20 pt-4">
-								<span className="text-muted-foreground text-xs">{post.date}</span>
-								<div className="h-6 w-6 flex items-center justify-center border border-border/40 bg-muted/20 text-muted-foreground transition-all duration-300 group-hover:border-primary/20 group-hover:bg-primary/5 group-hover:text-primary rounded-none">
+								<span className="text-foreground/50 text-xs">{post.date}</span>
+								<div className="h-6 w-6 flex items-center justify-center border border-border/40 bg-muted/20 text-foreground/60 transition-all duration-300 group-hover:border-primary/20 group-hover:bg-primary/5 group-hover:text-primary rounded-none">
 									<ArrowUpRight className="h-3.5 w-3.5" />
 								</div>
 							</div>

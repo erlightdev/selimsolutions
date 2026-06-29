@@ -39,11 +39,11 @@ function FeaturedCard({ post }: { post: BlogPost }) {
 				<h3 className="mt-4 text-balance font-serif text-2xl text-foreground leading-snug tracking-tight sm:text-3xl">
 					{post.title}
 				</h3>
-				<p className="mt-3 text-pretty text-muted-foreground text-sm leading-relaxed">
+				<p className="mt-3 text-pretty text-sm text-foreground/75 dark:text-zinc-300 leading-relaxed">
 					{post.excerpt}
 				</p>
 				<div className="mt-6 flex items-center justify-between border-t border-border/20 pt-4">
-					<span className="text-muted-foreground text-xs">{post.date}</span>
+					<span className="text-foreground/50 text-xs">{post.date}</span>
 					<span className="inline-flex items-center gap-1.5 font-bold text-primary text-sm">
 						Read insight
 						<ArrowRight className="h-4 w-4 transition-transform duration-150 ease-out group-hover:translate-x-1" />
@@ -74,11 +74,11 @@ function PostCard({ post }: { post: BlogPost }) {
 			<h3 className="mt-3 text-balance font-serif text-lg sm:text-xl text-foreground leading-snug tracking-tight">
 				{post.title}
 			</h3>
-			<p className="mt-2.5 flex-1 text-pretty text-muted-foreground text-xs sm:text-sm leading-relaxed">
+			<p className="mt-2.5 flex-1 text-pretty text-sm text-foreground/75 dark:text-zinc-300 leading-relaxed">
 				{post.excerpt}
 			</p>
 			<div className="mt-6 flex items-center justify-between border-t border-border/20 pt-4">
-				<span className="text-muted-foreground text-xs">{post.date}</span>
+				<span className="text-foreground/50 text-xs">{post.date}</span>
 				<ArrowUpRight className="h-4 w-4 text-muted-foreground/40 transition-colors group-hover:text-primary" />
 			</div>
 		</Link>

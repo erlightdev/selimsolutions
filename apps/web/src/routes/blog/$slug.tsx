@@ -249,15 +249,15 @@ function BlogPostDetailPage() {
 										className="h-full w-full object-cover transition-transform duration-500 ease-out-strong group-hover:scale-102"
 									/>
 								</div>
-								<h4 className="mt-4 font-serif text-base text-foreground leading-snug tracking-tight transition-colors duration-200 group-hover:text-primary">
+								<h4 className="mt-4 font-serif text-lg text-foreground leading-snug tracking-tight transition-colors duration-200 group-hover:text-primary">
 									{post.title}
 								</h4>
-								<p className="mt-2 text-pretty text-muted-foreground text-xs leading-relaxed line-clamp-2 max-w-[45ch]">
+								<p className="mt-2 text-pretty text-sm text-foreground/70 dark:text-zinc-300 leading-relaxed line-clamp-2">
 									{post.excerpt}
 								</p>
-								<div className="mt-4 flex items-center justify-between border-t border-border/20 pt-3">
-									<span className="text-muted-foreground text-[10px]">{post.date}</span>
-									<div className="h-6 w-6 flex items-center justify-center border border-border/40 bg-muted/20 text-muted-foreground transition-all duration-300 group-hover:border-primary/20 group-hover:bg-primary/5 group-hover:text-primary rounded-none">
+								<div className="mt-5 flex items-center justify-between border-t border-border/20 pt-4">
+									<span className="text-foreground/50 text-xs">{post.date}</span>
+									<div className="h-6 w-6 flex items-center justify-center border border-border/40 bg-muted/20 text-foreground/60 transition-all duration-300 group-hover:border-primary/20 group-hover:bg-primary/5 group-hover:text-primary rounded-none">
 										<ArrowUpRight className="h-3 w-3" />
 									</div>
 								</div>
