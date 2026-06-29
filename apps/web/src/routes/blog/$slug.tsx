@@ -56,37 +56,40 @@ function BlogPostDetailPage() {
 	};
 
 	return (
-		<article className="bg-background py-16 sm:py-24">
-			<div className="mx-auto max-w-3xl px-6 lg:px-10">
+		<article className="bg-background py-16 sm:py-28 relative overflow-hidden">
+			{/* Soft Ambient Background Light Layer */}
+			<div className="pointer-events-none absolute top-0 left-1/2 h-[350px] w-[500px] -translate-x-1/2 rounded-full bg-primary/5 blur-[100px]" />
+
+			<div className="mx-auto max-w-4xl px-6 lg:px-10 relative">
 				{/* Back Navigation */}
 				<Link
 					to="/blog"
-					className="group inline-flex items-center gap-2 text-muted-foreground text-xs font-semibold uppercase tracking-wider transition-colors hover:text-foreground mb-10"
+					className="group inline-flex items-center gap-2 text-muted-foreground text-[10px] font-bold uppercase tracking-widest transition-colors duration-150 hover:text-foreground mb-10"
 				>
-					<ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+					<ArrowLeft className="h-3.5 w-3.5 transition-transform duration-200 ease-out-strong group-hover:-translate-x-1" />
 					Back to insights
 				</Link>
 
 				{/* Header Metas */}
-				<div className="flex items-center gap-3">
-					<Badge variant="secondary" className="rounded-none font-semibold uppercase tracking-wider text-[10px]">
+				<div className="anim-fade-up flex items-center gap-3">
+					<Badge variant="secondary" className="rounded-none font-semibold uppercase tracking-wider text-[9px] px-2 py-0.5">
 						{post.category}
 					</Badge>
-					<span className="flex items-center gap-1.5 text-muted-foreground text-xs font-medium">
+					<span className="flex items-center gap-1.5 text-muted-foreground text-xs font-semibold">
 						<Clock className="h-3.5 w-3.5" />
 						{post.readTime}
 					</span>
 					<span className="text-muted-foreground/30 text-xs">•</span>
-					<span className="text-muted-foreground text-xs">{post.date}</span>
+					<span className="text-muted-foreground text-xs font-medium">{post.date}</span>
 				</div>
 
 				{/* Article Headline */}
-				<h1 className="mt-4 text-balance font-serif text-3xl text-foreground leading-[1.1] tracking-[-0.02em] sm:text-4xl lg:text-5xl">
+				<h1 className="anim-fade-up mt-5 text-balance font-serif text-3xl sm:text-4xl lg:text-5xl text-foreground leading-[1.05] tracking-[-0.02em] [animation-delay:40ms]">
 					{post.title}
 				</h1>
 
 				{/* Article Hero Image */}
-				<div className="mt-10 aspect-21/9 w-full overflow-hidden rounded-none bg-muted border border-border/40">
+				<div className="anim-fade-up mt-10 aspect-21/9 w-full overflow-hidden rounded-none bg-muted border border-border/40 [animation-delay:80ms]">
 					<img
 						src={post.img}
 						alt={post.title}
@@ -95,18 +98,18 @@ function BlogPostDetailPage() {
 				</div>
 
 				{/* Content Shell with Optimal Line Width for Prose */}
-				<div className="mt-12 flex flex-col gap-8 md:flex-row items-start">
+				<div className="anim-fade-up mt-12 flex flex-col gap-10 md:flex-row items-start [animation-delay:120ms]">
 					{/* Share Side Rail (Desktop) */}
-					<div className="sticky top-28 hidden md:flex flex-col gap-4 border border-border bg-muted/10 p-3 rounded-none">
+					<div className="sticky top-28 hidden md:flex flex-col gap-5 border border-border/40 bg-muted/10 p-3 rounded-none">
 						<button
 							onClick={copyLink}
 							type="button"
-							className="text-muted-foreground hover:text-primary transition-colors duration-150 relative"
+							className="text-muted-foreground hover:text-primary transition-property:transform,color duration-150 ease-out-strong relative active:scale-[0.92]"
 							title="Copy article link"
 						>
 							<Copy className="h-4 w-4" />
 							{copied && (
-								<span className="absolute left-full ml-2 text-[10px] bg-foreground text-background px-2 py-0.5 rounded-none font-bold uppercase tracking-wider whitespace-nowrap">
+								<span className="absolute left-full ml-3 text-[9px] bg-foreground text-background px-2 py-0.5 rounded-none font-bold uppercase tracking-wider whitespace-nowrap anim-fade-up">
 									Copied
 								</span>
 							)}
@@ -115,7 +118,7 @@ function BlogPostDetailPage() {
 							href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}`}
 							target="_blank"
 							rel="noreferrer"
-							className="text-muted-foreground hover:text-primary transition-colors duration-150"
+							className="text-muted-foreground hover:text-primary transition-colors duration-150 active:scale-[0.92]"
 							title="Share on X"
 						>
 							<TwitterIcon className="h-4 w-4" />
@@ -124,15 +127,15 @@ function BlogPostDetailPage() {
 							href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}`}
 							target="_blank"
 							rel="noreferrer"
-							className="text-muted-foreground hover:text-primary transition-colors duration-150"
+							className="text-muted-foreground hover:text-primary transition-colors duration-150 active:scale-[0.92]"
 							title="Share on LinkedIn"
 						>
 							<LinkedinIcon className="h-4 w-4" />
 						</a>
 					</div>
 
-					{/* Article Body */}
-					<div className="flex-1 max-w-[70ch] text-pretty text-muted-foreground text-sm sm:text-base leading-relaxed sm:leading-loose">
+					{/* Article Body (Optimized Line-Width & High-End Type Spacing) */}
+					<div className="flex-1 max-w-[65ch] text-pretty text-foreground/80 text-sm sm:text-[15px] leading-[1.75] font-normal">
 						{post.content.split("\n\n").map((para, i) => {
 							const text = para.trim();
 							if (!text) return null;
@@ -140,7 +143,7 @@ function BlogPostDetailPage() {
 							// Check if it's an H2 header
 							if (text.startsWith("## ")) {
 								return (
-									<h2 key={i} className="font-serif text-xl sm:text-2xl text-foreground mt-8 mb-4 tracking-tight font-semibold">
+									<h2 key={i} className="font-serif text-xl sm:text-2xl text-foreground mt-10 mb-4 tracking-tight font-semibold border-b border-border/20 pb-2">
 										{text.replace("## ", "")}
 									</h2>
 								);
@@ -153,17 +156,17 @@ function BlogPostDetailPage() {
 
 							// Check if it's a separator
 							if (text === "---") {
-								return <Separator key={i} className="my-8" />;
+								return <Separator key={i} className="my-10" />;
 							}
 
 							// Check if it's a bullet list block
 							if (text.startsWith("* ") || text.startsWith("- ")) {
 								const items = text.split("\n").map(li => li.replace(/^[*-\s]+/, ""));
 								return (
-									<ul key={i} className="flex flex-col gap-3 my-6 pl-1">
+									<ul key={i} className="flex flex-col gap-3 my-6 pl-1 text-muted-foreground">
 										{items.map((item, idx) => (
 											<li key={idx} className="flex items-start gap-3">
-												<span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-none bg-foreground/30" />
+												<span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-none bg-primary/40" />
 												<span className="text-pretty">{item}</span>
 											</li>
 										))}
@@ -175,7 +178,7 @@ function BlogPostDetailPage() {
 							if (/^\d+\./.test(text)) {
 								const items = text.split("\n").map(li => li.replace(/^\d+\.\s+/, ""));
 								return (
-									<ol key={i} className="flex flex-col gap-3 my-6 pl-1">
+									<ol key={i} className="flex flex-col gap-3 my-6 pl-1 text-muted-foreground">
 										{items.map((item, idx) => (
 											<li key={idx} className="flex items-start gap-3">
 												<span className="font-mono text-xs text-primary font-bold mt-0.5 shrink-0">
@@ -200,8 +203,8 @@ function BlogPostDetailPage() {
 
 				<Separator className="my-16" />
 
-				{/* Dynamic Action Newsletter CTA Section */}
-				<div className="border border-border bg-card p-6 sm:p-10 rounded-none mb-20 text-center relative overflow-hidden">
+				{/* Tactile diagnostic audit CTA card */}
+				<div className="anim-fade-up border border-border/40 bg-card p-6 sm:p-10 rounded-none mb-20 text-center relative overflow-hidden [animation-delay:160ms]">
 					<div className="absolute top-0 right-0 h-40 w-40 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
 					<h3 className="font-serif text-2xl text-foreground tracking-tight leading-snug">
 						Secure your cloud infrastructure today
@@ -212,13 +215,13 @@ function BlogPostDetailPage() {
 					<div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
 						<Link
 							to="/certifications"
-							className="px-6 py-3 border border-border bg-muted/20 text-xs font-semibold uppercase tracking-wider rounded-none active:scale-[0.96] transition-all hover:bg-muted/40"
+							className="px-5 py-3 border border-border/40 bg-muted/10 text-[10px] font-bold uppercase tracking-widest rounded-none active:scale-[0.96] transition-transform hover:bg-muted/30"
 						>
 							Certifications portal
 						</Link>
 						<a
 							href="mailto:info@selimsolution.com"
-							className="px-6 py-3 bg-primary border border-primary text-primary-foreground text-xs font-semibold uppercase tracking-wider rounded-none active:scale-[0.96] transition-all hover:opacity-95"
+							className="px-5 py-3 bg-primary border border-primary text-primary-foreground text-[10px] font-bold uppercase tracking-widest rounded-none active:scale-[0.96] transition-transform hover:opacity-95"
 						>
 							Book a consultation
 						</a>
@@ -226,7 +229,7 @@ function BlogPostDetailPage() {
 				</div>
 
 				{/* Related Posts Grid (SEO internal link-juice optimization) */}
-				<div>
+				<div className="anim-fade-up [animation-delay:200ms]">
 					<h3 className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-primary mb-8">
 						Keep reading related insights
 					</h3>
@@ -236,25 +239,27 @@ function BlogPostDetailPage() {
 								key={post.slug}
 								to="/blog/$slug"
 								params={{ slug: post.slug }}
-								className="group flex flex-col rounded-none border border-border bg-card p-5 transition-all duration-200 hover:border-foreground/20 hover:shadow-[0_4px_12px_rgba(0,0,0,0.02)] active:scale-[0.98]"
+								className="group flex flex-col rounded-none border border-border/40 bg-card p-5 transition-all duration-300 hover:border-foreground/15 hover:shadow-lg active:scale-[0.98]"
 							>
-								<div className="aspect-16/10 w-full overflow-hidden rounded-none bg-muted">
+								<div className="aspect-16/10 w-full overflow-hidden rounded-none bg-muted border border-border/20">
 									<img
 										src={post.img}
 										alt={post.title}
 										loading="lazy"
-										className="h-full w-full object-cover transition-transform duration-350 ease-out group-hover:scale-105"
+										className="h-full w-full object-cover transition-transform duration-500 ease-out-strong group-hover:scale-102"
 									/>
 								</div>
-								<h4 className="mt-4 font-serif text-base text-foreground leading-snug tracking-tight">
+								<h4 className="mt-4 font-serif text-base text-foreground leading-snug tracking-tight transition-colors duration-200 group-hover:text-primary">
 									{post.title}
 								</h4>
-								<p className="mt-2 text-pretty text-muted-foreground text-xs leading-relaxed line-clamp-2">
+								<p className="mt-2 text-pretty text-muted-foreground text-xs leading-relaxed line-clamp-2 max-w-[45ch]">
 									{post.excerpt}
 								</p>
 								<div className="mt-4 flex items-center justify-between border-t border-border/20 pt-3">
 									<span className="text-muted-foreground text-[10px]">{post.date}</span>
-									<ArrowUpRight className="h-4 w-4 text-muted-foreground/30 transition-colors group-hover:text-primary" />
+									<div className="h-6 w-6 flex items-center justify-center border border-border/40 bg-muted/20 text-muted-foreground transition-all duration-300 group-hover:border-primary/20 group-hover:bg-primary/5 group-hover:text-primary rounded-none">
+										<ArrowUpRight className="h-3 w-3" />
+									</div>
 								</div>
 							</Link>
 						))}
