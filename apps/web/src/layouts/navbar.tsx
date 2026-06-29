@@ -1,6 +1,7 @@
 import { cn } from "@selimsolutions/ui/lib/utils";
 import {
 	ArrowRight,
+	ArrowUpRight,
 	ChevronDown,
 	Mail,
 	Menu,
@@ -310,7 +311,7 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
 
 				<div className="border-border border-t px-5 py-5">
 					<a
-						href="/contact"
+						href="/free-assessment"
 						onClick={onClose}
 						className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#405cfe] px-5 py-3 font-medium text-sm text-white transition-[background-color,scale] duration-150 ease-out hover:bg-[#3550e0] active:scale-[0.96]"
 					>
@@ -349,10 +350,7 @@ export default function Navbar() {
 		<header className="fixed inset-x-0 top-0 z-40">
 			{/* Announcement bar */}
 			<div className="bg-[#405cfe] text-white">
-				<a
-					href="/contact"
-					className="group mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-2 text-center text-xs sm:text-sm"
-				>
+				<div className="mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-2 text-center text-xs sm:text-sm">
 					{/* Live pulse */}
 					<span className="relative flex h-2 w-2 shrink-0">
 						<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
@@ -360,15 +358,11 @@ export default function Navbar() {
 					</span>
 					<span className="font-medium">
 						<span className="hidden sm:inline">
-							Nepal’s vigilant SOC — 24/7 from Kathmandu.{" "}
+							24/7 managed security operations, incident response, and continuous threat monitoring.
 						</span>
-						<span className="sm:hidden">24/7 SOC · Kathmandu. </span>
-						<span className="font-semibold underline-offset-2 group-hover:underline">
-							Get a free assessment
-						</span>
+						<span className="sm:hidden">24/7 SOC and threat monitoring.</span>
 					</span>
-					<ArrowRight className="h-3.5 w-3.5 shrink-0 transition-transform duration-150 ease-out group-hover:translate-x-0.5" />
-				</a>
+				</div>
 			</div>
 
 			{/* Main header */}
@@ -475,11 +469,13 @@ export default function Navbar() {
 					<div className="flex shrink-0 items-center gap-2">
 						<AnimatedThemeToggler />
 						<a
-							href="/contact"
-							className="hidden items-center gap-2 rounded-xl bg-[#405cfe] px-4 py-2 font-medium text-sm text-white transition-[background-color,scale] duration-150 ease-out hover:bg-[#3550e0] active:scale-[0.96] sm:inline-flex"
+							href="/free-assessment"
+							className="group hidden items-center gap-3 rounded-full border border-border/70 bg-background/85 py-1.5 pr-1.5 pl-5 font-medium text-foreground text-sm backdrop-blur-sm transition-colors hover:bg-muted/80 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 sm:inline-flex"
 						>
 							Get Free Assessment
-							<ArrowRight className="h-4 w-4" />
+							<span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#405cfe] text-white transition-transform duration-150 ease-out group-hover:rotate-45">
+								<ArrowUpRight className="h-4 w-4" />
+							</span>
 						</a>
 						<button
 							type="button"

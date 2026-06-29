@@ -31,11 +31,24 @@ function BlogIndexPage() {
 	const gridPosts = filteredPosts.filter((p) => p.slug !== featuredPost.slug || activeCategory !== "All");
 
 	return (
-		<section className="bg-background py-16 relative overflow-hidden">
-			{/* Decorative Background Atmospheric Layer */}
-			<div className="pointer-events-none absolute top-0 left-1/2 h-[350px] w-[600px] -translate-x-1/2 rounded-full bg-primary/5 blur-[100px]" />
+		<section className="relative isolate overflow-hidden bg-background py-16 sm:py-24">
+			<div
+				className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[680px] opacity-60"
+				style={{
+					backgroundImage:
+						"linear-gradient(to right, color-mix(in oklab, var(--foreground) 11%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklab, var(--foreground) 11%, transparent) 1px, transparent 1px)",
+					backgroundSize: "56px 56px",
+					WebkitMaskImage:
+						"radial-gradient(ellipse 70% 58% at 50% 0%, #000 52%, transparent 100%)",
+					maskImage:
+						"radial-gradient(ellipse 70% 58% at 50% 0%, #000 52%, transparent 100%)",
+				}}
+			/>
+			<div className="pointer-events-none absolute top-10 left-1/2 z-0 h-[620px] w-[620px] -translate-x-1/2 rounded-full border border-primary/10" />
+			<div className="pointer-events-none absolute top-28 left-1/2 z-0 h-[360px] w-[360px] -translate-x-1/2 rounded-full border border-primary/6" />
+			<div className="pointer-events-none absolute top-0 left-1/2 z-0 h-[520px] w-full max-w-7xl -translate-x-1/2 bg-[radial-gradient(42%_42%_at_50%_0%,rgba(0,98,227,0.14),transparent_100%)]" />
 
-			<div className="mx-auto max-w-5xl px-6 lg:px-10 relative">
+			<div className="relative mx-auto max-w-6xl px-6 lg:px-10">
 				{/* Page Header */}
 				<div className="max-w-3xl border-b border-border/40 pb-12">
 					<p className="anim-fade-up font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-primary">

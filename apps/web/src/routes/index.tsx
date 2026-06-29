@@ -21,6 +21,7 @@ import {
 import { Marquee } from "@selimsolutions/ui/components/marquee";
 
 import BlogInsights from "@/components/blog-insights";
+import FAQSection from "@/components/faq-section";
 import FeatureShowcase from "@/components/feature-showcase";
 import ServicesTabs from "@/components/services-tabs";
 import OrchestrationTabs from "@/components/orchestration-tabs";
@@ -343,7 +344,7 @@ function HomeComponent() {
 
 						<div className="anim-fade-up mt-9 flex flex-col gap-3 [animation-delay:240ms] sm:flex-row sm:items-center">
 							<a
-								href="/contact"
+								href="/free-assessment"
 								className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#405cfe] px-6 py-3 font-medium text-sm text-white transition-[background-color,scale] duration-150 ease-out hover:bg-[#3550e0] active:scale-[0.96]"
 							>
 								Get Free Assessment
@@ -502,6 +503,9 @@ function HomeComponent() {
 
 			{/* Testimonials carousel */}
 			<Testimonials />
+
+			{/* FAQ */}
+			<FAQSection />
 
 			{/* Blog / Insights */}
 			<BlogInsights />
