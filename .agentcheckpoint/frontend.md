@@ -75,7 +75,8 @@ used too but do NOT auto-respect reduced-motion.
 degrades rendering on Windows (removed after a regression).
 
 **Design skills installed** (`.agents/skills/`, symlinked for Claude Code):
-`make-interfaces-feel-better`, `emil-design-eng`, `review-animations`. Applied:
+`make-interfaces-feel-better`, `emil-design-eng`, `review-animations`,
+`design-lab`, `impeccable`. Applied:
 scale-on-press (`active:scale-[0.96]`), no `transition: all` (always specify
 props), concentric radius, 40px hit areas, staggered enters, origin-aware popover.
 

@@ -114,8 +114,11 @@ production-only `BETTER_AUTH_SECRET`.
 - **To add DB models**: edit `packages/db/prisma/schema/*.prisma`, then `db:push`/`db:generate`.
 - **To add shared UI**: `npx shadcn@latest add <comp> -c packages/ui`.
 - Git: single `initial commit` on `master`; main branch is `main`.
-- `.agents/skills/` contains bundled reference skills (turborepo, prisma,
-  better-auth, shadcn, web-design) — useful background docs.
+- `.agents/skills/` contains bundled reference skills — useful background docs:
+  `better-auth-best-practices`, `design-lab`, `emil-design-eng`, `impeccable`,
+  `make-interfaces-feel-better`, `prisma-cli`, `prisma-client-api`,
+  `prisma-database-setup`, `review-animations`, `shadcn`, `turborepo`,
+  `web-design-guidelines`.
 - `bts.jsonc` records the exact generator config and is safe to delete.
 - Biome VCS integration is enabled (`useIgnoreFile: true`) — respects `.gitignore`.
 - Vite dev server runs on port **5173** (matches `CORS_ORIGIN` in server `.env`).
