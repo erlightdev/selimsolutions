@@ -44,14 +44,14 @@ export default function OrchestrationTabs() {
 
 			<div className="mx-auto max-w-7xl px-6 lg:px-10">
 				{/* Section Header */}
-				<div className="mb-16 max-w-3xl">
+				<div className="mx-auto mb-16 max-w-3xl text-center">
 					<p className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-primary">
 						Security Operations
 					</p>
 					<h2 className="mt-4 text-balance font-serif text-4xl text-foreground leading-[1.05] tracking-[-0.02em] sm:text-5xl lg:text-6xl">
 						Complete cyber security made simple
 					</h2>
-					<p className="mt-5 max-w-xl text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
+					<p className="mx-auto mt-5 max-w-xl text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
 						Protect your business with 24/7 active threat monitoring, expert penetration testing, and automated compliance tracking in one unified platform.
 					</p>
 				</div>
