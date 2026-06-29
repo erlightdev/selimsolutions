@@ -13,23 +13,23 @@ type TabItem = {
 const capabilities: readonly TabItem[] = [
 	{
 		id: "soc",
-		title: "Continuous threat hunting & 24/7 managed detection",
-		description: "Our security operations center operates around the clock to detect, analyze, and neutralize active threats.",
-		subtext: "Get real-time log ingestion, proactive triage, and active incident isolation at machine speed.",
+		title: "24/7 Managed Security & Threat Detection",
+		description: "Our security operations center (SOC) monitors your systems around the clock to stop cyber threats before they cause damage.",
+		subtext: "Real-time security monitoring, immediate alert verification, and rapid incident response.",
 		icon: Eye,
 	},
 	{
 		id: "vapt",
-		title: "Offensive security testing that uncovers real risks",
-		description: "Deep, manual penetration testing and vulnerability assessments that go beyond generic scanner checks.",
-		subtext: "Simulate advanced persistent threats, chain exploits, and receive board-ready remediation paths.",
+		title: "Expert Penetration Testing & Risk Audits",
+		description: "We simulate real-world cyber attacks to find and fix vulnerabilities in your applications, networks, and cloud infrastructure.",
+		subtext: "Manual security evaluations, deep code audits, and practical remediation roadmaps.",
 		icon: Terminal,
 	},
 	{
 		id: "grc",
-		title: "Automated compliance maps to security frameworks",
-		description: "Streamlined audit readiness for ISO 27001, SOC 2, and PCI-DSS, tailored directly to your infrastructure.",
-		subtext: "Continuous control verification, policy generation, and secure evidence collection in weeks.",
+		title: "Automated Compliance & Security Standards",
+		description: "Get audit-ready for frameworks like SOC 2, ISO 27001, and GDPR with automated controls and fast evidence tracking.",
+		subtext: "Continuous control monitoring, policy generation templates, and fast certification paths.",
 		icon: Shield,
 	},
 ];
@@ -46,13 +46,13 @@ export default function OrchestrationTabs() {
 				{/* Section Header */}
 				<div className="mb-16 max-w-3xl">
 					<p className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-primary">
-						Operations Platform
+						Security Operations
 					</p>
 					<h2 className="mt-4 text-balance font-serif text-4xl text-foreground leading-[1.05] tracking-[-0.02em] sm:text-5xl lg:text-6xl">
-						Orchestrate with confidence
+						Complete cyber security made simple
 					</h2>
 					<p className="mt-5 max-w-xl text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
-						Deploy defensive vigilance, simulate active attack angles, and manage continuous compliance through a unified operational approach.
+						Protect your business with 24/7 active threat monitoring, expert penetration testing, and automated compliance tracking in one unified platform.
 					</p>
 				</div>
 
