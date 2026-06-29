@@ -1,4 +1,5 @@
 import { Globe, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 const services = [
 	{ label: "SOC as a Service", href: "/services#soc" },
@@ -49,7 +50,16 @@ function FooterLink({
 }) {
 	const className =
 		"text-sm text-neutral-400 transition-colors hover:text-white";
-	const isExternal = external || href.startsWith("http");
+	const isExternal = external || href.startsWith("http") || href.includes("#");
+	
+	if (!isExternal && (href === "/" || href === "/about" || href === "/blog" || href === "/privacy" || href === "/terms" || href === "/certifications")) {
+		return (
+			<Link to={href} className={className}>
+				{children}
+			</Link>
+		);
+	}
+
 	return (
 		<a
 			href={href}

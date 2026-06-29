@@ -248,9 +248,9 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
 					<ul className="space-y-1">
 						{primaryNav.map(({ to, label }) => (
 							<li key={to}>
-								{to === "/" || to === "/blog" ? (
+								{to === "/" || to === "/blog" || to === "/about" ? (
 									<Link
-										to={to === "/" ? "/" : "/blog"}
+										to={to === "/" ? "/" : to === "/blog" ? "/blog" : "/about"}
 										onClick={onClose}
 										className="block rounded-lg px-3 py-2.5 font-medium text-sm transition-colors hover:bg-foreground/5"
 									>
@@ -423,11 +423,11 @@ export default function Navbar() {
 						{primaryNav
 							.filter(({ to }) => to !== "/")
 							.map(({ to, label }) => {
-								if (to === "/blog") {
+								if (to === "/blog" || to === "/about") {
 									return (
 										<Link
 											key={to}
-											to="/blog"
+											to={to === "/blog" ? "/blog" : "/about"}
 											onMouseEnter={() => setServicesOpen(false)}
 											className="rounded-lg px-3 py-2 font-medium text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
 										>
