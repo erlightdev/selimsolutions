@@ -111,14 +111,27 @@ function AboutPage() {
 	const [activePillar, setActivePillar] = useState(0);
 
 	return (
-		<div className="bg-background py-16 sm:py-24 relative overflow-hidden">
-			{/* Sleek Grid Pattern Background Overlay with Radial Mask Fading */}
-			<div className="absolute inset-0 top-0 left-0 h-[600px] w-full bg-[linear-gradient(to_right,var(--border)/6_1px,transparent_1px),linear-gradient(to_bottom,var(--border)/6_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-70 pointer-events-none" />
+		<div className="bg-background py-16 sm:py-24 relative isolate overflow-hidden">
+			{/* Hero grid pattern */}
+			<div
+				className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[720px] opacity-60"
+				style={{
+					backgroundImage:
+						"linear-gradient(to right, color-mix(in oklab, var(--foreground) 12%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklab, var(--foreground) 12%, transparent) 1px, transparent 1px)",
+					backgroundSize: "56px 56px",
+					WebkitMaskImage:
+						"radial-gradient(ellipse 70% 55% at 50% 0%, #000 52%, transparent 100%)",
+					maskImage:
+						"radial-gradient(ellipse 70% 55% at 50% 0%, #000 52%, transparent 100%)",
+				}}
+			/>
+			<div className="pointer-events-none absolute top-12 left-1/2 z-0 h-[680px] w-[680px] -translate-x-1/2 rounded-full border border-primary/10" />
+			<div className="pointer-events-none absolute top-40 left-1/2 z-0 h-[420px] w-[420px] -translate-x-1/2 rounded-full border border-primary/5" />
 
 			{/* Ambient security mesh layer */}
-			<div className="pointer-events-none absolute top-0 left-1/2 h-[500px] w-full max-w-7xl -translate-x-1/2 bg-[radial-gradient(40%_40%_at_50%_0%,var(--primary)/6%,transparent_100%)]" />
+			<div className="pointer-events-none absolute top-0 left-1/2 z-0 h-[500px] w-full max-w-7xl -translate-x-1/2 bg-[radial-gradient(40%_40%_at_50%_0%,rgba(0,98,227,0.12),transparent_100%)]" />
 
-			<div className="mx-auto max-w-6xl px-6 lg:px-10">
+			<div className="relative z-10 mx-auto max-w-6xl px-6 lg:px-10">
 				{/* Back button or tiny category cue */}
 				<p className="anim-fade-up text-[10px] font-bold uppercase tracking-widest text-primary mb-4">
 					Who We Are
