@@ -187,24 +187,51 @@ function SocVisual() {
 					const isActive = activeNodes.includes(idx);
 					return (
 						<g key={idx}>
+							{/* Background Static Connection Path */}
 							<line
 								x1="200"
 								y1="200"
 								x2={target.x}
 								y2={target.y}
-								stroke="url(#ray-grad)"
-								strokeWidth={isActive ? "2" : "1"}
-								strokeDasharray={isActive ? "none" : "4 4"}
-								className="transition-all duration-500 opacity-60"
+								stroke="var(--primary)"
+								strokeWidth="1"
+								strokeDasharray="4 4"
+								className="opacity-20 transition-all duration-500"
 							/>
+							
+							{/* Active Dynamic Flow Ingestion Stream */}
 							{isActive && (
-								<circle
-									cx={target.x}
-									cy={target.y}
-									r="4"
-									fill="#00f2fe"
-									className="animate-ping"
+								<line
+									x1="200"
+									y1="200"
+									x2={target.x}
+									y2={target.y}
+									stroke="url(#ray-grad)"
+									strokeWidth="2"
+									strokeDasharray="8 12"
+									className="anim-pulse-flow opacity-80"
 								/>
+							)}
+
+							{/* Telemetry Sensor Node Beacon */}
+							{isActive && (
+								<g>
+									<circle
+										cx={target.x}
+										cy={target.y}
+										r="3"
+										fill="#00f2fe"
+									/>
+									<circle
+										cx={target.x}
+										cy={target.y}
+										r="8"
+										fill="none"
+										stroke="#00f2fe"
+										strokeWidth="1"
+										className="animate-ping opacity-35"
+									/>
+								</g>
 							)}
 						</g>
 					);

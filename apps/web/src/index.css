@@ -44,6 +44,11 @@
 	.anim-marquee {
 		animation: marquee 30s linear infinite;
 	}
+
+	/* Elegant laser-pulse / flowing data packet animation */
+	.anim-pulse-flow {
+		animation: pulse-flow 1.5s linear infinite;
+	}
 }
 
 @keyframes fade-up {
@@ -104,6 +109,15 @@
 	}
 	to {
 		transform: translateX(-50%);
+	}
+}
+
+@keyframes pulse-flow {
+	from {
+		stroke-dashoffset: 40;
+	}
+	to {
+		stroke-dashoffset: 0;
 	}
 }
 
