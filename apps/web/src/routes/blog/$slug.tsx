@@ -135,7 +135,7 @@ function BlogPostDetailPage() {
 					</div>
 
 					{/* Article Body (Optimized Line-Width & High-End Type Spacing) */}
-					<div className="flex-1 max-w-[65ch] text-pretty text-foreground/80 text-sm sm:text-[15px] leading-[1.75] font-normal">
+					<div className="flex-1 max-w-[65ch] text-pretty text-foreground/80 text-[17px] leading-[1.8] font-normal">
 						{post.content.split("\n\n").map((para, i) => {
 							const text = para.trim();
 							if (!text) return null;
