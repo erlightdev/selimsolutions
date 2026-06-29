@@ -52,7 +52,7 @@ function FooterLink({
 		"text-sm text-neutral-400 transition-colors hover:text-white";
 	const isExternal = external || href.startsWith("http") || href.includes("#");
 	
-	if (!isExternal && (href === "/" || href === "/about" || href === "/blog" || href === "/privacy" || href === "/terms" || href === "/certifications")) {
+	if (!isExternal && (href === "/" || href === "/about" || href === "/blog" || href === "/contact" || href === "/privacy" || href === "/terms" || href === "/certifications")) {
 		return (
 			<Link to={href} className={className}>
 				{children}
