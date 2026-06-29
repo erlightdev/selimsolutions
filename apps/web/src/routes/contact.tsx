@@ -106,16 +106,12 @@ function ContactPage() {
 						<p className="text-[10px] font-bold uppercase tracking-widest text-primary">
 							Contact
 						</p>
-						<h1 className="mt-5 max-w-[11ch] text-balance font-serif text-4xl text-foreground leading-[1.05] tracking-[-0.02em] sm:text-5xl lg:text-6xl">
+						<h1 className="mt-5 max-w-3xl text-balance font-serif text-4xl text-foreground leading-[1.05] tracking-[-0.02em] sm:text-5xl lg:text-6xl">
 							Talk directly to the security team.
 						</h1>
 					</div>
 					<div className="lg:col-span-5 lg:pt-4">
-						<p className="max-w-[65ch] text-pretty text-lg leading-[1.8] text-foreground/75 dark:text-zinc-300 sm:text-[19px]">
-							For security assessments, active response coordination, SOC coverage,
-							VAPT, and compliance planning, reach Selim Solution through the
-							channels below. We keep communication direct, technical, and fast.
-						</p>
+						
 						<div className="mt-8 flex flex-wrap gap-3">
 							<a
 								href="mailto:info@selimsolution.com"
