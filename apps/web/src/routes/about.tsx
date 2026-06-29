@@ -99,12 +99,6 @@ const team: readonly TeamMember[] = [
 		avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&h=300&q=80",
 	},
 	{
-		name: "Niranjan Thapa",
-		role: "Director of Offensive Security & VAPT",
-		certs: ["OSCP", "OSCE", "CRT"],
-		avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&h=300&q=80",
-	},
-	{
 		name: "Alisha Shakya",
 		role: "Head of Risk, Governance & Compliance (GRC)",
 		certs: ["CISA", "ISO 27001 LA", "CRISC"],
