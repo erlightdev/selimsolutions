@@ -75,6 +75,7 @@ Other: `dev:web`, `dev:server`, `db:studio`, `db:migrate`, `db:generate`,
 - `apps/server/.env`: `DATABASE_URL`, `BETTER_AUTH_SECRET` (≥32 chars),
   `BETTER_AUTH_URL`, `CORS_ORIGIN`, `NODE_ENV`
 - `apps/web/.env`: `VITE_SERVER_URL`
+- `.env.example` files exist in both `apps/web/` and `apps/server/` as templates
 
 ## Databases (dev vs production)
 
@@ -116,3 +117,6 @@ production-only `BETTER_AUTH_SECRET`.
 - `.agents/skills/` contains bundled reference skills (turborepo, prisma,
   better-auth, shadcn, web-design) — useful background docs.
 - `bts.jsonc` records the exact generator config and is safe to delete.
+- Biome VCS integration is enabled (`useIgnoreFile: true`) — respects `.gitignore`.
+- Vite dev server runs on port **5173** (matches `CORS_ORIGIN` in server `.env`).
+- `apps/server/.env.production` exists for production commands (`db:push:prod`, etc.).
