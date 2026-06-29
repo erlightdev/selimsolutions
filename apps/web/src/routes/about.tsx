@@ -133,27 +133,27 @@ function AboutPage() {
 				</p>
 
 				{/* Title Section */}
-				<div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start mb-20">
+				<div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-24">
 					<div className="lg:col-span-7">
-						<h1 className="anim-fade-up text-balance font-serif text-4xl sm:text-5xl lg:text-6xl text-foreground leading-[1.05] tracking-[-0.02em]">
+						<h1 className="anim-fade-up text-balance font-serif text-4xl sm:text-5xl lg:text-6xl text-foreground leading-[1.1] tracking-[-0.02em]">
 							Defending digital borders with continuous engineering.
 						</h1>
 					</div>
 					<div className="lg:col-span-5 pt-2 sm:pt-4">
-						<p className="text-foreground/75 dark:text-zinc-300 text-[17px] leading-[1.8] max-w-[65ch]">
+						<p className="text-foreground/75 dark:text-zinc-300 text-lg sm:text-[19px] leading-[1.8] max-w-[65ch]">
 							Selim Solution is a premier Managed Cyber Security Service Provider (MSSP). Founded with the vision to deliver world-class cybersecurity defense, we provide 24/7 Security Operations Center monitoring, manual penetration testing, risk governance compliance, and tactical digital forensics response.
 						</p>
 					</div>
 				</div>
 
 				{/* High-Contrast Stats Section */}
-				<div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-foreground/10 ring-1 ring-foreground/10 mb-24 rounded-none overflow-hidden">
+				<div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-foreground/10 ring-1 ring-foreground/10 mb-28 rounded-none overflow-hidden">
 					{stats.map((s) => (
-						<div key={s.label} className="bg-background p-6 sm:p-8 relative group">
-							<span className="block font-serif text-3xl sm:text-4xl text-foreground tracking-tight group-hover:text-primary transition-colors duration-200">
+						<div key={s.label} className="bg-background p-8 sm:p-10 relative group">
+							<span className="block font-serif text-4xl sm:text-5xl text-foreground tracking-tight group-hover:text-primary transition-colors duration-200">
 								{s.value}
 							</span>
-							<span className="block mt-2 font-mono text-[10px] text-foreground/50 uppercase tracking-wider">
+							<span className="block mt-3 font-mono text-xs text-foreground/50 uppercase tracking-widest">
 								{s.label}
 							</span>
 						</div>
@@ -161,23 +161,23 @@ function AboutPage() {
 				</div>
 
 				{/* Vertical Tab Swiper Section */}
-				<div className="mb-28">
-					<div className="max-w-2xl mb-12">
-						<Badge variant="outline" className="border-primary/20 text-primary bg-primary/5 rounded-none font-mono text-[10px] tracking-widest uppercase mb-4 px-3 py-1">
+				<div className="mb-32">
+					<div className="max-w-2xl mb-16">
+						<Badge variant="outline" className="border-primary/20 text-primary bg-primary/5 rounded-none font-mono text-[11px] tracking-widest uppercase mb-4 px-3.5 py-1.5">
 							Sovereign Pillars
 						</Badge>
-						<h2 className="font-serif text-3xl sm:text-4xl text-foreground leading-snug tracking-tight">
+						<h2 className="font-serif text-3xl sm:text-4xl text-foreground leading-[1.15] tracking-tight">
 							Designed for elite cyber readiness.
 						</h2>
-						<p className="mt-3 text-foreground/75 dark:text-zinc-300 text-[15px] leading-relaxed max-w-[65ch]">
+						<p className="mt-4 text-foreground/75 dark:text-zinc-300 text-base leading-relaxed max-w-[65ch]">
 							We replace generalized, high-level auditing templates with concrete technical implementations, continuous simulated attacks, and hands-on crisis command.
 						</p>
 					</div>
 
 					{/* Swiper Swapper Layout */}
-					<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+					<div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
 						{/* Left: Tab selection columns (Desktop Only) */}
-						<div className="hidden lg:flex lg:col-span-4 flex-col gap-3 justify-center">
+						<div className="hidden lg:flex lg:col-span-4 flex-col gap-4 justify-center">
 							{pillars.map((p, idx) => {
 								const active = idx === activePillar;
 								const IconComp = p.icon;
@@ -189,7 +189,7 @@ function AboutPage() {
 											setActivePillar(idx);
 											swiper?.slideTo(idx);
 										}}
-										className={`w-full text-left p-5 transition-all duration-200 rounded-none border border-border/20 text-balance flex items-start gap-4 group relative ${
+										className={`w-full text-left p-6 transition-all duration-200 rounded-none border border-border/20 text-balance flex items-start gap-5 group relative ${
 											active
 												? "bg-foreground/5 border-primary/50 ring-1 ring-primary/30"
 												: "bg-background hover:bg-foreground/[0.02] hover:border-foreground/20"
@@ -200,17 +200,17 @@ function AboutPage() {
 											<div className="absolute top-0 bottom-0 left-0 w-1 bg-primary" />
 										)}
 
-										<span className={`font-mono text-xs ${active ? "text-primary" : "text-foreground/30"}`}>
+										<span className={`font-mono text-sm ${active ? "text-primary" : "text-foreground/30"}`}>
 											{p.id}
 										</span>
 
 										<div>
-											<span className={`block font-serif text-base font-medium transition-colors ${
+											<span className={`block font-serif text-lg font-medium transition-colors ${
 												active ? "text-foreground" : "text-foreground/70 group-hover:text-foreground"
 											}`}>
 												{p.title}
 											</span>
-											<span className="block mt-1 text-[11px] text-foreground/45">
+											<span className="block mt-1.5 text-xs text-foreground/45">
 												{p.subtitle}
 											</span>
 										</div>
@@ -220,13 +220,13 @@ function AboutPage() {
 						</div>
 
 						{/* Right: The content Swiper Slide deck (Fully responsive swipe container) */}
-						<div className="col-span-1 lg:col-span-8 border border-border/30 bg-foreground/[0.01] dark:bg-zinc-900/10 p-6 sm:p-10 relative flex flex-col justify-between">
+						<div className="col-span-1 lg:col-span-8 border border-border/30 bg-foreground/[0.01] dark:bg-zinc-900/10 p-8 sm:p-12 relative flex flex-col justify-between min-h-[420px]">
 							{/* Laser accent line details on the slide deck container */}
 							<div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-primary/40 to-transparent" />
 							<div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-primary/10 to-transparent" />
 
 							{/* Mobile Tablet quick pill bar selector (renders horizontal badging rows) */}
-							<div className="lg:hidden flex gap-2 overflow-x-auto pb-4 mb-6 border-b border-border/10 scrollbar-none">
+							<div className="lg:hidden flex gap-2 overflow-x-auto pb-4 mb-8 border-b border-border/10 scrollbar-none">
 								{pillars.map((p, idx) => {
 									const active = idx === activePillar;
 									return (
@@ -237,7 +237,7 @@ function AboutPage() {
 												setActivePillar(idx);
 												swiper?.slideTo(idx);
 											}}
-											className={`shrink-0 px-4 py-2 font-mono text-[11px] uppercase tracking-wider transition-all rounded-none ${
+											className={`shrink-0 px-4 py-2.5 font-mono text-xs uppercase tracking-wider transition-all rounded-none ${
 												active
 													? "bg-primary text-primary-foreground border border-primary font-bold"
 													: "bg-muted text-muted-foreground border border-border"
@@ -261,39 +261,39 @@ function AboutPage() {
 									return (
 										<SwiperSlide key={p.id} className="h-full flex flex-col justify-between">
 											<div>
-												<div className="flex items-center gap-3 mb-6">
-													<div className="p-3 bg-primary/5 border border-primary/20 text-primary">
-														<IconComponent className="h-5 w-5" />
+												<div className="flex items-center gap-4 mb-8">
+													<div className="p-3.5 bg-primary/5 border border-primary/20 text-primary">
+														<IconComponent className="h-6 w-6" />
 													</div>
 													<div>
-														<span className="block font-mono text-[10px] text-primary/70 uppercase tracking-widest font-bold">
+														<span className="block font-mono text-[11px] text-primary/70 uppercase tracking-widest font-bold">
 															Pillar {p.id}
 														</span>
-														<h3 className="font-serif text-2xl text-foreground font-medium">
+														<h3 className="font-serif text-2xl sm:text-3xl text-foreground font-medium mt-1">
 															{p.title}
 														</h3>
 													</div>
 												</div>
 
-												<p className="text-foreground/80 dark:text-zinc-300 text-[16px] leading-[1.8] text-pretty max-w-[60ch]">
+												<p className="text-foreground/85 dark:text-zinc-200 text-base sm:text-[17px] leading-[1.8] text-pretty max-w-[65ch]">
 													{p.description}
 												</p>
 											</div>
 
-											<div className="mt-8 pt-6 border-t border-border/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-foreground/[0.01] p-4 border border-border/5">
-												<div className="flex items-center gap-2">
-													<Sparkles className="h-3.5 w-3.5 text-primary anim-pulse-flow" />
-													<span className="font-mono text-[10px] text-foreground/50 uppercase tracking-wider">
+											<div className="mt-10 pt-8 border-t border-border/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-foreground/[0.01] p-5 border border-border/5">
+												<div className="flex items-center gap-2.5 flex-wrap">
+													<Sparkles className="h-4 w-4 text-primary anim-pulse-flow" />
+													<span className="font-mono text-xs text-foreground/50 uppercase tracking-wider">
 														Technical Focus:
 													</span>
-													<span className="text-xs text-foreground/85 font-medium">
+													<span className="text-sm text-foreground/85 font-medium">
 														{p.highlight}
 													</span>
 												</div>
 
-												<div className="flex items-center gap-1.5 text-xs text-primary font-semibold group cursor-pointer">
+												<div className="flex items-center gap-1.5 text-sm text-primary font-semibold group cursor-pointer shrink-0">
 													<span>Learn about capabilities</span>
-													<ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+													<ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
 												</div>
 											</div>
 										</SwiperSlide>
@@ -306,57 +306,59 @@ function AboutPage() {
 
 				{/* Leadership & Core Command Team Section */}
 				<div>
-					<div className="max-w-2xl mb-12">
-						<Badge variant="outline" className="border-primary/20 text-primary bg-primary/5 rounded-none font-mono text-[10px] tracking-widest uppercase mb-4 px-3 py-1">
+					<div className="max-w-2xl mb-16">
+						<Badge variant="outline" className="border-primary/20 text-primary bg-primary/5 rounded-none font-mono text-[11px] tracking-widest uppercase mb-4 px-3.5 py-1.5">
 							The Command Team
 						</Badge>
-						<h2 className="font-serif text-3xl sm:text-4xl text-foreground leading-snug tracking-tight">
+						<h2 className="font-serif text-3xl sm:text-4xl text-foreground leading-[1.15] tracking-tight">
 							Managed by certified operators.
 						</h2>
-						<p className="mt-3 text-foreground/75 dark:text-zinc-300 text-[15px] leading-relaxed max-w-[65ch]">
+						<p className="mt-4 text-foreground/75 dark:text-zinc-300 text-base leading-relaxed max-w-[65ch]">
 							Our sovereign security operations are designed, supervised, and conducted by veteran local engineers who hold respected cybersecurity certifications.
 						</p>
 					</div>
 
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 						{team.map((m) => (
 							<div
 								key={m.name}
-								className="relative group border border-border/30 bg-foreground/[0.01] dark:bg-zinc-900/10 p-5 rounded-none overflow-hidden hover:border-primary/40 transition-colors duration-200"
+								className="relative group border border-border/30 bg-foreground/[0.01] dark:bg-zinc-900/10 p-6 sm:p-8 rounded-none overflow-hidden hover:border-primary/40 transition-colors duration-200 flex flex-col justify-between"
 							>
 								{/* Card Laser Highlights */}
 								<div className="absolute top-0 left-0 w-full h-[2px] bg-linear-to-r from-transparent via-primary/30 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
 
-								{/* Profile Avatar Frame */}
-								<div className="relative h-48 w-full overflow-hidden bg-muted mb-4 border border-border/10">
-									<img
-										src={m.avatar}
-										alt={m.name}
-										className="h-full w-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300"
-										loading="lazy"
-									/>
-									<div className="absolute inset-0 bg-linear-to-t from-background/90 via-background/20 to-transparent" />
-									
-									<div className="absolute bottom-3 left-3 flex flex-wrap gap-1.5">
-										{m.certs.map((c) => (
-											<span
-												key={c}
-												className="px-1.5 py-0.5 bg-background/90 text-primary border border-primary/25 font-mono text-[9px] uppercase font-bold tracking-wider"
-											>
-												{c}
-											</span>
-										))}
+								<div>
+									{/* Profile Avatar Frame */}
+									<div className="relative h-64 sm:h-72 w-full overflow-hidden bg-muted mb-6 border border-border/10">
+										<img
+											src={m.avatar}
+											alt={m.name}
+											className="h-full w-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300"
+											loading="lazy"
+										/>
+										<div className="absolute inset-0 bg-linear-to-t from-background/90 via-background/20 to-transparent" />
+										
+										<div className="absolute bottom-4 left-4 flex flex-wrap gap-2">
+											{m.certs.map((c) => (
+												<span
+													key={c}
+													className="px-2 py-0.5 bg-background/90 text-primary border border-primary/25 font-mono text-[10px] uppercase font-bold tracking-wider"
+												>
+													{c}
+												</span>
+											))}
+										</div>
 									</div>
-								</div>
 
-								<h3 className="font-serif text-lg text-foreground font-medium">
-									{m.name}
-								</h3>
-								<p className="font-mono text-[10px] text-primary/70 uppercase tracking-widest mt-1">
-									{m.role}
-								</p>
+									<h3 className="font-serif text-xl sm:text-2xl text-foreground font-semibold">
+										{m.name}
+									</h3>
+									<p className="font-mono text-xs text-primary/70 uppercase tracking-widest mt-1.5 font-semibold">
+										{m.role}
+									</p>
+								</div>
 								
-								<p className="mt-3 text-xs text-foreground/70 dark:text-zinc-400 leading-relaxed text-pretty">
+								<p className="mt-4 text-sm sm:text-[15px] text-foreground/75 dark:text-zinc-300 leading-relaxed text-pretty">
 									{m.desc}
 								</p>
 							</div>
