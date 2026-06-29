@@ -56,7 +56,7 @@ function BlogPostDetailPage() {
 	};
 
 	return (
-		<article className="bg-background py-16 sm:py-28 relative overflow-hidden">
+		<article className="bg-background py-16 relative overflow-hidden">
 			{/* Soft Ambient Background Light Layer */}
 			<div className="pointer-events-none absolute top-0 left-1/2 h-[350px] w-[500px] -translate-x-1/2 rounded-full bg-primary/5 blur-[100px]" />
 

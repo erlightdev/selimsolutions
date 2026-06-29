@@ -31,7 +31,7 @@ function BlogIndexPage() {
 	const gridPosts = filteredPosts.filter((p) => p.slug !== featuredPost.slug || activeCategory !== "All");
 
 	return (
-		<section className="bg-background py-16 sm:py-28 relative overflow-hidden">
+		<section className="bg-background py-16 relative overflow-hidden">
 			{/* Decorative Background Atmospheric Layer */}
 			<div className="pointer-events-none absolute top-0 left-1/2 h-[350px] w-[600px] -translate-x-1/2 rounded-full bg-primary/5 blur-[100px]" />
 
