@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from "react";
 
 import { useTheme } from "@/components/theme-provider";
+import { Link } from "@tanstack/react-router";
 
 /* ── Content (source of truth) ─────────────────────────────────────── */
 
@@ -247,13 +248,23 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
 					<ul className="space-y-1">
 						{primaryNav.map(({ to, label }) => (
 							<li key={to}>
-								<a
-									href={to}
-									onClick={onClose}
-									className="block rounded-lg px-3 py-2.5 font-medium text-sm transition-colors hover:bg-foreground/5"
-								>
-									{label}
-								</a>
+								{to === "/" || to === "/blog" ? (
+									<Link
+										to={to === "/" ? "/" : "/blog"}
+										onClick={onClose}
+										className="block rounded-lg px-3 py-2.5 font-medium text-sm transition-colors hover:bg-foreground/5"
+									>
+										{label}
+									</Link>
+								) : (
+									<a
+										href={to}
+										onClick={onClose}
+										className="block rounded-lg px-3 py-2.5 font-medium text-sm transition-colors hover:bg-foreground/5"
+									>
+										{label}
+									</a>
+								)}
 							</li>
 						))}
 					</ul>
@@ -369,7 +380,7 @@ export default function Navbar() {
 					onMouseLeave={() => setServicesOpen(false)}
 				>
 					{/* Logo */}
-					<a href="/" className="flex shrink-0 items-center">
+					<Link to="/" className="flex shrink-0 items-center">
 						<img
 							src="/selim-logo-light.svg"
 							alt="Selim Solution"
@@ -380,17 +391,17 @@ export default function Navbar() {
 							alt="Selim Solution"
 							className="hidden h-7 w-auto dark:block"
 						/>
-					</a>
+					</Link>
 
 					{/* Desktop nav */}
 					<nav className="hidden items-center gap-1 lg:flex">
-						<a
-							href="/"
+						<Link
+							to="/"
 							onMouseEnter={() => setServicesOpen(false)}
 							className="rounded-lg px-3 py-2 font-medium text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
 						>
 							Home
-						</a>
+						</Link>
 
 						{/* Services megamenu trigger */}
 						<button
@@ -411,16 +422,30 @@ export default function Navbar() {
 
 						{primaryNav
 							.filter(({ to }) => to !== "/")
-							.map(({ to, label }) => (
-								<a
-									key={to}
-									href={to}
-									onMouseEnter={() => setServicesOpen(false)}
-									className="rounded-lg px-3 py-2 font-medium text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
-								>
-									{label}
-								</a>
-							))}
+							.map(({ to, label }) => {
+								if (to === "/blog") {
+									return (
+										<Link
+											key={to}
+											to="/blog"
+											onMouseEnter={() => setServicesOpen(false)}
+											className="rounded-lg px-3 py-2 font-medium text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
+										>
+											{label}
+										</Link>
+									);
+								}
+								return (
+									<a
+										key={to}
+										href={to}
+										onMouseEnter={() => setServicesOpen(false)}
+										className="rounded-lg px-3 py-2 font-medium text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
+									>
+										{label}
+									</a>
+								);
+							})}
 					</nav>
 
 					{/* Megamenu panel — anchored to the full-width row, centered on screen */}
