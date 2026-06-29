@@ -60,7 +60,7 @@ function BlogPostDetailPage() {
 			{/* Soft Ambient Background Light Layer */}
 			<div className="pointer-events-none absolute top-0 left-1/2 h-[350px] w-[500px] -translate-x-1/2 rounded-full bg-primary/5 blur-[100px]" />
 
-			<div className="mx-auto max-w-4xl px-6 lg:px-10 relative">
+			<div className="mx-auto max-w-6xl px-6 lg:px-10 relative">
 				{/* Back Navigation */}
 				<Link
 					to="/blog"
