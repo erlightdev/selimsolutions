@@ -11,10 +11,10 @@ const services = [
 ] as const;
 
 const company = [
-	{ label: "About", href: "/about" },
-	{ label: "Case Studies", href: "/case-studies" },
+	{ label: "About Us", href: "/about" },
+	{ label: "Blog & Insights", href: "/blog" },
 	{ label: "Careers", href: "/contact" },
-	{ label: "Blog / Insights", href: "/case-studies" },
+	{ label: "Contact Team", href: "/contact" },
 ] as const;
 
 const legal = [

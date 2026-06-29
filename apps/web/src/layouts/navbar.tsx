@@ -18,9 +18,9 @@ const primaryNav = [
 	{ to: "/", label: "Home", description: "Brand & overview" },
 	{ to: "/about", label: "About", description: "Our story from Seim Lake" },
 	{
-		to: "/case-studies",
-		label: "Case Studies",
-		description: "Outcomes across Nepal",
+		to: "/blog",
+		label: "Insights",
+		description: "Read our security blog",
 	},
 	{ to: "/contact", label: "Contact", description: "Talk to our SOC team" },
 ] as const;
@@ -100,7 +100,7 @@ const compliance = [
 ] as const;
 
 const resources = [
-	{ label: "Case Studies", href: "/case-studies" },
+	{ label: "Blog & Insights", href: "/blog" },
 	{ label: "Certifications", href: "/certifications" },
 	{ label: "Brand Story", href: "/about" },
 	{ label: "Downloads", href: "/downloads" },
