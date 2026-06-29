@@ -31,7 +31,6 @@ export const Route = createFileRoute("/")({
 });
 
 const logos = [
-	"NepalBank",
 	"NTC",
 	"Khalti",
 	"eSewa",
@@ -45,7 +44,7 @@ const stats = [
 	{ value: "24/7", label: "Monitoring" },
 	{ value: "<15m", label: "Avg response" },
 	{ value: "6+", label: "Core services" },
-	{ value: "100%", label: "Nepali team" },
+	{ value: "100%", label: "Local team" },
 ] as const;
 
 /* ── Hero dashboard mockup (decorative) ────────────────────────────── */
@@ -324,7 +323,7 @@ function HomeComponent() {
 								<span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
 							</span>
 							<span className="font-medium text-white/80 text-xs uppercase tracking-[0.16em]">
-								SOC operational · Kathmandu
+								SOC operational
 							</span>
 						</div>
 
@@ -336,9 +335,9 @@ function HomeComponent() {
 						</h1>
 
 						<p className="anim-fade-up mt-6 max-w-xl text-pretty text-base text-white/70 leading-relaxed [animation-delay:160ms] sm:text-lg">
-							Selim Solution guards Nepal's digital
+							Selim Solution guards your digital
 							frontier — a 24/7 SOC with threat detection, incident response and
-							compliance, run from Kathmandu.
+							compliance.
 						</p>
 
 						<div className="anim-fade-up mt-9 flex flex-col gap-3 [animation-delay:240ms] sm:flex-row sm:items-center">

@@ -8,7 +8,7 @@ import "swiper/css";
 type Testimonial = {
 	name: string;
 	role: string;
-	initials: string;
+	image: string;
 	gradient: string;
 	rating: number;
 	quote: string;
@@ -19,7 +19,7 @@ const testimonials: readonly Testimonial[] = [
 	{
 		name: "Aarav Shrestha",
 		role: "CISO, Himalayan Bank",
-		initials: "AS",
+		image: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=150",
 		gradient: "from-[#405cfe] to-cyan-400",
 		rating: 5,
 		quote:
@@ -29,7 +29,7 @@ const testimonials: readonly Testimonial[] = [
 	{
 		name: "Priya Maharjan",
 		role: "Head of IT, MedTrust Hospitals",
-		initials: "PM",
+		image: "https://images.pexels.com/photos/3760514/pexels-photo-3760514.jpeg?auto=compress&cs=tinysrgb&w=150",
 		gradient: "from-emerald-400 to-teal-500",
 		rating: 5,
 		quote:
@@ -39,17 +39,17 @@ const testimonials: readonly Testimonial[] = [
 	{
 		name: "Bishal Gurung",
 		role: "CTO, Daraz Logistics",
-		initials: "BG",
+		image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150",
 		gradient: "from-orange-400 to-red-500",
 		rating: 5,
 		quote:
-			"24/7 monitoring from Kathmandu means real people who know our stack respond in minutes, not tickets that rot overnight. Mean-time-to-respond dropped under 15 minutes.",
+			"24/7 monitoring means real people who know our stack respond in minutes, not tickets that rot overnight. Mean-time-to-respond dropped under 15 minutes.",
 		tags: ["24/7 SOC", "Cloud Security", "MTTR"],
 	},
 	{
 		name: "Sneha Thapa",
 		role: "VP Engineering, Khalti",
-		initials: "ST",
+		image: "https://images.pexels.com/photos/3760529/pexels-photo-3760529.jpeg?auto=compress&cs=tinysrgb&w=150",
 		gradient: "from-fuchsia-400 to-purple-500",
 		rating: 5,
 		quote:
@@ -59,7 +59,7 @@ const testimonials: readonly Testimonial[] = [
 	{
 		name: "Rohan Karki",
 		role: "GRC Lead, NIC Asia",
-		initials: "RK",
+		image: "https://images.pexels.com/photos/2182968/pexels-photo-2182968.jpeg?auto=compress&cs=tinysrgb&w=150",
 		gradient: "from-sky-400 to-indigo-500",
 		rating: 5,
 		quote:
@@ -69,20 +69,25 @@ const testimonials: readonly Testimonial[] = [
 ];
 
 function Avatar({
-	initials,
+	image,
 	gradient,
 	size,
 }: {
-	initials: string;
+	image: string;
 	gradient: string;
 	size: "sm" | "lg";
 }) {
-	const dim = size === "lg" ? "h-11 w-11 text-sm" : "h-14 w-14 text-base";
+	const dim = size === "lg" ? "h-11 w-11" : "h-14 w-14";
 	return (
 		<span
-			className={`flex ${dim} shrink-0 items-center justify-center rounded-full bg-linear-to-br ${gradient} font-semibold text-white`}
+			className={`flex ${dim} shrink-0 items-center justify-center overflow-hidden rounded-full bg-linear-to-br ${gradient}`}
 		>
-			{initials}
+			<img
+				src={image}
+				alt=""
+				className="h-full w-full object-cover"
+				loading="lazy"
+			/>
 		</span>
 	);
 }
@@ -130,7 +135,7 @@ export default function Testimonials() {
 					</h2>
 					<p className="mx-auto mt-5 max-w-lg text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
 						Security leaders share how Selim Solution turned blind spots into
-						round-the-clock defense — straight from Kathmandu.
+						round-the-clock defense.
 					</p>
 				</div>
 
@@ -150,7 +155,7 @@ export default function Testimonials() {
 										: "opacity-50 hover:opacity-100"
 								}`}
 							>
-								<Avatar initials={t.initials} gradient={t.gradient} size="sm" />
+								<Avatar image={t.image} gradient={t.gradient} size="sm" />
 							</button>
 						);
 					})}
@@ -192,7 +197,7 @@ export default function Testimonials() {
 										{/* Identity */}
 										<div className="flex items-center gap-3.5">
 											<Avatar
-												initials={t.initials}
+												image={t.image}
 												gradient={t.gradient}
 												size="lg"
 											/>
