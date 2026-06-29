@@ -8,6 +8,7 @@ type TabItem = {
 	description: string;
 	subtext: string;
 	icon: any;
+	shortTitle: string;
 };
 
 const capabilities: readonly TabItem[] = [
@@ -17,6 +18,7 @@ const capabilities: readonly TabItem[] = [
 		description: "Our security operations center (SOC) monitors your systems around the clock to stop cyber threats before they cause damage.",
 		subtext: "Real-time security monitoring, immediate alert verification, and rapid incident response.",
 		icon: Eye,
+		shortTitle: "Threat Detection",
 	},
 	{
 		id: "vapt",
@@ -24,6 +26,7 @@ const capabilities: readonly TabItem[] = [
 		description: "We simulate real-world cyber attacks to find and fix vulnerabilities in your applications, networks, and cloud infrastructure.",
 		subtext: "Manual security evaluations, deep code audits, and practical remediation roadmaps.",
 		icon: Terminal,
+		shortTitle: "Pen Testing",
 	},
 	{
 		id: "grc",
@@ -31,11 +34,13 @@ const capabilities: readonly TabItem[] = [
 		description: "Get audit-ready for frameworks like SOC 2, ISO 27001, and GDPR with automated controls and fast evidence tracking.",
 		subtext: "Continuous control monitoring, policy generation templates, and fast certification paths.",
 		icon: Shield,
+		shortTitle: "Compliance",
 	},
 ];
 
 export default function OrchestrationTabs() {
 	const [activeTab, setActiveTab] = useState<string>("soc");
+	const activeCap = capabilities.find((cap) => cap.id === activeTab) || capabilities[0];
 
 	return (
 		<section className="relative overflow-hidden bg-background py-20 sm:py-28">
@@ -56,9 +61,48 @@ export default function OrchestrationTabs() {
 					</p>
 				</div>
 
-				<div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16 items-start">
-					{/* Left Column: Accordion Tabs */}
-					<div className="lg:col-span-5 flex flex-col">
+				<div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-16 items-start">
+					{/* Left Column: Mobile horizontal badge tabs & active info box */}
+					<div className="block lg:hidden w-full col-span-1">
+						<div className="flex overflow-x-auto gap-2 pb-4 scrollbar-none border-b border-border/20 mb-6">
+							{capabilities.map((cap) => {
+								const isActive = activeTab === cap.id;
+								const Icon = cap.icon;
+								return (
+									<button
+										key={cap.id}
+										type="button"
+										onClick={() => setActiveTab(cap.id)}
+										className={cn(
+											"flex items-center gap-2 px-3.5 py-2 text-xs font-semibold tracking-wider uppercase border transition-all duration-200 shrink-0 rounded-none active:scale-[0.96]",
+											isActive
+												? "bg-primary border-primary text-primary-foreground shadow-sm"
+												: "bg-muted/10 border-border text-muted-foreground hover:text-foreground hover:border-foreground/20"
+										)}
+									>
+										<Icon className="h-3.5 w-3.5" />
+										{cap.shortTitle}
+									</button>
+								);
+							})}
+						</div>
+
+						{/* Active Info Box on Mobile */}
+						<div className="border border-border bg-card p-5 rounded-none anim-fade-up" key={activeTab}>
+							<h3 className="text-sm sm:text-base font-bold text-foreground leading-snug tracking-tight">
+								{activeCap.title}
+							</h3>
+							<p className="mt-3 text-xs sm:text-sm text-foreground/80 leading-relaxed text-pretty">
+								{activeCap.description}
+							</p>
+							<p className="mt-2 text-[10px] sm:text-xs text-muted-foreground leading-relaxed text-pretty">
+								{activeCap.subtext}
+							</p>
+						</div>
+					</div>
+
+					{/* Left Column: Accordion Tabs (Desktop Only) */}
+					<div className="hidden lg:flex lg:col-span-5 flex-col">
 						{capabilities.map((cap, idx) => {
 							const isActive = activeTab === cap.id;
 							const Icon = cap.icon;
