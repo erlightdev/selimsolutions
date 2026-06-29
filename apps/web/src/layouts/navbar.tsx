@@ -108,6 +108,15 @@ const resources = [
 	{ label: "Downloads", href: "/downloads" },
 ] as const;
 
+const routerLinks = new Set([
+	"/",
+	"/about",
+	"/blog",
+	"/certifications",
+	"/contact",
+	"/free-assessment",
+]);
+
 /* ── Theme toggle ──────────────────────────────────────────────────── */
 
 function AnimatedThemeToggler() {
@@ -206,12 +215,21 @@ function ServicesMegamenu() {
 					<ul className="space-y-1">
 						{resources.map(({ label, href }) => (
 							<li key={label}>
-								<a
-									href={href}
-									className="block rounded-md px-2 py-1.5 text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
-								>
-									{label}
-								</a>
+								{routerLinks.has(href) ? (
+									<Link
+										to={href as "/about" | "/blog" | "/certifications"}
+										className="block rounded-md px-2 py-1.5 text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
+									>
+										{label}
+									</Link>
+								) : (
+									<a
+										href={href}
+										className="block rounded-md px-2 py-1.5 text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
+									>
+										{label}
+									</a>
+								)}
 							</li>
 						))}
 					</ul>
@@ -249,31 +267,13 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
 					<ul className="space-y-1">
 						{primaryNav.map(({ to, label }) => (
 							<li key={to}>
-								{to === "/" || to === "/blog" || to === "/about" || to === "/contact" ? (
-									<Link
-										to={
-											to === "/"
-												? "/"
-												: to === "/blog"
-													? "/blog"
-													: to === "/about"
-														? "/about"
-														: "/contact"
-										}
-										onClick={onClose}
-										className="block rounded-lg px-3 py-2.5 font-medium text-sm transition-colors hover:bg-foreground/5"
-									>
-										{label}
-									</Link>
-								) : (
-									<a
-										href={to}
-										onClick={onClose}
-										className="block rounded-lg px-3 py-2.5 font-medium text-sm transition-colors hover:bg-foreground/5"
-									>
-										{label}
-									</a>
-								)}
+								<Link
+									to={to}
+									onClick={onClose}
+									className="block rounded-lg px-3 py-2.5 font-medium text-sm transition-colors hover:bg-foreground/5"
+								>
+									{label}
+								</Link>
 							</li>
 						))}
 					</ul>
@@ -310,14 +310,14 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
 				</nav>
 
 				<div className="border-border border-t px-5 py-5">
-					<a
-						href="/free-assessment"
+					<Link
+						to="/free-assessment"
 						onClick={onClose}
 						className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#405cfe] px-5 py-3 font-medium text-sm text-white transition-[background-color,scale] duration-150 ease-out hover:bg-[#3550e0] active:scale-[0.96]"
 					>
 						Get Free Assessment
 						<ArrowRight className="h-4 w-4" />
-					</a>
+					</Link>
 					<a
 						href="mailto:info@selimsolution.com"
 						className="mt-3 flex items-center justify-center gap-2 text-muted-foreground text-sm transition-colors hover:text-foreground"
@@ -424,36 +424,16 @@ export default function Navbar() {
 
 						{primaryNav
 							.filter(({ to }) => to !== "/")
-							.map(({ to, label }) => {
-								if (to === "/blog" || to === "/about" || to === "/contact") {
-									return (
-										<Link
-											key={to}
-											to={
-												to === "/blog"
-													? "/blog"
-													: to === "/about"
-														? "/about"
-														: "/contact"
-											}
-											onMouseEnter={() => setServicesOpen(false)}
-											className="rounded-lg px-3 py-2 font-medium text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
-										>
-											{label}
-										</Link>
-									);
-								}
-								return (
-									<a
-										key={to}
-										href={to}
-										onMouseEnter={() => setServicesOpen(false)}
-										className="rounded-lg px-3 py-2 font-medium text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
-									>
-										{label}
-									</a>
-								);
-							})}
+							.map(({ to, label }) => (
+								<Link
+									key={to}
+									to={to}
+									onMouseEnter={() => setServicesOpen(false)}
+									className="rounded-lg px-3 py-2 font-medium text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
+								>
+									{label}
+								</Link>
+							))}
 					</nav>
 
 					{/* Megamenu panel — anchored to the full-width row, centered on screen */}
@@ -468,15 +448,15 @@ export default function Navbar() {
 					{/* Actions */}
 					<div className="flex shrink-0 items-center gap-2">
 						<AnimatedThemeToggler />
-						<a
-							href="/free-assessment"
+						<Link
+							to="/free-assessment"
 							className="group hidden items-center gap-3 rounded-full border border-border/70 bg-background/85 py-1.5 pr-1.5 pl-5 font-medium text-foreground text-sm backdrop-blur-sm transition-colors hover:bg-muted/80 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 sm:inline-flex"
 						>
 							Get Free Assessment
 							<span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#405cfe] text-white transition-transform duration-150 ease-out group-hover:rotate-45">
 								<ArrowUpRight className="h-4 w-4" />
 							</span>
-						</a>
+						</Link>
 						<button
 							type="button"
 							aria-label="Open menu"
