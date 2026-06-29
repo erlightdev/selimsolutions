@@ -6,6 +6,15 @@
 }
 
 @layer utilities {
+	/* Hide scrollbar on horizontal nav */
+	.scrollbar-none {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+	.scrollbar-none::-webkit-scrollbar {
+		display: none;
+	}
+
 	/* Staggered enter — opacity + lift + blur. One-shot, so a keyframe is correct. */
 	.anim-fade-up {
 		opacity: 0;

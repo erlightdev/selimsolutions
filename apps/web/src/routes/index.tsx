@@ -23,6 +23,7 @@ import { Marquee } from "@selimsolutions/ui/components/marquee";
 import BlogInsights from "@/components/blog-insights";
 import FeatureShowcase from "@/components/feature-showcase";
 import ServicesTabs from "@/components/services-tabs";
+import OrchestrationTabs from "@/components/orchestration-tabs";
 import Testimonials from "@/components/testimonials";
 import { orpc } from "@/utils/orpc";
 
@@ -489,6 +490,9 @@ function HomeComponent() {
 					</div>
 				</div>
 			</section>
+
+			{/* Orchestration Tabs */}
+			<OrchestrationTabs />
 
 			{/* Services tabs */}
 			<ServicesTabs />
