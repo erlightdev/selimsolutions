@@ -1,4 +1,5 @@
 import { cn } from "@selimsolutions/ui/lib/utils";
+import { Link } from "@tanstack/react-router";
 import {
 	ArrowRight,
 	ArrowUpRight,
@@ -13,17 +14,15 @@ import {
 	X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-
+import { useTheme } from "@/components/theme-provider";
 import {
 	complianceItems,
 	resourceItems,
+	sectorHighlights,
 	serviceHighlights,
 	serviceItems,
-	sectorHighlights,
 	solutionItems,
 } from "@/data/offerings";
-import { useTheme } from "@/components/theme-provider";
-import { Link } from "@tanstack/react-router";
 
 /* ── Content (source of truth) ─────────────────────────────────────── */
 
@@ -77,7 +76,8 @@ function ServicesMegamenu() {
 				</span>
 				<p className="mt-4 font-semibold text-foreground text-lg">Services</p>
 				<p className="mt-2 text-muted-foreground text-sm leading-relaxed">
-					Security operations, offensive validation, response, and compliance designed as one operating layer.
+					Security operations, offensive validation, response, and compliance
+					designed as one operating layer.
 				</p>
 				<Link
 					to="/services"
@@ -88,7 +88,10 @@ function ServicesMegamenu() {
 				</Link>
 				<ul className="mt-5 space-y-2 border-border/60 border-t pt-4">
 					{serviceHighlights.map((item) => (
-						<li key={item} className="text-muted-foreground text-sm leading-relaxed">
+						<li
+							key={item}
+							className="text-muted-foreground text-sm leading-relaxed"
+						>
 							{item}
 						</li>
 					))}
@@ -110,7 +113,9 @@ function ServicesMegamenu() {
 									<Icon className="h-4 w-4" />
 								</span>
 								<span>
-									<span className="font-medium text-foreground text-sm">{label}</span>
+									<span className="font-medium text-foreground text-sm">
+										{label}
+									</span>
 									<span className="mt-0.5 block text-muted-foreground text-xs leading-snug">
 										{description}
 									</span>
@@ -179,7 +184,8 @@ function SolutionsMegamenu() {
 				</span>
 				<p className="mt-4 font-semibold text-foreground text-lg">Solutions</p>
 				<p className="mt-2 text-muted-foreground text-sm leading-relaxed">
-					Industry-specific security programs shaped around operational pressure, risk posture, and data sensitivity.
+					Industry-specific security programs shaped around operational
+					pressure, risk posture, and data sensitivity.
 				</p>
 				<Link
 					to="/solutions"
@@ -190,7 +196,10 @@ function SolutionsMegamenu() {
 				</Link>
 				<ul className="mt-5 space-y-2 border-border/60 border-t pt-4">
 					{sectorHighlights.map((item) => (
-						<li key={item} className="text-muted-foreground text-sm leading-relaxed">
+						<li
+							key={item}
+							className="text-muted-foreground text-sm leading-relaxed"
+						>
 							{item}
 						</li>
 					))}
@@ -212,7 +221,9 @@ function SolutionsMegamenu() {
 									<Icon className="h-4 w-4" />
 								</span>
 								<span>
-									<span className="font-medium text-foreground text-sm">{label}</span>
+									<span className="font-medium text-foreground text-sm">
+										{label}
+									</span>
 									<span className="mt-0.5 block text-muted-foreground text-xs leading-snug">
 										{description}
 									</span>
@@ -228,10 +239,13 @@ function SolutionsMegamenu() {
 					<div className="rounded-2xl border border-border bg-background p-4">
 						<div className="flex items-center gap-2 text-[#405cfe]">
 							<Sparkles className="h-4 w-4" />
-							<p className="font-semibold text-foreground text-sm">How we shape solutions</p>
+							<p className="font-semibold text-foreground text-sm">
+								How we shape solutions
+							</p>
 						</div>
 						<p className="mt-3 text-muted-foreground text-sm leading-relaxed">
-							We adapt detection, escalation, and compliance workflows to the way each sector actually operates.
+							We adapt detection, escalation, and compliance workflows to the
+							way each sector actually operates.
 						</p>
 					</div>
 				</div>
@@ -370,11 +384,11 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
 						<ArrowRight className="h-4 w-4" />
 					</Link>
 					<a
-						href="mailto:info@selimsolution.com"
+						href="mailto:contact@selim.solutions"
 						className="mt-3 flex items-center justify-center gap-2 text-muted-foreground text-sm transition-colors hover:text-foreground"
 					>
 						<Mail className="h-4 w-4" />
-						info@selimsolution.com
+						contact@selim.solutions
 					</a>
 				</div>
 			</div>
@@ -385,7 +399,9 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
 /* ── Navbar ────────────────────────────────────────────────────────── */
 
 export default function Navbar() {
-	const [openMenu, setOpenMenu] = useState<"services" | "solutions" | null>(null);
+	const [openMenu, setOpenMenu] = useState<"services" | "solutions" | null>(
+		null,
+	);
 	const [mobileOpen, setMobileOpen] = useState(false);
 	const [scrolled, setScrolled] = useState(false);
 
@@ -409,7 +425,8 @@ export default function Navbar() {
 					</span>
 					<span className="font-medium">
 						<span className="hidden sm:inline">
-							24/7 managed security operations, incident response, and continuous threat monitoring.
+							24/7 managed security operations, incident response, and
+							continuous threat monitoring.
 						</span>
 						<span className="sm:hidden">24/7 SOC and threat monitoring.</span>
 					</span>
@@ -452,7 +469,9 @@ export default function Navbar() {
 							type="button"
 							aria-expanded={openMenu === "services"}
 							onMouseEnter={() => setOpenMenu("services")}
-							onClick={() => setOpenMenu((v) => (v === "services" ? null : "services"))}
+							onClick={() =>
+								setOpenMenu((v) => (v === "services" ? null : "services"))
+							}
 							className="inline-flex items-center gap-1 rounded-lg px-3 py-2 font-medium text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
 						>
 							Services
@@ -468,7 +487,9 @@ export default function Navbar() {
 							type="button"
 							aria-expanded={openMenu === "solutions"}
 							onMouseEnter={() => setOpenMenu("solutions")}
-							onClick={() => setOpenMenu((v) => (v === "solutions" ? null : "solutions"))}
+							onClick={() =>
+								setOpenMenu((v) => (v === "solutions" ? null : "solutions"))
+							}
 							className="inline-flex items-center gap-1 rounded-lg px-3 py-2 font-medium text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
 						>
 							Solutions
@@ -480,24 +501,27 @@ export default function Navbar() {
 							/>
 						</button>
 
-						{primaryNav
-							.map(({ to, label }) => (
-								<Link
-									key={to}
-									to={to}
-									onMouseEnter={() => setOpenMenu(null)}
-									className="rounded-lg px-3 py-2 font-medium text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
-								>
-									{label}
-								</Link>
-							))}
+						{primaryNav.map(({ to, label }) => (
+							<Link
+								key={to}
+								to={to}
+								onMouseEnter={() => setOpenMenu(null)}
+								className="rounded-lg px-3 py-2 font-medium text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
+							>
+								{label}
+							</Link>
+						))}
 					</nav>
 
 					{/* Megamenu panel — anchored to the full-width row, centered on screen */}
 					{openMenu && (
 						<div className="absolute top-full left-1/2 z-50 hidden w-[min(72rem,calc(100vw-2rem))] -translate-x-1/2 pt-3 lg:block">
 							<div className="anim-megamenu overflow-hidden rounded-2xl border border-border bg-popover shadow-2xl shadow-black/20">
-								{openMenu === "services" ? <ServicesMegamenu /> : <SolutionsMegamenu />}
+								{openMenu === "services" ? (
+									<ServicesMegamenu />
+								) : (
+									<SolutionsMegamenu />
+								)}
 							</div>
 						</div>
 					)}
@@ -507,7 +531,7 @@ export default function Navbar() {
 						<AnimatedThemeToggler />
 						<Link
 							to="/free-assessment"
-							className="group hidden items-center gap-3 rounded-full border border-border/70 bg-background/85 py-1.5 pr-1.5 pl-5 font-medium text-foreground text-sm backdrop-blur-sm transition-colors hover:bg-muted/80 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 sm:inline-flex"
+							className="group hidden items-center gap-3 rounded-full border border-border/70 bg-background/85 py-1.5 pr-1.5 pl-5 font-medium text-foreground text-sm backdrop-blur-sm transition-colors hover:bg-muted/80 sm:inline-flex dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
 						>
 							Get Free Assessment
 							<span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#405cfe] text-white transition-transform duration-150 ease-out group-hover:rotate-45">

@@ -1,7 +1,6 @@
+import { Badge } from "@selimsolutions/ui/components/badge";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles } from "lucide-react";
-
-import { Badge } from "@selimsolutions/ui/components/badge";
 
 import { serviceHighlights, serviceItems } from "@/data/offerings";
 
@@ -42,26 +41,32 @@ function ServicesPage() {
 					<div className="lg:col-span-7">
 						<Badge
 							variant="outline"
-							className="rounded-none border-primary/20 bg-primary/5 px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-widest text-primary"
+							className="rounded-none border-primary/20 bg-primary/5 px-3.5 py-1.5 font-mono text-[11px] text-primary uppercase tracking-widest"
 						>
 							Services
 						</Badge>
 						<h1 className="mt-6 max-w-4xl text-balance font-serif text-4xl text-foreground leading-[1.05] tracking-[-0.02em] sm:text-5xl lg:text-6xl">
 							Security coverage designed as one operational system.
 						</h1>
-						<p className="mt-6 max-w-2xl text-pretty text-base text-foreground/75 leading-relaxed dark:text-zinc-300 sm:text-lg">
-							From 24/7 monitoring to incident response and compliance, each service is built to tighten visibility and shorten time to action.
+						<p className="mt-6 max-w-2xl text-pretty text-base text-foreground/75 leading-relaxed sm:text-lg dark:text-zinc-300">
+							From 24/7 monitoring to incident response and compliance, each
+							service is built to tighten visibility and shorten time to action.
 						</p>
 					</div>
 					<div className="lg:col-span-5 lg:pt-4">
 						<div className="border border-border/30 bg-card p-7 sm:p-8">
 							<div className="flex items-center gap-2 text-[#405cfe]">
 								<Sparkles className="h-4 w-4" />
-								<p className="font-semibold text-foreground text-sm">What to expect</p>
+								<p className="font-semibold text-foreground text-sm">
+									What to expect
+								</p>
 							</div>
 							<ul className="mt-5 space-y-3">
 								{serviceHighlights.map((item) => (
-									<li key={item} className="text-foreground/75 text-sm leading-relaxed dark:text-zinc-300 sm:text-base">
+									<li
+										key={item}
+										className="text-foreground/75 text-sm leading-relaxed sm:text-base dark:text-zinc-300"
+									>
 										{item}
 									</li>
 								))}
@@ -86,7 +91,7 @@ function ServicesPage() {
 								<h2 className="mt-5 font-serif text-2xl text-foreground leading-tight">
 									{label}
 								</h2>
-								<p className="mt-4 text-pretty text-sm leading-relaxed text-foreground/75 dark:text-zinc-300 sm:text-base">
+								<p className="mt-4 text-pretty text-foreground/75 text-sm leading-relaxed sm:text-base dark:text-zinc-300">
 									{description}
 								</p>
 								<Link

@@ -1,9 +1,9 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Clock, ArrowLeft, ArrowUpRight, Share2, Copy } from "lucide-react";
-import { blogPosts } from "@/data/blog";
 import { Badge } from "@selimsolutions/ui/components/badge";
 import { Separator } from "@selimsolutions/ui/components/separator";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { ArrowLeft, ArrowUpRight, Clock, Copy, Share2 } from "lucide-react";
 import { useState } from "react";
+import { blogPosts } from "@/data/blog";
 
 const TwitterIcon = (props: React.SVGProps<SVGSVGElement>) => (
 	<svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -56,15 +56,15 @@ function BlogPostDetailPage() {
 	};
 
 	return (
-		<article className="bg-background py-16 relative overflow-hidden">
+		<article className="relative overflow-hidden bg-background py-16">
 			{/* Soft Ambient Background Light Layer */}
 			<div className="pointer-events-none absolute top-0 left-1/2 h-[350px] w-[500px] -translate-x-1/2 rounded-full bg-primary/5 blur-[100px]" />
 
-			<div className="mx-auto max-w-6xl px-6 lg:px-10 relative">
+			<div className="relative mx-auto max-w-6xl px-6 lg:px-10">
 				{/* Back Navigation */}
 				<Link
 					to="/blog"
-					className="group inline-flex items-center gap-2 text-muted-foreground text-[10px] font-bold uppercase tracking-widest transition-colors duration-150 hover:text-foreground mb-10"
+					className="group mb-10 inline-flex items-center gap-2 font-bold text-[10px] text-muted-foreground uppercase tracking-widest transition-colors duration-150 hover:text-foreground"
 				>
 					<ArrowLeft className="h-3.5 w-3.5 transition-transform duration-200 ease-out-strong group-hover:-translate-x-1" />
 					Back to insights
@@ -72,24 +72,29 @@ function BlogPostDetailPage() {
 
 				{/* Header Metas */}
 				<div className="anim-fade-up flex items-center gap-3">
-					<Badge variant="secondary" className="rounded-none font-semibold uppercase tracking-wider text-[9px] px-2 py-0.5">
+					<Badge
+						variant="secondary"
+						className="rounded-none px-2 py-0.5 font-semibold text-[9px] uppercase tracking-wider"
+					>
 						{post.category}
 					</Badge>
-					<span className="flex items-center gap-1.5 text-muted-foreground text-xs font-semibold">
+					<span className="flex items-center gap-1.5 font-semibold text-muted-foreground text-xs">
 						<Clock className="h-3.5 w-3.5" />
 						{post.readTime}
 					</span>
 					<span className="text-muted-foreground/30 text-xs">•</span>
-					<span className="text-muted-foreground text-xs font-medium">{post.date}</span>
+					<span className="font-medium text-muted-foreground text-xs">
+						{post.date}
+					</span>
 				</div>
 
 				{/* Article Headline */}
-				<h1 className="anim-fade-up mt-5 text-balance font-serif text-3xl sm:text-4xl lg:text-5xl text-foreground leading-[1.05] tracking-[-0.02em] [animation-delay:40ms]">
+				<h1 className="anim-fade-up mt-5 text-balance font-serif text-3xl text-foreground leading-[1.05] tracking-[-0.02em] [animation-delay:40ms] sm:text-4xl lg:text-5xl">
 					{post.title}
 				</h1>
 
 				{/* Article Hero Image */}
-				<div className="anim-fade-up mt-10 aspect-21/9 w-full overflow-hidden rounded-none bg-muted border border-border/40 [animation-delay:80ms]">
+				<div className="anim-fade-up mt-10 aspect-21/9 w-full overflow-hidden rounded-none border border-border/40 bg-muted [animation-delay:80ms]">
 					<img
 						src={post.img}
 						alt={post.title}
@@ -98,18 +103,18 @@ function BlogPostDetailPage() {
 				</div>
 
 				{/* Content Shell with Optimal Line Width for Prose */}
-				<div className="anim-fade-up mt-12 flex flex-col gap-10 md:flex-row items-start [animation-delay:120ms]">
+				<div className="anim-fade-up mt-12 flex flex-col items-start gap-10 [animation-delay:120ms] md:flex-row">
 					{/* Share Side Rail (Desktop) */}
-					<div className="sticky top-28 hidden md:flex flex-col gap-5 border border-border/40 bg-muted/10 p-3 rounded-none">
+					<div className="sticky top-28 hidden flex-col gap-5 rounded-none border border-border/40 bg-muted/10 p-3 md:flex">
 						<button
 							onClick={copyLink}
 							type="button"
-							className="text-muted-foreground hover:text-primary transition-property:transform,color duration-150 ease-out-strong relative active:scale-[0.92]"
+							className="transition-property:transform,color relative text-muted-foreground duration-150 ease-out-strong hover:text-primary active:scale-[0.92]"
 							title="Copy article link"
 						>
 							<Copy className="h-4 w-4" />
 							{copied && (
-								<span className="absolute left-full ml-3 text-[9px] bg-foreground text-background px-2 py-0.5 rounded-none font-bold uppercase tracking-wider whitespace-nowrap anim-fade-up">
+								<span className="anim-fade-up absolute left-full ml-3 whitespace-nowrap rounded-none bg-foreground px-2 py-0.5 font-bold text-[9px] text-background uppercase tracking-wider">
 									Copied
 								</span>
 							)}
@@ -118,7 +123,7 @@ function BlogPostDetailPage() {
 							href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}`}
 							target="_blank"
 							rel="noreferrer"
-							className="text-muted-foreground hover:text-primary transition-colors duration-150 active:scale-[0.92]"
+							className="text-muted-foreground transition-colors duration-150 hover:text-primary active:scale-[0.92]"
 							title="Share on X"
 						>
 							<TwitterIcon className="h-4 w-4" />
@@ -127,7 +132,7 @@ function BlogPostDetailPage() {
 							href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}`}
 							target="_blank"
 							rel="noreferrer"
-							className="text-muted-foreground hover:text-primary transition-colors duration-150 active:scale-[0.92]"
+							className="text-muted-foreground transition-colors duration-150 hover:text-primary active:scale-[0.92]"
 							title="Share on LinkedIn"
 						>
 							<LinkedinIcon className="h-4 w-4" />
@@ -135,7 +140,7 @@ function BlogPostDetailPage() {
 					</div>
 
 					{/* Article Body (Optimized Line-Width & High-End Type Spacing) */}
-					<div className="flex-1 max-w-[65ch] text-pretty text-foreground/80 text-[17px] leading-[1.8] font-normal">
+					<div className="max-w-[65ch] flex-1 text-pretty font-normal text-[17px] text-foreground/80 leading-[1.8]">
 						{post.content.split("\n\n").map((para, i) => {
 							const text = para.trim();
 							if (!text) return null;
@@ -143,12 +148,15 @@ function BlogPostDetailPage() {
 							// Check if it's an H2 header
 							if (text.startsWith("## ")) {
 								return (
-									<h2 key={i} className="font-serif text-xl sm:text-2xl text-foreground mt-10 mb-4 tracking-tight font-semibold border-b border-border/20 pb-2">
+									<h2
+										key={i}
+										className="mt-10 mb-4 border-border/20 border-b pb-2 font-semibold font-serif text-foreground text-xl tracking-tight sm:text-2xl"
+									>
 										{text.replace("## ", "")}
 									</h2>
 								);
 							}
-							
+
 							// Check if it's an H1 header
 							if (text.startsWith("# ")) {
 								return null; // Already rendered main H1
@@ -161,9 +169,14 @@ function BlogPostDetailPage() {
 
 							// Check if it's a bullet list block
 							if (text.startsWith("* ") || text.startsWith("- ")) {
-								const items = text.split("\n").map(li => li.replace(/^[*-\s]+/, ""));
+								const items = text
+									.split("\n")
+									.map((li) => li.replace(/^[*-\s]+/, ""));
 								return (
-									<ul key={i} className="flex flex-col gap-3 my-6 pl-1 text-muted-foreground">
+									<ul
+										key={i}
+										className="my-6 flex flex-col gap-3 pl-1 text-muted-foreground"
+									>
 										{items.map((item, idx) => (
 											<li key={idx} className="flex items-start gap-3">
 												<span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-none bg-primary/40" />
@@ -176,12 +189,17 @@ function BlogPostDetailPage() {
 
 							// Check if it's a numbered list block
 							if (/^\d+\./.test(text)) {
-								const items = text.split("\n").map(li => li.replace(/^\d+\.\s+/, ""));
+								const items = text
+									.split("\n")
+									.map((li) => li.replace(/^\d+\.\s+/, ""));
 								return (
-									<ol key={i} className="flex flex-col gap-3 my-6 pl-1 text-muted-foreground">
+									<ol
+										key={i}
+										className="my-6 flex flex-col gap-3 pl-1 text-muted-foreground"
+									>
 										{items.map((item, idx) => (
 											<li key={idx} className="flex items-start gap-3">
-												<span className="font-mono text-xs text-primary font-bold mt-0.5 shrink-0">
+												<span className="mt-0.5 shrink-0 font-bold font-mono text-primary text-xs">
 													{idx + 1}.
 												</span>
 												<span className="text-pretty">{item}</span>
@@ -204,24 +222,26 @@ function BlogPostDetailPage() {
 				<Separator className="my-16" />
 
 				{/* Tactile diagnostic audit CTA card */}
-				<div className="anim-fade-up border border-border/40 bg-card p-6 sm:p-10 rounded-none mb-20 text-center relative overflow-hidden [animation-delay:160ms]">
-					<div className="absolute top-0 right-0 h-40 w-40 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
-					<h3 className="font-serif text-2xl text-foreground tracking-tight leading-snug">
+				<div className="anim-fade-up relative mb-20 overflow-hidden rounded-none border border-border/40 bg-card p-6 text-center [animation-delay:160ms] sm:p-10">
+					<div className="pointer-events-none absolute top-0 right-0 h-40 w-40 rounded-full bg-primary/5 blur-3xl" />
+					<h3 className="font-serif text-2xl text-foreground leading-snug tracking-tight">
 						Secure your cloud infrastructure today
 					</h3>
-					<p className="mt-4 text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
-						Ensure continuous compliance audits and eliminate critical zero-day exploits. Schedule a comprehensive manual penetration audit with Kathmandu's expert engineering team.
+					<p className="mx-auto mt-4 max-w-xl text-muted-foreground text-xs leading-relaxed sm:text-sm">
+						Ensure continuous compliance audits and eliminate critical zero-day
+						exploits. Schedule a comprehensive manual penetration audit with
+						Kathmandu's expert engineering team.
 					</p>
-					<div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+					<div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
 						<Link
 							to="/certifications"
-							className="px-5 py-3 border border-border/40 bg-muted/10 text-[10px] font-bold uppercase tracking-widest rounded-none active:scale-[0.96] transition-transform hover:bg-muted/30"
+							className="rounded-none border border-border/40 bg-muted/10 px-5 py-3 font-bold text-[10px] uppercase tracking-widest transition-transform hover:bg-muted/30 active:scale-[0.96]"
 						>
 							Certifications portal
 						</Link>
 						<a
-							href="mailto:info@selimsolution.com"
-							className="px-5 py-3 bg-primary border border-primary text-primary-foreground text-[10px] font-bold uppercase tracking-widest rounded-none active:scale-[0.96] transition-transform hover:opacity-95"
+							href="mailto:contact@selim.solutions"
+							className="rounded-none border border-primary bg-primary px-5 py-3 font-bold text-[10px] text-primary-foreground uppercase tracking-widest transition-transform hover:opacity-95 active:scale-[0.96]"
 						>
 							Book a consultation
 						</a>
@@ -230,7 +250,7 @@ function BlogPostDetailPage() {
 
 				{/* Related Posts Grid (SEO internal link-juice optimization) */}
 				<div className="anim-fade-up [animation-delay:200ms]">
-					<h3 className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-primary mb-8">
+					<h3 className="mb-8 font-bold font-mono text-[10px] text-primary uppercase tracking-[0.25em]">
 						Keep reading related insights
 					</h3>
 					<div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -241,7 +261,7 @@ function BlogPostDetailPage() {
 								params={{ slug: post.slug }}
 								className="group flex flex-col rounded-none border border-border/40 bg-card p-5 transition-all duration-300 hover:border-foreground/15 hover:shadow-lg active:scale-[0.98]"
 							>
-								<div className="aspect-16/10 w-full overflow-hidden rounded-none bg-muted border border-border/20">
+								<div className="aspect-16/10 w-full overflow-hidden rounded-none border border-border/20 bg-muted">
 									<img
 										src={post.img}
 										alt={post.title}
@@ -249,15 +269,17 @@ function BlogPostDetailPage() {
 										className="h-full w-full object-cover transition-transform duration-500 ease-out-strong group-hover:scale-102"
 									/>
 								</div>
-								<h4 className="mt-4 font-serif text-lg text-foreground leading-snug tracking-tight transition-colors duration-200 group-hover:text-primary">
+								<h4 className="mt-4 font-serif text-foreground text-lg leading-snug tracking-tight transition-colors duration-200 group-hover:text-primary">
 									{post.title}
 								</h4>
-								<p className="mt-2 text-pretty text-sm text-foreground/70 dark:text-zinc-300 leading-relaxed line-clamp-2">
+								<p className="mt-2 line-clamp-2 text-pretty text-foreground/70 text-sm leading-relaxed dark:text-zinc-300">
 									{post.excerpt}
 								</p>
-								<div className="mt-5 flex items-center justify-between border-t border-border/20 pt-4">
-									<span className="text-foreground/50 text-xs">{post.date}</span>
-									<div className="h-6 w-6 flex items-center justify-center border border-border/40 bg-muted/20 text-foreground/60 transition-all duration-300 group-hover:border-primary/20 group-hover:bg-primary/5 group-hover:text-primary rounded-none">
+								<div className="mt-5 flex items-center justify-between border-border/20 border-t pt-4">
+									<span className="text-foreground/50 text-xs">
+										{post.date}
+									</span>
+									<div className="flex h-6 w-6 items-center justify-center rounded-none border border-border/40 bg-muted/20 text-foreground/60 transition-all duration-300 group-hover:border-primary/20 group-hover:bg-primary/5 group-hover:text-primary">
 										<ArrowUpRight className="h-3 w-3" />
 									</div>
 								</div>

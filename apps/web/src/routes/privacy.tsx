@@ -1,7 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
-
 import { Badge } from "@selimsolutions/ui/components/badge";
 import { Separator } from "@selimsolutions/ui/components/separator";
+import { createFileRoute } from "@tanstack/react-router";
 
 import LegalPage from "@/components/legal-page";
 
@@ -45,8 +44,9 @@ function PrivacyPolicyPage() {
 				</h2>
 				<p className="max-w-[70ch] text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
 					Selim Solution only collects the information needed to operate the
-					website, respond to inquiries, and improve the experience for visitors.
-					We keep our policy practical, transparent, and limited to what the public site does.
+					website, respond to inquiries, and improve the experience for
+					visitors. We keep our policy practical, transparent, and limited to
+					what the public site does.
 				</p>
 			</section>
 
@@ -56,7 +56,8 @@ function PrivacyPolicyPage() {
 						Data we collect
 					</h2>
 					<p className="max-w-[70ch] text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
-						We categorize the information we collect to help you understand what data is gathered during your visit.
+						We categorize the information we collect to help you understand what
+						data is gathered during your visit.
 					</p>
 				</div>
 				<div className="grid gap-4 sm:grid-cols-2">
@@ -86,7 +87,10 @@ function PrivacyPolicyPage() {
 							key={category}
 							className="flex flex-col gap-3 rounded-none border border-border bg-card p-5 transition-all duration-200 hover:border-foreground/10 hover:shadow-[0_4px_12px_rgba(0,0,0,0.02)]"
 						>
-							<Badge variant="secondary" className="w-fit rounded-none font-semibold uppercase tracking-wider text-[10px]">
+							<Badge
+								variant="secondary"
+								className="w-fit rounded-none font-semibold text-[10px] uppercase tracking-wider"
+							>
 								{category}
 							</Badge>
 							<p className="text-pretty text-muted-foreground text-sm leading-relaxed">
@@ -132,9 +136,9 @@ function PrivacyPolicyPage() {
 					Sharing
 				</h2>
 				<p className="max-w-[70ch] text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
-					We only share data with trusted service providers when needed to run the
-					site, deliver email, or maintain security. We do not sell, rent, or trade
-					personal information to third parties for marketing purposes.
+					We only share data with trusted service providers when needed to run
+					the site, deliver email, or maintain security. We do not sell, rent,
+					or trade personal information to third parties for marketing purposes.
 				</p>
 			</section>
 
@@ -143,9 +147,9 @@ function PrivacyPolicyPage() {
 					Retention
 				</h2>
 				<p className="max-w-[70ch] text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
-					We keep data only as long as it is needed for the purposes described in
-					this policy, or as required by law. When data is no longer needed, we
-					securely delete or anonymize it.
+					We keep data only as long as it is needed for the purposes described
+					in this policy, or as required by law. When data is no longer needed,
+					we securely delete or anonymize it.
 				</p>
 			</section>
 
@@ -157,8 +161,8 @@ function PrivacyPolicyPage() {
 				</h2>
 				<p className="max-w-[70ch] text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
 					You can request access to, correction of, or deletion of your personal
-					information by contacting us. We will respond to verified requests within
-					a reasonable timeframe.
+					information by contacting us. We will respond to verified requests
+					within a reasonable timeframe.
 				</p>
 			</section>
 
@@ -167,9 +171,9 @@ function PrivacyPolicyPage() {
 					Cookies
 				</h2>
 				<p className="max-w-[70ch] text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
-					We use cookies for essential site functionality and optional analytics.
-					You can adjust your browser settings to limit cookies, though some site
-					features may not function properly as a result.
+					We use cookies for essential site functionality and optional
+					analytics. You can adjust your browser settings to limit cookies,
+					though some site features may not function properly as a result.
 				</p>
 			</section>
 
@@ -192,9 +196,10 @@ function PrivacyPolicyPage() {
 					Changes to this policy
 				</h2>
 				<p className="max-w-[70ch] text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
-					We may update this policy from time to time. When we do, we will revise
-					the &ldquo;last updated&rdquo; date at the top of this page. Continued use of the
-					site after changes are posted means you accept the updated policy.
+					We may update this policy from time to time. When we do, we will
+					revise the &ldquo;last updated&rdquo; date at the top of this page.
+					Continued use of the site after changes are posted means you accept
+					the updated policy.
 				</p>
 			</section>
 
@@ -208,10 +213,10 @@ function PrivacyPolicyPage() {
 					For questions about this privacy policy or our data practices, contact
 					us at{" "}
 					<a
-						className="text-foreground underline underline-offset-4 decoration-foreground/30 transition-colors duration-150 hover:decoration-foreground"
-						href="mailto:info@selimsolution.com"
+						className="text-foreground underline decoration-foreground/30 underline-offset-4 transition-colors duration-150 hover:decoration-foreground"
+						href="mailto:contact@selim.solutions"
 					>
-						info@selimsolution.com
+						contact@selim.solutions
 					</a>
 					.
 				</p>

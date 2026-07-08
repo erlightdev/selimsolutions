@@ -1,5 +1,5 @@
-import { Globe, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import { Globe, Mail, MessageCircle, Phone } from "lucide-react";
 
 const services = [
 	{ label: "SOC as a Service", href: "/services#soc" },
@@ -33,7 +33,7 @@ const socials = [
 	},
 	{
 		label: "Email",
-		href: "mailto:info@selimsolution.com",
+		href: "mailto:contact@selim.solutions",
 		Icon: Mail,
 		external: true,
 	},
@@ -51,8 +51,17 @@ function FooterLink({
 	const className =
 		"text-sm text-neutral-400 transition-colors hover:text-white";
 	const isExternal = external || href.startsWith("http") || href.includes("#");
-	
-	if (!isExternal && (href === "/" || href === "/about" || href === "/blog" || href === "/contact" || href === "/privacy" || href === "/terms" || href === "/certifications")) {
+
+	if (
+		!isExternal &&
+		(href === "/" ||
+			href === "/about" ||
+			href === "/blog" ||
+			href === "/contact" ||
+			href === "/privacy" ||
+			href === "/terms" ||
+			href === "/certifications")
+	) {
 		return (
 			<Link to={href} className={className}>
 				{children}
@@ -135,19 +144,15 @@ export default function Footer() {
 								<li className="flex items-start gap-3 text-neutral-400 text-sm">
 									<Mail className="mt-0.5 h-4 w-4 shrink-0 text-neutral-500" />
 									<a
-										href="mailto:info@selimsolution.com"
+										href="mailto:contact@selim.solutions"
 										className="transition-colors hover:text-white"
 									>
-										info@selimsolution.com
+										contact@selim.solutions
 									</a>
 								</li>
 								<li className="flex items-start gap-3 text-neutral-400 text-sm">
 									<Phone className="mt-0.5 h-4 w-4 shrink-0 text-neutral-500" />
 									<span>+977 — 24/7 hotline</span>
-								</li>
-								<li className="flex items-start gap-3 text-neutral-400 text-sm">
-									<MapPin className="mt-0.5 h-4 w-4 shrink-0 text-neutral-500" />
-									<span>Kathmandu, Nepal</span>
 								</li>
 								<li className="flex items-start gap-3 text-neutral-400 text-sm">
 									<MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-neutral-500" />

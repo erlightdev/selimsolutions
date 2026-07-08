@@ -19,7 +19,8 @@ const testimonials: readonly Testimonial[] = [
 	{
 		name: "Aarav Shrestha",
 		role: "CISO, Himalayan Bank",
-		image: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=150",
+		image:
+			"https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=150",
 		gradient: "from-[#405cfe] to-cyan-400",
 		rating: 5,
 		quote:
@@ -29,7 +30,8 @@ const testimonials: readonly Testimonial[] = [
 	{
 		name: "Priya Maharjan",
 		role: "Head of IT, MedTrust Hospitals",
-		image: "https://images.pexels.com/photos/3760514/pexels-photo-3760514.jpeg?auto=compress&cs=tinysrgb&w=150",
+		image:
+			"https://images.pexels.com/photos/3760514/pexels-photo-3760514.jpeg?auto=compress&cs=tinysrgb&w=150",
 		gradient: "from-emerald-400 to-teal-500",
 		rating: 5,
 		quote:
@@ -39,7 +41,8 @@ const testimonials: readonly Testimonial[] = [
 	{
 		name: "Bishal Gurung",
 		role: "CTO, Daraz Logistics",
-		image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150",
+		image:
+			"https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150",
 		gradient: "from-orange-400 to-red-500",
 		rating: 5,
 		quote:
@@ -49,7 +52,8 @@ const testimonials: readonly Testimonial[] = [
 	{
 		name: "Sneha Thapa",
 		role: "VP Engineering, Khalti",
-		image: "https://images.pexels.com/photos/3760529/pexels-photo-3760529.jpeg?auto=compress&cs=tinysrgb&w=150",
+		image:
+			"https://images.pexels.com/photos/3760529/pexels-photo-3760529.jpeg?auto=compress&cs=tinysrgb&w=150",
 		gradient: "from-fuchsia-400 to-purple-500",
 		rating: 5,
 		quote:
@@ -59,7 +63,8 @@ const testimonials: readonly Testimonial[] = [
 	{
 		name: "Rohan Karki",
 		role: "GRC Lead, NIC Asia",
-		image: "https://images.pexels.com/photos/2182968/pexels-photo-2182968.jpeg?auto=compress&cs=tinysrgb&w=150",
+		image:
+			"https://images.pexels.com/photos/2182968/pexels-photo-2182968.jpeg?auto=compress&cs=tinysrgb&w=150",
 		gradient: "from-sky-400 to-indigo-500",
 		rating: 5,
 		quote:
@@ -196,14 +201,14 @@ export default function Testimonials() {
 
 										{/* Identity */}
 										<div className="flex items-center gap-3.5">
-											<Avatar
-												image={t.image}
-												gradient={t.gradient}
-												size="lg"
-											/>
+											<Avatar image={t.image} gradient={t.gradient} size="lg" />
 											<div>
-												<p className="font-semibold text-foreground">{t.name}</p>
-												<p className="text-muted-foreground text-sm">{t.role}</p>
+												<p className="font-semibold text-foreground">
+													{t.name}
+												</p>
+												<p className="text-muted-foreground text-sm">
+													{t.role}
+												</p>
 											</div>
 										</div>
 

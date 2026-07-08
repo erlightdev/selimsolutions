@@ -12,20 +12,24 @@ export type BlogPost = {
 	featured?: boolean;
 };
 
-const IMG = "https://images.unsplash.com/photo-PLACEHOLDER?w=1200&q=80&auto=format&fit=crop";
+const IMG =
+	"https://images.unsplash.com/photo-PLACEHOLDER?w=1200&q=80&auto=format&fit=crop";
 
 export const blogPosts: BlogPost[] = [
 	{
 		slug: "cyber-security-soc-threat-detection-stops-credential-stuffing",
 		category: "Threat Intel",
-		title: "Inside a 3 AM Credential Stuffing Cyber Attack — And How Our SOC Stopped It",
-		excerpt: "A real timeline of detection, triage, and rapid containment. Learn how Kathmandu's security analysts block high-velocity cyber attacks at machine speed.",
+		title:
+			"Inside a 3 AM Credential Stuffing Cyber Attack — And How Our SOC Stopped It",
+		excerpt:
+			"A real timeline of detection, triage, and rapid containment. Learn how Kathmandu's security analysts block high-velocity cyber attacks at machine speed.",
 		date: "June 12, 2026",
 		readTime: "8 min read",
 		img: IMG.replace("PLACEHOLDER", "1550751827-4bd374c3f58b"),
 		featured: true,
 		seoTitle: "SOC Threat Detection: Blocking Credential Stuffing Attacks",
-		seoDesc: "Read a real-world case study of how a 24/7 Security Operations Center (SOC) triages, investigates, and isolates credential stuffing cyber attacks at machine speed.",
+		seoDesc:
+			"Read a real-world case study of how a 24/7 Security Operations Center (SOC) triages, investigates, and isolates credential stuffing cyber attacks at machine speed.",
 		content: `
 # Inside a 3 AM Credential Stuffing Cyber Attack
 
@@ -69,18 +73,21 @@ To protect your enterprise assets against automated authentication threats, we r
 *   **Multi-Factor Authentication (MFA)**: Restricts attackers even if they obtain valid credentials.
 *   **WAF Rate Limiting**: Block requests that exceed human limits.
 *   **Continuous Log Ingestion**: Ensure all gateway authentications are logged and analyzed in real-time.
-		`
+		`,
 	},
 	{
 		slug: "vapt-testing-penetration-audit-finds-critical-vulnerabilities",
 		category: "VAPT",
-		title: "The Security Vulnerability Three Vendors Missed: A Manual VAPT Testing Playbook",
-		excerpt: "How a chained API misconfiguration slipped past automated scanners — and why manual penetration testing is critical for secure cloud applications.",
+		title:
+			"The Security Vulnerability Three Vendors Missed: A Manual VAPT Testing Playbook",
+		excerpt:
+			"How a chained API misconfiguration slipped past automated scanners — and why manual penetration testing is critical for secure cloud applications.",
 		date: "June 4, 2026",
 		readTime: "6 min read",
 		img: IMG.replace("PLACEHOLDER", "1563013544-824ae1b704d3"),
 		seoTitle: "Manual VAPT Testing vs Automated Vulnerability Scanners",
-		seoDesc: "Discover why automated vulnerability scanners miss critical logical security flaws and how manual penetration testing (VAPT) protects your cloud APIs and networks.",
+		seoDesc:
+			"Discover why automated vulnerability scanners miss critical logical security flaws and how manual penetration testing (VAPT) protects your cloud APIs and networks.",
 		content: `
 # The Security Vulnerability Three Vendors Missed
 
@@ -121,18 +128,21 @@ Relying solely on automated scanners creates a false sense of security. To ensur
 *   Combine automated scanning with deep, human-led manual **VAPT assessments**.
 *   Conduct logical API contract reviews.
 *   Enforce server-side inputs validation for all client-submitted parameters.
-		`
+		`,
 	},
 	{
 		slug: "iso-27001-compliance-audit-readiness-playbook-fast-track",
 		category: "Compliance",
-		title: "ISO 27001 Compliance and Audit Readiness in Weeks: The Agile Playbook",
-		excerpt: "A pragmatic control-mapping approach that turns complex compliance audits from dread into a simple, trusted, automated checklist.",
+		title:
+			"ISO 27001 Compliance and Audit Readiness in Weeks: The Agile Playbook",
+		excerpt:
+			"A pragmatic control-mapping approach that turns complex compliance audits from dread into a simple, trusted, automated checklist.",
 		date: "May 28, 2026",
 		readTime: "5 min read",
 		img: IMG.replace("PLACEHOLDER", "1518770660439-4636190af475"),
 		seoTitle: "ISO 27001 Compliance Playbook: Secure Audit Readiness",
-		seoDesc: "Learn how to fast-track your ISO 27001 compliance audit with a streamlined, control-mapping playbook designed for modern cloud infrastructure.",
+		seoDesc:
+			"Learn how to fast-track your ISO 27001 compliance audit with a streamlined, control-mapping playbook designed for modern cloud infrastructure.",
 		content: `
 # ISO 27001 Compliance and Audit Readiness in Weeks
 
@@ -161,6 +171,6 @@ During Stage 1 and Stage 2 audits, your auditor looks for proof that your declar
 *   **Incident Response Logs**: Show documented proof of triage timelines and SOC activity logs.
 
 With this structured playbook, you can achieve audit readiness in weeks, proving operational trust to enterprise partners.
-		`
-	}
+		`,
+	},
 ];

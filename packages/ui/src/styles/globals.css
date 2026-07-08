@@ -10,214 +10,221 @@
    1. GLOBAL & LIGHT MODE VARIABLES
    ========================================================================== */
 :root {
-  /* Layout Background & Primary Text */
-  --background: #ffffff;
-  --foreground: #09090b; /* Rich black for sharp text clarity */
-  --card: #ffffff;
-  --card-foreground: #09090b;
-  --popover: #ffffff;
-  --popover-foreground: #09090b;
+	/* Layout Background & Primary Text */
+	--background: #ffffff;
+	--foreground: #09090b; /* Rich black for sharp text clarity */
+	--card: #ffffff;
+	--card-foreground: #09090b;
+	--popover: #ffffff;
+	--popover-foreground: #09090b;
 
-  /* Primary Accent: Rich Brand-aligned Blue, optimized for white text readability (4.6:1 WCAG AA) */
-  --primary: #0062e3; 
-  --primary-foreground: #ffffff; /* Perfect white text contrast on light mode */
+	/* Primary Accent: Rich Brand-aligned Blue, optimized for white text readability (4.6:1 WCAG AA) */
+	--primary: #0062e3;
+	--primary-foreground: #ffffff; /* Perfect white text contrast on light mode */
 
-  /* Secondary & Accents */
-  --secondary: #f4f4f5; 
-  --secondary-foreground: #18181b; 
-  --accent: #f4f4f5;
-  --accent-foreground: #18181b;
+	/* Secondary & Accents */
+	--secondary: #f4f4f5;
+	--secondary-foreground: #18181b;
+	--accent: #f4f4f5;
+	--accent-foreground: #18181b;
 
-  /* Muted elements adjusted for outdoor/low-brightness display readability */
-  --muted: #f4f4f5;
-  --muted-foreground: #52525b; /* Zinc 600 - provides sharp 5.7:1 contrast on white */
+	/* Muted elements adjusted for outdoor/low-brightness display readability */
+	--muted: #f4f4f5;
+	--muted-foreground: #52525b; /* Zinc 600 - provides sharp 5.7:1 contrast on white */
 
-  /* Semantic States */
-  --destructive: #dc2626; /* Deep red for legible destructive buttons */
-  --destructive-foreground: #ffffff;
-  
-  /* Borders and Interactive Indicators */
-  --border: #e4e4e7; 
-  --input: #e4e4e7;
-  --ring: #007aff; /* Native brand blue remains for high-visibility focus borders */
+	/* Semantic States */
+	--destructive: #dc2626; /* Deep red for legible destructive buttons */
+	--destructive-foreground: #ffffff;
 
-  /* Charts */
-  --chart-1: #007aff;
-  --chart-2: #3a81f6;
-  --chart-3: #2563ef;
-  --chart-4: #1a4eda;
-  --chart-5: #1f3fad;
+	/* Borders and Interactive Indicators */
+	--border: #e4e4e7;
+	--input: #e4e4e7;
+	--ring: #007aff; /* Native brand blue remains for high-visibility focus borders */
 
-  /* Sidebar Design Tokens */
-  --sidebar: #fafafa;
-  --sidebar-foreground: #18181b;
-  --sidebar-primary: #0062e3; 
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f4f4f5;
-  --sidebar-accent-foreground: #18181b;
-  --sidebar-border: #e4e4e7;
-  --sidebar-ring: #007aff;
+	/* Charts */
+	--chart-1: #007aff;
+	--chart-2: #3a81f6;
+	--chart-3: #2563ef;
+	--chart-4: #1a4eda;
+	--chart-5: #1f3fad;
 
-  /* Fonts & Radius (Defined once globally to minimize payload) */
-  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  
-  --radius: 0.625rem;
-  --spacing: 0.25rem;
-  --tracking-normal: 0em;
+	/* Sidebar Design Tokens */
+	--sidebar: #fafafa;
+	--sidebar-foreground: #18181b;
+	--sidebar-primary: #0062e3;
+	--sidebar-primary-foreground: #ffffff;
+	--sidebar-accent: #f4f4f5;
+	--sidebar-accent-foreground: #18181b;
+	--sidebar-border: #e4e4e7;
+	--sidebar-ring: #007aff;
 
-  /* Shadow Variables */
-  --shadow-x: 0;
-  --shadow-y: 1px;
-  --shadow-blur: 3px;
-  --shadow-spread: 0px;
-  --shadow-opacity: 0.1;
-  --shadow-color: oklch(0 0 0);
-  --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 2px 4px -1px hsl(0 0% 0% / 0.10);
-  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
-  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
-  --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+	/* Fonts & Radius (Defined once globally to minimize payload) */
+	--font-sans:
+		"Inter Variable", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	--font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+	--font-mono:
+		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+		"Courier New", monospace;
+
+	--radius: 0.625rem;
+	--spacing: 0.25rem;
+	--tracking-normal: 0em;
+
+	/* Shadow Variables */
+	--shadow-x: 0;
+	--shadow-y: 1px;
+	--shadow-blur: 3px;
+	--shadow-spread: 0px;
+	--shadow-opacity: 0.1;
+	--shadow-color: oklch(0 0 0);
+	--shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+	--shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+	--shadow-sm:
+		0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+	--shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+	--shadow-md:
+		0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
+	--shadow-lg:
+		0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
+	--shadow-xl:
+		0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
+	--shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
 }
 
 /* ==========================================================================
    2. DARK MODE THEME CONFIG
    ========================================================================== */
 .dark {
-  --background: #09090b; /* Zinc 950 - rich, deep dark theme base */
-  --foreground: #fafafa;
-  --card: #18181b; /* Zinc 900 */
-  --card-foreground: #fafafa;
-  --popover: #18181b;
-  --popover-foreground: #fafafa;
+	--background: #09090b; /* Zinc 950 - rich, deep dark theme base */
+	--foreground: #fafafa;
+	--card: #18181b; /* Zinc 900 */
+	--card-foreground: #fafafa;
+	--popover: #18181b;
+	--popover-foreground: #fafafa;
 
-  /* Primary Accent: Adjusted deep blue to preserve white text readability in dark mode */
-  --primary: #0069eb; 
-  --primary-foreground: #ffffff; /* Set to absolute white as requested for uniform dark buttons */
+	/* Primary Accent: Adjusted deep blue to preserve white text readability in dark mode */
+	--primary: #0069eb;
+	--primary-foreground: #ffffff; /* Set to absolute white as requested for uniform dark buttons */
 
-  --secondary: #27272a; /* Zinc 800 */
-  --secondary-foreground: #fafafa;
-  --accent: #27272a;
-  --accent-foreground: #fafafa;
+	--secondary: #27272a; /* Zinc 800 */
+	--secondary-foreground: #fafafa;
+	--accent: #27272a;
+	--accent-foreground: #fafafa;
 
-  --muted: #27272a;
-  --muted-foreground: #a1a1aa; /* Zinc 400 - clean secondary text */
+	--muted: #27272a;
+	--muted-foreground: #a1a1aa; /* Zinc 400 - clean secondary text */
 
-  /* Dark Mode Semantic States */
-  --destructive: #ef4444; /* Clean contrast with white text in dark mode */
-  --destructive-foreground: #ffffff;
+	/* Dark Mode Semantic States */
+	--destructive: #ef4444; /* Clean contrast with white text in dark mode */
+	--destructive-foreground: #ffffff;
 
-  --border: #27272a;
-  --input: #27272a;
-  --ring: #3395ff;
+	--border: #27272a;
+	--input: #27272a;
+	--ring: #3395ff;
 
-  --chart-1: #3395ff;
-  --chart-2: #3a81f6;
-  --chart-3: #2563ef;
-  --chart-4: #1a4eda;
-  --chart-5: #1f3fad;
+	--chart-1: #3395ff;
+	--chart-2: #3a81f6;
+	--chart-3: #2563ef;
+	--chart-4: #1a4eda;
+	--chart-5: #1f3fad;
 
-  /* Sidebar aligned to use dark-mode white text configurations */
-  --sidebar: #18181b;
-  --sidebar-foreground: #fafafa;
-  --sidebar-primary: #0069eb; 
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #27272a;
-  --sidebar-accent-foreground: #fafafa;
-  --sidebar-border: #27272a;
-  --sidebar-ring: #3395ff;
+	/* Sidebar aligned to use dark-mode white text configurations */
+	--sidebar: #18181b;
+	--sidebar-foreground: #fafafa;
+	--sidebar-primary: #0069eb;
+	--sidebar-primary-foreground: #ffffff;
+	--sidebar-accent: #27272a;
+	--sidebar-accent-foreground: #fafafa;
+	--sidebar-border: #27272a;
+	--sidebar-ring: #3395ff;
 }
 
 /* ==========================================================================
    3. TAILWIND V4 THEME MAPPING DIRECTIVE
    ========================================================================== */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-destructive-foreground: var(--destructive-foreground);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+	--color-chart-1: var(--chart-1);
+	--color-chart-2: var(--chart-2);
+	--color-chart-3: var(--chart-3);
+	--color-chart-4: var(--chart-4);
+	--color-chart-5: var(--chart-5);
+	--color-sidebar: var(--sidebar);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-ring: var(--sidebar-ring);
 
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
-  --font-serif: var(--font-serif);
+	--font-sans: var(--font-sans);
+	--font-mono: var(--font-mono);
+	--font-serif: var(--font-serif);
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+	--radius-sm: calc(var(--radius) - 4px);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
+	--radius-2xl: calc(var(--radius) + 8px);
+	--radius-3xl: calc(var(--radius) + 12px);
+	--radius-4xl: calc(var(--radius) + 16px);
 
-  --shadow-2xs: var(--shadow-2xs);
-  --shadow-xs: var(--shadow-xs);
-  --shadow-sm: var(--shadow-sm);
-  --shadow: var(--shadow);
-  --shadow-md: var(--shadow-md);
-  --shadow-lg: var(--shadow-lg);
-  --shadow-xl: var(--shadow-xl);
-  --shadow-2xl: var(--shadow-2xl);
+	--shadow-2xs: var(--shadow-2xs);
+	--shadow-xs: var(--shadow-xs);
+	--shadow-sm: var(--shadow-sm);
+	--shadow: var(--shadow);
+	--shadow-md: var(--shadow-md);
+	--shadow-lg: var(--shadow-lg);
+	--shadow-xl: var(--shadow-xl);
+	--shadow-2xl: var(--shadow-2xl);
 
-  --animate-marquee: marquee var(--duration) infinite linear;
-  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
-  @keyframes marquee {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(calc(-100% - var(--gap)));
-    }
-  }
-  @keyframes marquee-vertical {
-    from {
-      transform: translateY(0);
-    }
-    to {
-      transform: translateY(calc(-100% - var(--gap)));
-    }
-  }
+	--animate-marquee: marquee var(--duration) infinite linear;
+	--animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+	@keyframes marquee {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(calc(-100% - var(--gap)));
+		}
+	}
+	@keyframes marquee-vertical {
+		from {
+			transform: translateY(0);
+		}
+		to {
+			transform: translateY(calc(-100% - var(--gap)));
+		}
+	}
 }
 
 /* ==========================================================================
    4. BASE LAYER DEFAULT RULES
    ========================================================================== */
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply font-sans bg-background text-foreground antialiased;
-  }
+	* {
+		@apply border-border outline-ring/50;
+	}
+	body {
+		@apply font-sans bg-background text-foreground antialiased;
+	}
 }

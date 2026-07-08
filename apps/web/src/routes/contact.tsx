@@ -1,44 +1,28 @@
+import { Badge } from "@selimsolutions/ui/components/badge";
+import { createFileRoute } from "@tanstack/react-router";
 import {
 	ArrowUpRight,
 	Clock3,
 	Mail,
-	MapPin,
 	MessageCircle,
-	Phone,
 	ShieldAlert,
 	Sparkles,
 } from "lucide-react";
-import { createFileRoute } from "@tanstack/react-router";
-
-import { Badge } from "@selimsolutions/ui/components/badge";
 
 const contactMethods = [
 	{
 		title: "Email",
-		value: "info@selimsolution.com",
+		value: "contact@selim.solutions",
 		detail: "Best for assessments, proposals, and partnership requests.",
-		href: "mailto:info@selimsolution.com",
+		href: "mailto:contact@selim.solutions",
 		icon: Mail,
 	},
-	{
-		title: "24/7 Hotline",
-		value: "+977 - 24/7 hotline",
-		detail: "For urgent escalation paths and active security incidents.",
-		href: null,
-		icon: Phone,
-	},
-	{
-		title: "Kathmandu Command",
-		value: "Kathmandu, Nepal",
-		detail: "Sovereign monitoring, response, and coordination from Nepal.",
-		href: null,
-		icon: MapPin,
-	},
+
 	{
 		title: "WhatsApp / Viber",
 		value: "Private coordination",
 		detail: "Used for fast coordination after initial contact is established.",
-		href: "mailto:info@selimsolution.com?subject=WhatsApp%20or%20Viber%20coordination",
+		href: "mailto:contact@selim.solutions?subject=WhatsApp%20or%20Viber%20coordination",
 		icon: MessageCircle,
 	},
 ] as const;
@@ -103,7 +87,7 @@ function ContactPage() {
 			<div className="relative z-10 mx-auto max-w-6xl px-6 lg:px-10">
 				<div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-start">
 					<div className="lg:col-span-7">
-						<p className="text-[10px] font-bold uppercase tracking-widest text-primary">
+						<p className="font-bold text-[10px] text-primary uppercase tracking-widest">
 							Contact
 						</p>
 						<h1 className="mt-5 max-w-3xl text-balance font-serif text-4xl text-foreground leading-[1.05] tracking-[-0.02em] sm:text-5xl lg:text-6xl">
@@ -111,16 +95,15 @@ function ContactPage() {
 						</h1>
 					</div>
 					<div className="lg:col-span-5 lg:pt-4">
-						
 						<div className="mt-8 flex flex-wrap gap-3">
 							<a
-								href="mailto:info@selimsolution.com"
-								className="inline-flex items-center gap-2 rounded-none border border-primary bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors duration-150 hover:bg-primary/90"
+								href="mailto:contact@selim.solutions"
+								className="inline-flex items-center gap-2 rounded-none border border-primary bg-primary px-5 py-3 font-semibold text-primary-foreground text-sm transition-colors duration-150 hover:bg-primary/90"
 							>
 								Email security team
 								<ArrowUpRight className="h-4 w-4" />
 							</a>
-							<div className="inline-flex items-center gap-2 rounded-none border border-border/30 bg-foreground/[0.02] px-5 py-3 text-sm text-foreground/75 dark:text-zinc-300">
+							<div className="inline-flex items-center gap-2 rounded-none border border-border/30 bg-foreground/[0.02] px-5 py-3 text-foreground/75 text-sm dark:text-zinc-300">
 								<Clock3 className="h-4 w-4 text-primary" />
 								24/7 response posture
 							</div>
@@ -138,17 +121,19 @@ function ContactPage() {
 											<Icon className="h-5 w-5" />
 										</div>
 										<div>
-											<p className="font-mono text-[11px] uppercase tracking-widest text-foreground/45">
+											<p className="font-mono text-[11px] text-foreground/45 uppercase tracking-widest">
 												{title}
 											</p>
-											<h2 className="mt-2 text-balance font-serif text-2xl leading-tight text-foreground sm:text-[2rem]">
+											<h2 className="mt-2 text-balance font-serif text-2xl text-foreground leading-tight sm:text-[2rem]">
 												{value}
 											</h2>
 										</div>
 									</div>
-									{href ? <ArrowUpRight className="mt-1 h-4 w-4 text-primary" /> : null}
+									{href ? (
+										<ArrowUpRight className="mt-1 h-4 w-4 text-primary" />
+									) : null}
 								</div>
-								<p className="mt-6 max-w-[52ch] text-pretty text-sm leading-relaxed text-foreground/75 dark:text-zinc-300 sm:text-base">
+								<p className="mt-6 max-w-[52ch] text-pretty text-foreground/75 text-sm leading-relaxed sm:text-base dark:text-zinc-300">
 									{detail}
 								</p>
 							</>
@@ -181,17 +166,20 @@ function ContactPage() {
 					<div className="lg:col-span-7">
 						<Badge
 							variant="outline"
-							className="rounded-none border-primary/20 bg-primary/5 px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-widest text-primary"
+							className="rounded-none border-primary/20 bg-primary/5 px-3.5 py-1.5 font-mono text-[11px] text-primary uppercase tracking-widest"
 						>
 							Engagement Paths
 						</Badge>
 						<div className="mt-6 grid gap-px overflow-hidden border border-foreground/10 bg-foreground/10">
 							{engagementPaths.map(({ title, detail }) => (
-								<div key={title} className="bg-background px-6 py-7 sm:px-8 sm:py-8">
-									<h3 className="font-serif text-2xl leading-tight text-foreground">
+								<div
+									key={title}
+									className="bg-background px-6 py-7 sm:px-8 sm:py-8"
+								>
+									<h3 className="font-serif text-2xl text-foreground leading-tight">
 										{title}
 									</h3>
-									<p className="mt-4 max-w-[60ch] text-pretty text-sm leading-relaxed text-foreground/75 dark:text-zinc-300 sm:text-base">
+									<p className="mt-4 max-w-[60ch] text-pretty text-foreground/75 text-sm leading-relaxed sm:text-base dark:text-zinc-300">
 										{detail}
 									</p>
 								</div>
@@ -206,7 +194,7 @@ function ContactPage() {
 									<ShieldAlert className="h-5 w-5" />
 								</div>
 								<div>
-									<p className="font-mono text-[11px] uppercase tracking-widest text-primary/70">
+									<p className="font-mono text-[11px] text-primary/70 uppercase tracking-widest">
 										What to expect
 									</p>
 									<h2 className="mt-1 font-serif text-2xl text-foreground sm:text-3xl">
@@ -219,22 +207,22 @@ function ContactPage() {
 								{expectations.map((item) => (
 									<div key={item} className="flex gap-3">
 										<Sparkles className="mt-1 h-4 w-4 shrink-0 text-primary" />
-										<p className="text-pretty text-sm leading-relaxed text-foreground/75 dark:text-zinc-300 sm:text-base">
+										<p className="text-pretty text-foreground/75 text-sm leading-relaxed sm:text-base dark:text-zinc-300">
 											{item}
 										</p>
 									</div>
 								))}
 							</div>
 
-							<div className="mt-8 border-t border-border/20 pt-6">
-								<p className="font-mono text-[11px] uppercase tracking-widest text-foreground/45">
+							<div className="mt-8 border-border/20 border-t pt-6">
+								<p className="font-mono text-[11px] text-foreground/45 uppercase tracking-widest">
 									Primary inbox
 								</p>
 								<a
-									href="mailto:info@selimsolution.com"
-									className="mt-3 inline-flex items-center gap-2 text-lg text-foreground underline decoration-foreground/20 underline-offset-4 transition-colors hover:decoration-foreground"
+									href="mailto:contact@selim.solutions"
+									className="mt-3 inline-flex items-center gap-2 text-foreground text-lg underline decoration-foreground/20 underline-offset-4 transition-colors hover:decoration-foreground"
 								>
-									info@selimsolution.com
+									contact@selim.solutions
 									<ArrowUpRight className="h-4 w-4" />
 								</a>
 							</div>

@@ -1,7 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
-
 import { Badge } from "@selimsolutions/ui/components/badge";
 import { Separator } from "@selimsolutions/ui/components/separator";
+import { createFileRoute } from "@tanstack/react-router";
 
 import LegalPage from "@/components/legal-page";
 
@@ -83,7 +82,8 @@ function TermsPage() {
 						Prohibited use
 					</h2>
 					<p className="max-w-[70ch] text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
-						The following activities are strictly prohibited when using or interacting with this website:
+						The following activities are strictly prohibited when using or
+						interacting with this website:
 					</p>
 				</div>
 				<div className="grid gap-4 sm:grid-cols-2">
@@ -113,7 +113,10 @@ function TermsPage() {
 							key={category}
 							className="flex flex-col gap-3 rounded-none border border-border bg-card p-5 transition-all duration-200 hover:border-destructive/20 hover:shadow-[0_4px_12px_rgba(239,68,68,0.01)]"
 						>
-							<Badge variant="destructive" className="w-fit rounded-none font-semibold uppercase tracking-wider text-[10px]">
+							<Badge
+								variant="destructive"
+								className="w-fit rounded-none font-semibold text-[10px] uppercase tracking-wider"
+							>
 								{category}
 							</Badge>
 							<p className="text-pretty text-muted-foreground text-sm leading-relaxed">
@@ -130,8 +133,8 @@ function TermsPage() {
 				</h2>
 				<p className="max-w-[70ch] text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
 					The text, visuals, logos, and page structure on this site belong to
-					Selim Solution or its licensors unless stated otherwise. You may link to
-					public pages, but you may not reuse assets in a way that suggests
+					Selim Solution or its licensors unless stated otherwise. You may link
+					to public pages, but you may not reuse assets in a way that suggests
 					endorsement or affiliation.
 				</p>
 			</section>
@@ -154,10 +157,11 @@ function TermsPage() {
 					Disclaimer
 				</h2>
 				<p className="max-w-[70ch] text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
-					The website is provided for general information and marketing purposes.
-					We make reasonable efforts to keep information current, but we do not
-					guarantee that every detail is complete, error-free, or always available.
-					Content on the site does not constitute professional security advice.
+					The website is provided for general information and marketing
+					purposes. We make reasonable efforts to keep information current, but
+					we do not guarantee that every detail is complete, error-free, or
+					always available. Content on the site does not constitute professional
+					security advice.
 				</p>
 			</section>
 
@@ -169,8 +173,8 @@ function TermsPage() {
 				</h2>
 				<p className="max-w-[70ch] text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
 					To the extent permitted by law, Selim Solution is not liable for any
-					indirect, incidental, or consequential damages arising from your use of
-					the website or reliance on its content. Our total liability for any
+					indirect, incidental, or consequential damages arising from your use
+					of the website or reliance on its content. Our total liability for any
 					claim is limited to the amount you paid us, if anything.
 				</p>
 			</section>
@@ -180,9 +184,10 @@ function TermsPage() {
 					Changes to these terms
 				</h2>
 				<p className="max-w-[70ch] text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
-					We may update these terms from time to time. When we do, we will revise
-					the &ldquo;last updated&rdquo; date at the top of this page. Continued use of the
-					site after changes are posted means you accept the updated terms.
+					We may update these terms from time to time. When we do, we will
+					revise the &ldquo;last updated&rdquo; date at the top of this page.
+					Continued use of the site after changes are posted means you accept
+					the updated terms.
 				</p>
 			</section>
 
@@ -195,10 +200,10 @@ function TermsPage() {
 				<p className="max-w-[70ch] text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
 					Questions about these terms? Email{" "}
 					<a
-						className="text-foreground underline underline-offset-4 decoration-foreground/30 transition-colors duration-150 hover:decoration-foreground"
-						href="mailto:info@selimsolution.com"
+						className="text-foreground underline decoration-foreground/30 underline-offset-4 transition-colors duration-150 hover:decoration-foreground"
+						href="mailto:contact@selim.solutions"
 					>
-						info@selimsolution.com
+						contact@selim.solutions
 					</a>
 					.
 				</p>

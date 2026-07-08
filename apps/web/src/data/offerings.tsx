@@ -26,37 +26,43 @@ export const serviceItems: readonly OfferingItem[] = [
 	{
 		label: "SOC as a Service",
 		href: "/services#soc",
-		description: "24/7 monitoring, triage, detection engineering, and analyst-led response.",
+		description:
+			"24/7 monitoring, triage, detection engineering, and analyst-led response.",
 		icon: TowerControl,
 	},
 	{
 		label: "VAPT",
 		href: "/services#vapt",
-		description: "Manual vulnerability assessment and penetration testing across apps and infrastructure.",
+		description:
+			"Manual vulnerability assessment and penetration testing across apps and infrastructure.",
 		icon: ScanSearch,
 	},
 	{
 		label: "Cloud Security",
 		href: "/services#cloud",
-		description: "Posture hardening, identity review, and continuous cloud risk reduction.",
+		description:
+			"Posture hardening, identity review, and continuous cloud risk reduction.",
 		icon: Cloud,
 	},
 	{
 		label: "EDR",
 		href: "/services#edr",
-		description: "Endpoint visibility, behavioral detections, isolation, and rollback guidance.",
+		description:
+			"Endpoint visibility, behavioral detections, isolation, and rollback guidance.",
 		icon: Shield,
 	},
 	{
 		label: "GRC & Compliance",
 		href: "/services#grc",
-		description: "Control mapping and compliance preparation for real operational environments.",
+		description:
+			"Control mapping and compliance preparation for real operational environments.",
 		icon: BadgeCheck,
 	},
 	{
 		label: "DFIR",
 		href: "/services#dfir",
-		description: "Containment, forensics, root-cause analysis, and recovery coordination.",
+		description:
+			"Containment, forensics, root-cause analysis, and recovery coordination.",
 		icon: Siren,
 	},
 ] as const;
@@ -65,37 +71,43 @@ export const solutionItems: readonly OfferingItem[] = [
 	{
 		label: "Banking & Finance",
 		href: "/solutions#banking-finance",
-		description: "Security operations aligned to high-trust financial environments and audit pressure.",
+		description:
+			"Security operations aligned to high-trust financial environments and audit pressure.",
 		icon: Landmark,
 	},
 	{
 		label: "Insurance",
 		href: "/solutions#insurance",
-		description: "Claims, policy, and customer data protection with measurable response readiness.",
+		description:
+			"Claims, policy, and customer data protection with measurable response readiness.",
 		icon: ShieldAlert,
 	},
 	{
 		label: "Government",
 		href: "/solutions#government",
-		description: "Public-sector hardening, visibility, and continuity planning for critical services.",
+		description:
+			"Public-sector hardening, visibility, and continuity planning for critical services.",
 		icon: Building2,
 	},
 	{
 		label: "Telecom & ISPs",
 		href: "/solutions#telecom-isps",
-		description: "Carrier-grade monitoring and incident workflows for always-on networks.",
+		description:
+			"Carrier-grade monitoring and incident workflows for always-on networks.",
 		icon: Fingerprint,
 	},
 	{
 		label: "Healthcare",
 		href: "/solutions#healthcare",
-		description: "Patient-data protection, risk visibility, and incident response for care systems.",
+		description:
+			"Patient-data protection, risk visibility, and incident response for care systems.",
 		icon: Cross,
 	},
 	{
 		label: "Education & NGOs",
 		href: "/solutions#education-ngos",
-		description: "Practical security programs for lean teams managing distributed users and devices.",
+		description:
+			"Practical security programs for lean teams managing distributed users and devices.",
 		icon: GraduationCap,
 	},
 ] as const;

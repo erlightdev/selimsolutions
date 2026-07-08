@@ -1,3 +1,4 @@
+import { Marquee } from "@selimsolutions/ui/components/marquee";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import {
@@ -18,13 +19,11 @@ import {
 	Sparkles,
 } from "lucide-react";
 
-import { Marquee } from "@selimsolutions/ui/components/marquee";
-
 import BlogInsights from "@/components/blog-insights";
 import FAQSection from "@/components/faq-section";
 import FeatureShowcase from "@/components/feature-showcase";
-import ServicesTabs from "@/components/services-tabs";
 import OrchestrationTabs from "@/components/orchestration-tabs";
+import ServicesTabs from "@/components/services-tabs";
 import Testimonials from "@/components/testimonials";
 import { orpc } from "@/utils/orpc";
 
@@ -337,9 +336,8 @@ function HomeComponent() {
 						</h1>
 
 						<p className="anim-fade-up mt-6 max-w-xl text-pretty text-base text-white/70 leading-relaxed [animation-delay:160ms] sm:text-lg">
-							Selim Solution guards your digital
-							frontier — a 24/7 SOC with threat detection, incident response and
-							compliance.
+							Selim Solution guards your digital frontier — a 24/7 SOC with
+							threat detection, incident response and compliance.
 						</p>
 
 						<div className="anim-fade-up mt-9 flex flex-col gap-3 [animation-delay:240ms] sm:flex-row sm:items-center">
@@ -385,7 +383,6 @@ function HomeComponent() {
 
 			{/* Trusted-by logo marquee */}
 			<section className="border-border/60 border-b bg-background py-4">
-			
 				<div className="relative">
 					<Marquee pauseOnHover className="[--duration:30s]">
 						{logos.map((name) => (
@@ -509,8 +506,6 @@ function HomeComponent() {
 
 			{/* Blog / Insights */}
 			<BlogInsights />
-
-			
 		</>
 	);
 }

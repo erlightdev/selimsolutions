@@ -1,3 +1,4 @@
+import { Badge } from "@selimsolutions/ui/components/badge";
 import { createFileRoute } from "@tanstack/react-router";
 import {
 	ArrowRight,
@@ -8,8 +9,6 @@ import {
 	ShieldCheck,
 	Waypoints,
 } from "lucide-react";
-
-import { Badge } from "@selimsolutions/ui/components/badge";
 
 export const Route = createFileRoute("/free-assessment")({
 	component: FreeAssessmentPage,
@@ -83,14 +82,14 @@ function FreeAssessmentPage() {
 					<div className="lg:col-span-7">
 						<Badge
 							variant="outline"
-							className="rounded-none border-primary/20 bg-primary/5 px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-widest text-primary"
+							className="rounded-none border-primary/20 bg-primary/5 px-3.5 py-1.5 font-mono text-[11px] text-primary uppercase tracking-widest"
 						>
 							Free Assessment
 						</Badge>
 						<h1 className="mt-6 max-w-4xl text-balance font-serif text-4xl text-foreground leading-[1.05] tracking-[-0.02em] sm:text-5xl lg:text-6xl">
 							See where your security posture breaks before an attacker does.
 						</h1>
-						<p className="mt-6 max-w-2xl text-pretty text-base text-foreground/75 leading-relaxed dark:text-zinc-300 sm:text-lg">
+						<p className="mt-6 max-w-2xl text-pretty text-base text-foreground/75 leading-relaxed sm:text-lg dark:text-zinc-300">
 							A short working session with our team to review visibility gaps,
 							incident readiness, and the highest-priority risks across your
 							environment.
@@ -104,7 +103,7 @@ function FreeAssessmentPage() {
 								<ArrowRight className="h-4 w-4" />
 							</a>
 							<a
-								href="mailto:info@selimsolution.com?subject=Free%20Security%20Assessment"
+								href="mailto:contact@selim.solutions?subject=Free%20Security%20Assessment"
 								className="inline-flex items-center justify-center gap-2 rounded-none border border-border/30 bg-foreground/[0.02] px-5 py-3 font-medium text-foreground/80 text-sm transition-colors duration-150 hover:border-primary/30 hover:text-foreground"
 							>
 								Email security team
@@ -120,7 +119,7 @@ function FreeAssessmentPage() {
 									<Clock3 className="h-5 w-5" />
 								</div>
 								<div>
-									<p className="font-mono text-[11px] uppercase tracking-widest text-primary/70">
+									<p className="font-mono text-[11px] text-primary/70 uppercase tracking-widest">
 										What you get
 									</p>
 									<h2 className="mt-1 font-serif text-2xl text-foreground sm:text-3xl">
@@ -134,7 +133,7 @@ function FreeAssessmentPage() {
 										<span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
 											<FileCheck className="h-3.5 w-3.5" />
 										</span>
-										<p className="text-pretty text-sm leading-relaxed text-foreground/75 dark:text-zinc-300 sm:text-base">
+										<p className="text-pretty text-foreground/75 text-sm leading-relaxed sm:text-base dark:text-zinc-300">
 											{item}
 										</p>
 									</div>
@@ -146,14 +145,17 @@ function FreeAssessmentPage() {
 
 				<div className="mt-20 grid gap-4 md:grid-cols-3">
 					{assessmentAreas.map(({ title, detail, icon: Icon }) => (
-						<div key={title} className="rounded-none border border-border/30 bg-card p-7 transition-colors duration-200 hover:border-primary/35">
+						<div
+							key={title}
+							className="rounded-none border border-border/30 bg-card p-7 transition-colors duration-200 hover:border-primary/35"
+						>
 							<div className="flex h-11 w-11 items-center justify-center rounded-none border border-border/30 bg-foreground/[0.02] text-primary">
 								<Icon className="h-5 w-5" />
 							</div>
 							<h2 className="mt-5 font-serif text-2xl text-foreground leading-tight">
 								{title}
 							</h2>
-							<p className="mt-4 text-pretty text-sm leading-relaxed text-foreground/75 dark:text-zinc-300 sm:text-base">
+							<p className="mt-4 text-pretty text-foreground/75 text-sm leading-relaxed sm:text-base dark:text-zinc-300">
 								{detail}
 							</p>
 						</div>
@@ -164,17 +166,20 @@ function FreeAssessmentPage() {
 					<div className="lg:col-span-7">
 						<Badge
 							variant="outline"
-							className="rounded-none border-primary/20 bg-primary/5 px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-widest text-primary"
+							className="rounded-none border-primary/20 bg-primary/5 px-3.5 py-1.5 font-mono text-[11px] text-primary uppercase tracking-widest"
 						>
 							Assessment Process
 						</Badge>
 						<div className="mt-6 grid gap-px overflow-hidden border border-foreground/10 bg-foreground/10">
 							{process.map((step, index) => (
-								<div key={step} className="bg-background px-6 py-7 sm:px-8 sm:py-8">
-									<p className="font-mono text-[11px] uppercase tracking-widest text-primary/70">
+								<div
+									key={step}
+									className="bg-background px-6 py-7 sm:px-8 sm:py-8"
+								>
+									<p className="font-mono text-[11px] text-primary/70 uppercase tracking-widest">
 										Step 0{index + 1}
 									</p>
-									<p className="mt-3 max-w-[60ch] text-pretty font-serif text-2xl leading-tight text-foreground sm:text-[2rem]">
+									<p className="mt-3 max-w-[60ch] text-pretty font-serif text-2xl text-foreground leading-tight sm:text-[2rem]">
 										{step}
 									</p>
 								</div>
@@ -184,13 +189,13 @@ function FreeAssessmentPage() {
 
 					<div className="lg:col-span-5">
 						<div className="border border-border/30 bg-foreground/[0.02] p-7 sm:p-8">
-							<p className="font-mono text-[11px] uppercase tracking-widest text-primary/70">
+							<p className="font-mono text-[11px] text-primary/70 uppercase tracking-widest">
 								Best fit
 							</p>
 							<h2 className="mt-2 font-serif text-3xl text-foreground leading-tight">
 								For teams that need signal, not noise.
 							</h2>
-							<p className="mt-5 text-pretty text-sm leading-relaxed text-foreground/75 dark:text-zinc-300 sm:text-base">
+							<p className="mt-5 text-pretty text-foreground/75 text-sm leading-relaxed sm:text-base dark:text-zinc-300">
 								This is designed for organizations evaluating SOC coverage,
 								preparing for compliance pressure, or trying to reduce blind
 								spots before scaling security operations.

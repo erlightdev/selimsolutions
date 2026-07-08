@@ -1,24 +1,24 @@
 {
-  "name": "@selimsolutions/auth",
-  "type": "module",
-  "exports": {
-    ".": {
-      "default": "./src/index.ts"
-    },
-    "./*": {
-      "default": "./src/*.ts"
-    }
-  },
-  "scripts": {},
-  "dependencies": {
-    "@selimsolutions/db": "*",
-    "@selimsolutions/env": "*",
-    "better-auth": "1.6.11",
-    "dotenv": "^17.2.2",
-    "zod": "^4.1.13"
-  },
-  "devDependencies": {
-    "@selimsolutions/config": "*",
-    "typescript": "^6"
-  }
+	"name": "@selimsolutions/auth",
+	"type": "module",
+	"exports": {
+		".": {
+			"default": "./src/index.ts"
+		},
+		"./*": {
+			"default": "./src/*.ts"
+		}
+	},
+	"scripts": {},
+	"dependencies": {
+		"@selimsolutions/db": "*",
+		"@selimsolutions/env": "*",
+		"better-auth": "1.6.11",
+		"dotenv": "^17.2.2",
+		"zod": "^4.1.13"
+	},
+	"devDependencies": {
+		"@selimsolutions/config": "*",
+		"typescript": "^6"
+	}
 }
