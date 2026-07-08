@@ -16,10 +16,7 @@ import {
 import { useEffect, useState } from "react";
 import { useTheme } from "@/components/theme-provider";
 import {
-	complianceItems,
 	resourceItems,
-	sectorHighlights,
-	serviceHighlights,
 	serviceItems,
 	solutionItems,
 } from "@/data/offerings";
@@ -44,6 +41,12 @@ const routerLinks = new Set([
 	"/free-assessment",
 	"/services",
 	"/solutions",
+	"/services/soc-as-a-service",
+	"/services/vapt",
+	"/services/cloud-security",
+	"/services/edr",
+	"/services/grc-compliance",
+	"/services/dfir",
 ]);
 
 /* ── Theme toggle ──────────────────────────────────────────────────── */
@@ -86,16 +89,6 @@ function ServicesMegamenu() {
 					View all services
 					<ArrowRight className="h-4 w-4 text-[#405cfe] transition-transform duration-150 ease-out group-hover:translate-x-0.5" />
 				</Link>
-				<ul className="mt-5 space-y-2 border-border/60 border-t pt-4">
-					{serviceHighlights.map((item) => (
-						<li
-							key={item}
-							className="text-muted-foreground text-sm leading-relaxed"
-						>
-							{item}
-						</li>
-					))}
-				</ul>
 			</div>
 
 			<div className="lg:col-span-6">
@@ -127,23 +120,6 @@ function ServicesMegamenu() {
 			</div>
 
 			<div className="space-y-6 lg:col-span-3">
-				<div>
-					<p className="mb-3 font-semibold text-muted-foreground text-xs uppercase tracking-[0.16em]">
-						Compliance
-					</p>
-					<ul className="space-y-1">
-						{complianceItems.map(({ label, href }) => (
-							<li key={label}>
-								<a
-									href={href}
-									className="block rounded-md px-2 py-1.5 text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
-								>
-									{label}
-								</a>
-							</li>
-						))}
-					</ul>
-				</div>
 				<div>
 					<p className="mb-3 font-semibold text-muted-foreground text-xs uppercase tracking-[0.16em]">
 						Resources
@@ -194,16 +170,6 @@ function SolutionsMegamenu() {
 					View all solutions
 					<ArrowRight className="h-4 w-4 text-[#405cfe] transition-transform duration-150 ease-out group-hover:translate-x-0.5" />
 				</Link>
-				<ul className="mt-5 space-y-2 border-border/60 border-t pt-4">
-					{sectorHighlights.map((item) => (
-						<li
-							key={item}
-							className="text-muted-foreground text-sm leading-relaxed"
-						>
-							{item}
-						</li>
-					))}
-				</ul>
 			</div>
 
 			<div className="lg:col-span-6">

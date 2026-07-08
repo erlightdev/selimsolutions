@@ -25,42 +25,42 @@ export type OfferingItem = {
 export const serviceItems: readonly OfferingItem[] = [
 	{
 		label: "SOC as a Service",
-		href: "/services#soc",
+		href: "/services/soc-as-a-service",
 		description:
 			"24/7 monitoring, triage, detection engineering, and analyst-led response.",
 		icon: TowerControl,
 	},
 	{
 		label: "VAPT",
-		href: "/services#vapt",
+		href: "/services/vapt",
 		description:
 			"Manual vulnerability assessment and penetration testing across apps and infrastructure.",
 		icon: ScanSearch,
 	},
 	{
 		label: "Cloud Security",
-		href: "/services#cloud",
+		href: "/services/cloud-security",
 		description:
 			"Posture hardening, identity review, and continuous cloud risk reduction.",
 		icon: Cloud,
 	},
 	{
 		label: "EDR",
-		href: "/services#edr",
+		href: "/services/edr",
 		description:
 			"Endpoint visibility, behavioral detections, isolation, and rollback guidance.",
 		icon: Shield,
 	},
 	{
 		label: "GRC & Compliance",
-		href: "/services#grc",
+		href: "/services/grc-compliance",
 		description:
 			"Control mapping and compliance preparation for real operational environments.",
 		icon: BadgeCheck,
 	},
 	{
 		label: "DFIR",
-		href: "/services#dfir",
+		href: "/services/dfir",
 		description:
 			"Containment, forensics, root-cause analysis, and recovery coordination.",
 		icon: Siren,
@@ -112,14 +112,6 @@ export const solutionItems: readonly OfferingItem[] = [
 	},
 ] as const;
 
-export const complianceItems = [
-	{ label: "ISO 27001", href: "/compliance/iso-27001" },
-	{ label: "NIA Guideline 2076", href: "/compliance/nia-guideline-2076" },
-	{ label: "PCI-DSS", href: "/compliance/pci-dss" },
-	{ label: "NIST CSF", href: "/compliance/nist-csf" },
-	{ label: "NRB Directives", href: "/compliance/nrb-directives" },
-] as const;
-
 export const resourceItems = [
 	{ label: "Blog & Insights", href: "/blog" },
 	{ label: "Certifications", href: "/certifications" },
@@ -131,10 +123,4 @@ export const sectorHighlights = [
 	"Incident readiness under regulatory pressure",
 	"Coverage tuned for high-value systems and sensitive data",
 	"Workflows adapted to operational realities in each industry",
-] as const;
-
-export const serviceHighlights = [
-	"24/7 analyst-led monitoring and escalation",
-	"Offensive validation across apps, cloud, and endpoints",
-	"Response and compliance programs designed as one system",
 ] as const;
