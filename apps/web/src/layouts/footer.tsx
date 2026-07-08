@@ -2,13 +2,13 @@ import { Link } from "@tanstack/react-router";
 import { Globe, Mail, MessageCircle, Phone } from "lucide-react";
 
 const services = [
-	{ label: "SOC as a Service", href: "/services#soc" },
-	{ label: "VAPT", href: "/services#vapt" },
-	{ label: "Cloud Security", href: "/services#cloud" },
-	{ label: "EDR", href: "/services#edr" },
-	{ label: "GRC & Compliance", href: "/services#grc" },
-	{ label: "DFIR", href: "/services#dfir" },
-	{ label: "Security Awareness Training", href: "/services#training" },
+	{ label: "SOC as a Service", href: "/services/soc-as-a-service" },
+	{ label: "VAPT", href: "/services/vapt" },
+	{ label: "Cloud Security", href: "/services/cloud-security" },
+	{ label: "EDR", href: "/services/edr" },
+	{ label: "GRC & Compliance", href: "/services/grc-compliance" },
+	{ label: "DFIR", href: "/services/dfir" },
+	{ label: "Security Awareness Training", href: "/services" },
 ] as const;
 
 const solutions = [
