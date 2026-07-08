@@ -70,7 +70,7 @@ function AnimatedThemeToggler() {
 
 /* ── Megamenu ──────────────────────────────────────────────────────── */
 
-function ServicesMegamenu() {
+function ServicesMegamenu({ onClose }: { onClose: () => void }) {
 	return (
 		<div className="grid w-[min(72rem,calc(100vw-2rem))] grid-cols-1 gap-8 p-6 lg:grid-cols-12">
 			<div className="rounded-2xl border border-border bg-muted/30 p-5 lg:col-span-3">
@@ -84,6 +84,7 @@ function ServicesMegamenu() {
 				</p>
 				<Link
 					to="/services"
+					onClick={onClose}
 					className="group mt-5 inline-flex items-center gap-2 font-semibold text-foreground text-sm"
 				>
 					View all services
@@ -100,6 +101,7 @@ function ServicesMegamenu() {
 						<li key={label}>
 							<Link
 								to={href}
+								onClick={onClose}
 								className="group flex gap-3 rounded-xl p-3 transition-colors hover:bg-foreground/5"
 							>
 								<span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-[#405cfe]">
@@ -130,6 +132,7 @@ function ServicesMegamenu() {
 								{routerLinks.has(href) ? (
 									<Link
 										to={href as "/about" | "/blog" | "/certifications"}
+										onClick={onClose}
 										className="block rounded-md px-2 py-1.5 text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
 									>
 										{label}
@@ -137,6 +140,7 @@ function ServicesMegamenu() {
 								) : (
 									<a
 										href={href}
+										onClick={onClose}
 										className="block rounded-md px-2 py-1.5 text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
 									>
 										{label}
@@ -151,7 +155,7 @@ function ServicesMegamenu() {
 	);
 }
 
-function SolutionsMegamenu() {
+function SolutionsMegamenu({ onClose }: { onClose: () => void }) {
 	return (
 		<div className="grid w-[min(72rem,calc(100vw-2rem))] grid-cols-1 gap-8 p-6 lg:grid-cols-12">
 			<div className="rounded-2xl border border-border bg-muted/30 p-5 lg:col-span-3">
@@ -165,6 +169,7 @@ function SolutionsMegamenu() {
 				</p>
 				<Link
 					to="/solutions"
+					onClick={onClose}
 					className="group mt-5 inline-flex items-center gap-2 font-semibold text-foreground text-sm"
 				>
 					View all solutions
@@ -181,6 +186,7 @@ function SolutionsMegamenu() {
 						<li key={label}>
 							<Link
 								to={href}
+								onClick={onClose}
 								className="group flex gap-3 rounded-xl p-3 transition-colors hover:bg-foreground/5"
 							>
 								<span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-[#405cfe]">
@@ -225,6 +231,7 @@ function SolutionsMegamenu() {
 								{routerLinks.has(href) ? (
 									<Link
 										to={href as "/about" | "/blog" | "/certifications"}
+										onClick={onClose}
 										className="block rounded-md px-2 py-1.5 text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
 									>
 										{label}
@@ -232,6 +239,7 @@ function SolutionsMegamenu() {
 								) : (
 									<a
 										href={href}
+										onClick={onClose}
 										className="block rounded-md px-2 py-1.5 text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
 									>
 										{label}
@@ -484,9 +492,9 @@ export default function Navbar() {
 						<div className="absolute top-full left-1/2 z-50 hidden w-[min(72rem,calc(100vw-2rem))] -translate-x-1/2 pt-3 lg:block">
 							<div className="anim-megamenu overflow-hidden rounded-2xl border border-border bg-popover shadow-2xl shadow-black/20">
 								{openMenu === "services" ? (
-									<ServicesMegamenu />
+									<ServicesMegamenu onClose={() => setOpenMenu(null)} />
 								) : (
-									<SolutionsMegamenu />
+									<SolutionsMegamenu onClose={() => setOpenMenu(null)} />
 								)}
 							</div>
 						</div>
