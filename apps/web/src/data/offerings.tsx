@@ -70,42 +70,42 @@ export const serviceItems: readonly OfferingItem[] = [
 export const solutionItems: readonly OfferingItem[] = [
 	{
 		label: "Banking & Finance",
-		href: "/solutions#banking-finance",
+		href: "/solutions/banking-finance",
 		description:
 			"Security operations aligned to high-trust financial environments and audit pressure.",
 		icon: Landmark,
 	},
 	{
 		label: "Insurance",
-		href: "/solutions#insurance",
+		href: "/solutions/insurance",
 		description:
 			"Claims, policy, and customer data protection with measurable response readiness.",
 		icon: ShieldAlert,
 	},
 	{
 		label: "Government",
-		href: "/solutions#government",
+		href: "/solutions/government",
 		description:
 			"Public-sector hardening, visibility, and continuity planning for critical services.",
 		icon: Building2,
 	},
 	{
 		label: "Telecom & ISPs",
-		href: "/solutions#telecom-isps",
+		href: "/solutions/telecom-isps",
 		description:
 			"Carrier-grade monitoring and incident workflows for always-on networks.",
 		icon: Fingerprint,
 	},
 	{
 		label: "Healthcare",
-		href: "/solutions#healthcare",
+		href: "/solutions/healthcare",
 		description:
 			"Patient-data protection, risk visibility, and incident response for care systems.",
 		icon: Cross,
 	},
 	{
 		label: "Education & NGOs",
-		href: "/solutions#education-ngos",
+		href: "/solutions/education-ngos",
 		description:
 			"Practical security programs for lean teams managing distributed users and devices.",
 		icon: GraduationCap,

@@ -4,7 +4,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 
 import { sectorHighlights, solutionItems } from "@/data/offerings";
 
-export const Route = createFileRoute("/solutions")({
+export const Route = createFileRoute("/solutions/")({
 	component: SolutionsPage,
 	head: () => ({
 		meta: [
@@ -78,12 +78,9 @@ function SolutionsPage() {
 
 				<div className="mt-20 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
 					{solutionItems.map(({ label, href, description, icon: Icon }) => {
-						const id = href.split("#")[1] ?? undefined;
-
 						return (
 							<section
 								key={label}
-								id={id}
 								className="rounded-none border border-border/30 bg-card p-7 transition-colors duration-200 hover:border-primary/35"
 							>
 								<div className="flex h-11 w-11 items-center justify-center rounded-none border border-border/30 bg-foreground/[0.02] text-primary">
@@ -96,10 +93,10 @@ function SolutionsPage() {
 									{description}
 								</p>
 								<Link
-									to="/free-assessment"
+									to={href as "/solutions/banking-finance"}
 									className="group mt-6 inline-flex items-center gap-2 font-semibold text-foreground text-sm"
 								>
-									Discuss this sector
+									Explore solution
 									<ArrowRight className="h-4 w-4 text-[#405cfe] transition-transform duration-150 ease-out group-hover:translate-x-0.5" />
 								</Link>
 							</section>

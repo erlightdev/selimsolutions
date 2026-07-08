@@ -11,10 +11,18 @@ const services = [
 	{ label: "Security Awareness Training", href: "/services#training" },
 ] as const;
 
+const solutions = [
+	{ label: "Banking & Finance", href: "/solutions/banking-finance" },
+	{ label: "Insurance", href: "/solutions/insurance" },
+	{ label: "Government", href: "/solutions/government" },
+	{ label: "Telecom & ISPs", href: "/solutions/telecom-isps" },
+	{ label: "Healthcare", href: "/solutions/healthcare" },
+	{ label: "Education & NGOs", href: "/solutions/education-ngos" },
+] as const;
+
 const company = [
 	{ label: "About Us", href: "/about" },
 	{ label: "Blog & Insights", href: "/blog" },
-	{ label: "Careers", href: "/contact" },
 	{ label: "Contact Team", href: "/contact" },
 ] as const;
 
@@ -52,18 +60,9 @@ function FooterLink({
 		"text-sm text-neutral-400 transition-colors hover:text-white";
 	const isExternal = external || href.startsWith("http") || href.includes("#");
 
-	if (
-		!isExternal &&
-		(href === "/" ||
-			href === "/about" ||
-			href === "/blog" ||
-			href === "/contact" ||
-			href === "/privacy" ||
-			href === "/terms" ||
-			href === "/certifications")
-	) {
+	if (!isExternal) {
 		return (
-			<Link to={href} className={className}>
+			<Link to={href as "/about"} className={className}>
 				{children}
 			</Link>
 		);
@@ -128,7 +127,7 @@ export default function Footer() {
 					{/* Main grid */}
 					<div className="grid grid-cols-1 gap-12 py-14 md:grid-cols-2 lg:grid-cols-12">
 						{/* Brand + contact */}
-						<div className="lg:col-span-4">
+						<div className="lg:col-span-3">
 							<a href="/" className="inline-flex items-center">
 								<img
 									src="/selim-logo-white.svg"
@@ -167,10 +166,22 @@ export default function Footer() {
 						</div>
 
 						{/* Services */}
-						<div className="lg:col-span-3">
+						<div className="lg:col-span-2">
 							<h3 className="font-semibold text-sm text-white">Services</h3>
 							<ul className="mt-5 space-y-3">
 								{services.map(({ label, href }) => (
+									<li key={label}>
+										<FooterLink href={href}>{label}</FooterLink>
+									</li>
+								))}
+							</ul>
+						</div>
+
+						{/* Solutions */}
+						<div className="lg:col-span-3">
+							<h3 className="font-semibold text-sm text-white">Solutions</h3>
+							<ul className="mt-5 space-y-3">
+								{solutions.map(({ label, href }) => (
 									<li key={label}>
 										<FooterLink href={href}>{label}</FooterLink>
 									</li>
@@ -191,7 +202,7 @@ export default function Footer() {
 						</div>
 
 						{/* Connect + Legal */}
-						<div className="lg:col-span-3">
+						<div className="lg:col-span-2">
 							<h3 className="font-semibold text-sm text-white">Connect</h3>
 							<ul className="mt-5 space-y-3">
 								{socials.map(({ label, href, Icon }) => (
@@ -228,18 +239,6 @@ export default function Footer() {
 							<span className="rounded-full border border-white/15 px-3 py-1 font-medium text-neutral-300 text-xs">
 								ISO 27001
 							</span>
-							<p>
-								Designed &amp; Developed With{" "}
-								<span className="text-rose-500">♥</span> By{" "}
-								<a
-									href="https://hiver.com.np"
-									target="_blank"
-									rel="noreferrer"
-									className="text-neutral-300 transition-colors hover:text-white"
-								>
-									Hiver Technology
-								</a>
-							</p>
 						</div>
 					</div>
 				</div>
