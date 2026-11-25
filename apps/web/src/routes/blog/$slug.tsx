@@ -1,9 +1,11 @@
 import { Badge } from "@selimsolutions/ui/components/badge";
 import { Separator } from "@selimsolutions/ui/components/separator";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowUpRight, Clock, Copy, Share2 } from "lucide-react";
 import { useState } from "react";
 import { blogPosts } from "@/data/blog";
+import { orpc } from "@/utils/orpc";
 
 const TwitterIcon = (props: React.SVGProps<SVGSVGElement>) => (
 	<svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -19,11 +21,8 @@ const LinkedinIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 export const Route = createFileRoute("/blog/$slug")({
 	loader: async ({ params }) => {
-		const post = blogPosts.find((p) => p.slug === params.slug);
-		if (!post) {
-			throw notFound();
-		}
-		return { post };
+		const staticPost = blogPosts.find((p) => p.slug === params.slug);
+		return { post: staticPost ?? null, slug: params.slug };
 	},
 	component: BlogPostDetailPage,
 	head: ({ loaderData }) => {
@@ -42,7 +41,40 @@ export const Route = createFileRoute("/blog/$slug")({
 });
 
 function BlogPostDetailPage() {
-	const { post } = Route.useLoaderData();
+	const { post: staticPost, slug } = Route.useLoaderData();
+	const cmsQuery = useQuery({
+		...orpc.cms.public.getPostBySlug.queryOptions({ input: { slug } }),
+		staleTime: 60_000,
+	});
+	const cmsPost = cmsQuery.data;
+
+	if (!cmsQuery.isPending && !cmsPost && !staticPost) {
+		throw notFound();
+	}
+
+	const post = cmsPost
+		? {
+				slug: cmsPost.slug,
+				category: cmsPost.category?.name ?? "Insights",
+				title: cmsPost.title,
+				excerpt: cmsPost.excerpt,
+				date: cmsPost.publishedAt
+					? new Date(cmsPost.publishedAt).toLocaleDateString(undefined, {
+							month: "long",
+							day: "numeric",
+							year: "numeric",
+						})
+					: "Recent",
+				readTime: cmsPost.readTime,
+				img:
+					cmsPost.coverImage ||
+					"https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80&auto=format&fit=crop",
+				seoTitle: cmsPost.seoTitle || cmsPost.title,
+				seoDesc: cmsPost.seoDesc || cmsPost.excerpt,
+				content: cmsPost.contentHtml,
+			}
+		: (staticPost ?? blogPosts[0]);
+
 	const [copied, setCopied] = useState(false);
 
 	const relatedPosts = blogPosts
@@ -140,83 +172,91 @@ function BlogPostDetailPage() {
 					</div>
 
 					{/* Article Body (Optimized Line-Width & High-End Type Spacing) */}
-					<div className="max-w-[65ch] flex-1 text-pretty font-normal text-[17px] text-foreground/80 leading-[1.8]">
-						{post.content.split("\n\n").map((para, i) => {
-							const text = para.trim();
-							if (!text) return null;
+					{cmsPost ? (
+						<div
+							className="tiptap max-w-[65ch] flex-1 text-pretty font-normal text-[17px] text-foreground/80 leading-[1.8]"
+							// biome-ignore lint/security/noDangerouslySetInnerHtml: TipTap HTML is sanitized server-side in sanitizeTipTapHtml
+							dangerouslySetInnerHTML={{ __html: cmsPost.contentHtml }}
+						/>
+					) : (
+						<div className="max-w-[65ch] flex-1 text-pretty font-normal text-[17px] text-foreground/80 leading-[1.8]">
+							{post.content.split("\n\n").map((para, i) => {
+								const text = para.trim();
+								if (!text) return null;
 
-							// Check if it's an H2 header
-							if (text.startsWith("## ")) {
+								// Check if it's an H2 header
+								if (text.startsWith("## ")) {
+									return (
+										<h2
+											key={i}
+											className="mt-10 mb-4 border-border/20 border-b pb-2 font-semibold font-serif text-foreground text-xl tracking-tight sm:text-2xl"
+										>
+											{text.replace("## ", "")}
+										</h2>
+									);
+								}
+
+								// Check if it's an H1 header
+								if (text.startsWith("# ")) {
+									return null; // Already rendered main H1
+								}
+
+								// Check if it's a separator
+								if (text === "---") {
+									return <Separator key={i} className="my-10" />;
+								}
+
+								// Check if it's a bullet list block
+								if (text.startsWith("* ") || text.startsWith("- ")) {
+									const items = text
+										.split("\n")
+										.map((li) => li.replace(/^[*-\s]+/, ""));
+									return (
+										<ul
+											key={i}
+											className="my-6 flex flex-col gap-3 pl-1 text-muted-foreground"
+										>
+											{items.map((item, idx) => (
+												<li key={idx} className="flex items-start gap-3">
+													<span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-none bg-primary/40" />
+													<span className="text-pretty">{item}</span>
+												</li>
+											))}
+										</ul>
+									);
+								}
+
+								// Check if it's a numbered list block
+								if (/^\d+\./.test(text)) {
+									const items = text
+										.split("\n")
+										.map((li) => li.replace(/^\d+\.\s+/, ""));
+									return (
+										<ol
+											key={i}
+											className="my-6 flex flex-col gap-3 pl-1 text-muted-foreground"
+										>
+											{items.map((item, idx) => (
+												<li key={idx} className="flex items-start gap-3">
+													<span className="mt-0.5 shrink-0 font-bold font-mono text-primary text-xs">
+														{idx + 1}.
+													</span>
+													<span className="text-pretty">{item}</span>
+												</li>
+											))}
+										</ol>
+									);
+								}
+
+								// Standard Paragraph
 								return (
-									<h2
-										key={i}
-										className="mt-10 mb-4 border-border/20 border-b pb-2 font-semibold font-serif text-foreground text-xl tracking-tight sm:text-2xl"
-									>
-										{text.replace("## ", "")}
-									</h2>
+									<p key={i} className="mb-6">
+										{text}
+									</p>
 								);
-							}
-
-							// Check if it's an H1 header
-							if (text.startsWith("# ")) {
-								return null; // Already rendered main H1
-							}
-
-							// Check if it's a separator
-							if (text === "---") {
-								return <Separator key={i} className="my-10" />;
-							}
-
-							// Check if it's a bullet list block
-							if (text.startsWith("* ") || text.startsWith("- ")) {
-								const items = text
-									.split("\n")
-									.map((li) => li.replace(/^[*-\s]+/, ""));
-								return (
-									<ul
-										key={i}
-										className="my-6 flex flex-col gap-3 pl-1 text-muted-foreground"
-									>
-										{items.map((item, idx) => (
-											<li key={idx} className="flex items-start gap-3">
-												<span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-none bg-primary/40" />
-												<span className="text-pretty">{item}</span>
-											</li>
-										))}
-									</ul>
-								);
-							}
-
-							// Check if it's a numbered list block
-							if (/^\d+\./.test(text)) {
-								const items = text
-									.split("\n")
-									.map((li) => li.replace(/^\d+\.\s+/, ""));
-								return (
-									<ol
-										key={i}
-										className="my-6 flex flex-col gap-3 pl-1 text-muted-foreground"
-									>
-										{items.map((item, idx) => (
-											<li key={idx} className="flex items-start gap-3">
-												<span className="mt-0.5 shrink-0 font-bold font-mono text-primary text-xs">
-													{idx + 1}.
-												</span>
-												<span className="text-pretty">{item}</span>
-											</li>
-										))}
-									</ol>
-								);
-							}
-
-							// Standard Paragraph
-							return (
-								<p key={i} className="mb-6">
-									{text}
-								</p>
-							);
-						})}
-					</div>
+							})}
+						</div>
+					)}
 				</div>
 
 				<Separator className="my-16" />

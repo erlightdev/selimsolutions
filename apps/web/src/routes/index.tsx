@@ -24,6 +24,7 @@ import FeatureShowcase from "@/components/feature-showcase";
 import OrchestrationTabs from "@/components/orchestration-tabs";
 import ServicesTabs from "@/components/services-tabs";
 import Testimonials from "@/components/testimonials";
+import { useCmsPage } from "@/hooks/use-cms-page";
 
 export const Route = createFileRoute("/")({
 	component: HomeComponent,
@@ -292,6 +293,7 @@ const certifications = [
 ] as const;
 
 function HomeComponent() {
+	useCmsPage("/");
 	return (
 		<>
 			{/* Hero — full-bleed video, slides under the fixed navbar (-mt-23) */}

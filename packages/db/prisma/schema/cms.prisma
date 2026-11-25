@@ -1,0 +1,191 @@
+enum CmsContentStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum CmsPageTemplate {
+  LANDING
+  STANDARD
+  SERVICE
+  SOLUTION
+  LEGAL
+}
+
+enum CmsNavLocation {
+  HEADER_PRIMARY
+  MEGA_SERVICES
+  MEGA_SOLUTIONS
+  MEGA_RESOURCES
+  MEGA_COMPLIANCE
+  FOOTER_SERVICES
+  FOOTER_SOLUTIONS
+  FOOTER_COMPANY
+  FOOTER_LEGAL
+  FOOTER_SOCIALS
+}
+
+enum CmsMediaType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+}
+
+model CmsSiteConfig {
+  id                  Int      @id @default(1)
+  siteName            String   @db.VarChar(191)
+  tagline             String   @db.Text
+  siteUrl             String   @db.VarChar(255)
+  adminEmail          String   @db.VarChar(191)
+  permalinkStyle      String   @default("/blog/:slug") @db.VarChar(64)
+
+  // Appearance
+  accentColor         String   @default("#0069eb") @db.VarChar(32)
+  defaultTheme        String   @default("dark") @db.VarChar(16)
+  containerWidth      String   @default("standard") @db.VarChar(32)
+  showAnnouncementBar Boolean  @default(true)
+  stickyHeader        Boolean  @default(true)
+  logoLightUrl        String   @default("/selim-logo-light.svg") @db.VarChar(255)
+  logoDarkUrl         String   @default("/selim-logo-white.svg") @db.VarChar(255)
+
+  // Header Announcement
+  announcementText    String   @db.Text
+  announcementHref    String   @default("/free-assessment") @db.VarChar(255)
+
+  // Footer
+  footerCtaTitle      String   @db.Text
+  footerCtaSubtitle   String   @db.Text
+  footerCtaLabel      String   @default("Get Free Assessment") @db.VarChar(120)
+  footerCtaHref       String   @default("/free-assessment") @db.VarChar(255)
+  contactEmail        String   @default("contact@selim.solutions") @db.VarChar(191)
+  contactPhone        String   @default("+977-1-4000000") @db.VarChar(64)
+  contactAddress      String   @default("Kathmandu, Nepal") @db.VarChar(255)
+  isoBadgeText        String   @default("ISO/IEC 27001:2022 Certified") @db.VarChar(191)
+  copyrightText       String   @default("Selim Solutions. All rights reserved.") @db.VarChar(255)
+
+  // Global SEO
+  titleSeparator      String   @default("—") @db.VarChar(16)
+  siteTitle           String   @db.VarChar(191)
+  defaultDescription  String   @db.Text
+  canonicalBase       String   @db.VarChar(255)
+  robotsIndex         Boolean  @default(true)
+  sitemapEnabled      Boolean  @default(true)
+  structuredData      Boolean  @default(true)
+  ogTitle             String   @db.VarChar(191)
+  ogDescription       String   @db.Text
+  ogImageUrl          String?  @db.VarChar(255)
+
+  updatedAt           DateTime @updatedAt
+
+  @@map("cms_site_config")
+}
+
+model CmsNavItem {
+  id          String         @id @default(cuid()) @db.VarChar(191)
+  location    CmsNavLocation
+  label       String         @db.VarChar(191)
+  href        String         @db.VarChar(255)
+  description String?        @db.Text
+  iconName    String?        @db.VarChar(64)
+  target      String         @default("_self") @db.VarChar(16)
+  sortOrder   Int            @default(0)
+  isVisible   Boolean        @default(true)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([location, sortOrder])
+  @@map("cms_nav_item")
+}
+
+model CmsPage {
+  id           String           @id @default(cuid()) @db.VarChar(191)
+  title        String           @db.VarChar(191)
+  slug         String           @unique @db.VarChar(191)
+  template     CmsPageTemplate  @default(STANDARD)
+  status       CmsContentStatus @default(DRAFT)
+  isSystem     Boolean          @default(false)
+  contentHtml  String           @db.LongText
+  contentJson  Json?
+  seoTitle     String           @default("") @db.VarChar(191)
+  seoDesc      String           @db.Text
+  canonicalUrl String?          @db.VarChar(255)
+  noIndex      Boolean          @default(false)
+  ogImageUrl   String?          @db.VarChar(255)
+  publishedAt  DateTime?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  sections     CmsPageSection[]
+
+  @@index([status])
+  @@map("cms_page")
+}
+
+model CmsPageSection {
+  id          String   @id @default(cuid()) @db.VarChar(191)
+  pageId      String   @db.VarChar(191)
+  page        CmsPage  @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  type        String   @db.VarChar(64)
+  title       String   @db.VarChar(191)
+  subtitle    String?  @db.Text
+  contentHtml String?  @db.LongText
+  contentJson Json?
+  dataJson    Json?
+  sortOrder   Int      @default(0)
+  isVisible   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([pageId, sortOrder])
+  @@map("cms_page_section")
+}
+
+model CmsCategory {
+  id        String    @id @default(cuid()) @db.VarChar(191)
+  name      String    @db.VarChar(120)
+  slug      String    @unique @db.VarChar(120)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  posts     CmsPost[]
+
+  @@map("cms_category")
+}
+
+model CmsPost {
+  id          String           @id @default(cuid()) @db.VarChar(191)
+  title       String           @db.VarChar(255)
+  slug        String           @unique @db.VarChar(191)
+  excerpt     String           @db.Text
+  contentHtml String           @db.LongText
+  contentJson Json?
+  coverImage  String?          @db.VarChar(512)
+  readTime    String           @default("5 min read") @db.VarChar(64)
+  featured    Boolean          @default(false)
+  status      CmsContentStatus @default(DRAFT)
+  categoryId  String?          @db.VarChar(191)
+  category    CmsCategory?     @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  authorId    String?          @db.VarChar(191)
+  author      User?            @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  seoTitle    String           @default("") @db.VarChar(191)
+  seoDesc     String           @db.Text
+  noIndex     Boolean          @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@index([status, publishedAt])
+  @@index([categoryId])
+  @@map("cms_post")
+}
+
+model CmsMedia {
+  id        String       @id @default(cuid()) @db.VarChar(191)
+  name      String       @db.VarChar(191)
+  url       String       @db.VarChar(512)
+  type      CmsMediaType @default(IMAGE)
+  mimeType  String       @default("image/svg+xml") @db.VarChar(120)
+  sizeLabel String       @default("—") @db.VarChar(64)
+  altText   String?      @db.VarChar(255)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@map("cms_media")
+}

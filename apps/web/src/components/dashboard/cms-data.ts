@@ -1,6 +1,9 @@
 export type CmsView =
 	| "overview"
 	| "pages"
+	| "services"
+	| "solutions"
+	| "legal"
 	| "posts"
 	| "media"
 	| "appearance"

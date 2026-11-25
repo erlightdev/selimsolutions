@@ -3,6 +3,7 @@ import { Separator } from "@selimsolutions/ui/components/separator";
 import { createFileRoute } from "@tanstack/react-router";
 
 import LegalPage from "@/components/legal-page";
+import { useCmsPage } from "@/hooks/use-cms-page";
 
 export const Route = createFileRoute("/terms")({
 	component: TermsPage,
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/terms")({
 });
 
 function TermsPage() {
+	useCmsPage("/terms");
 	return (
 		<LegalPage
 			eyebrow="Terms & Conditions"

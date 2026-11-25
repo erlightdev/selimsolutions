@@ -1,5 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { Globe, Mail, MessageCircle, Phone } from "lucide-react";
+
+import { orpc } from "@/utils/orpc";
 
 const services = [
 	{ label: "SOC as a Service", href: "/services/soc-as-a-service" },
@@ -82,6 +85,26 @@ function FooterLink({
 
 export default function Footer() {
 	const year = new Date().getFullYear();
+	const siteBundle = useQuery({
+		...orpc.cms.public.getSiteBundle.queryOptions(),
+		staleTime: 60_000,
+	});
+	const config = siteBundle.data?.config;
+	const navItems = siteBundle.data?.navItems ?? [];
+
+	const byLoc = (
+		loc: string,
+		fallback: readonly { label: string; href: string }[],
+	) => {
+		const matched = navItems.filter((n) => n.location === loc);
+		return matched.length > 0 ? matched : fallback;
+	};
+
+	const footerServices = byLoc("FOOTER_SERVICES", services);
+	const footerCompany = byLoc("FOOTER_COMPANY", company);
+	const footerLegal = byLoc("FOOTER_LEGAL", legal);
+	const contactEmail = config?.contactEmail || "contact@selim.solutions";
+	const contactPhone = config?.contactPhone || "+977 — 24/7 hotline";
 
 	return (
 		<footer className="mt-20">
@@ -105,19 +128,23 @@ export default function Footer() {
 							Get in touch
 						</span>
 						<h2 className="mt-4 font-semibold text-4xl leading-tight tracking-tight sm:text-5xl">
-							Clarity from the
-							<br />
-							highest ground.
+							{config?.footerCtaTitle || (
+								<>
+									Clarity from the
+									<br />
+									highest ground.
+								</>
+							)}
 						</h2>
 						<p className="mt-4 text-neutral-400 text-sm leading-relaxed">
-							Vigilant. Resilient. Nepali. Selim Solution stands guard over
-							Nepal's digital frontier — 24/7 from Kathmandu.
+							{config?.footerCtaSubtitle ||
+								"Vigilant. Resilient. Nepali. Selim Solution stands guard over Nepal's digital frontier — 24/7 from Kathmandu."}
 						</p>
 						<a
-							href="/contact"
+							href={config?.footerCtaHref || "/contact"}
 							className="mt-8 inline-flex w-fit items-center justify-center rounded-xl bg-white px-6 py-3 font-medium text-neutral-950 text-sm transition-colors hover:bg-neutral-200"
 						>
-							Get started
+							{config?.footerCtaLabel || "Get started"}
 						</a>
 					</div>
 				</div>
@@ -143,15 +170,15 @@ export default function Footer() {
 								<li className="flex items-start gap-3 text-neutral-400 text-sm">
 									<Mail className="mt-0.5 h-4 w-4 shrink-0 text-neutral-500" />
 									<a
-										href="mailto:contact@selim.solutions"
+										href={`mailto:${contactEmail}`}
 										className="transition-colors hover:text-white"
 									>
-										contact@selim.solutions
+										{contactEmail}
 									</a>
 								</li>
 								<li className="flex items-start gap-3 text-neutral-400 text-sm">
 									<Phone className="mt-0.5 h-4 w-4 shrink-0 text-neutral-500" />
-									<span>+977 — 24/7 hotline</span>
+									<span>{contactPhone}</span>
 								</li>
 								<li className="flex items-start gap-3 text-neutral-400 text-sm">
 									<MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-neutral-500" />
@@ -169,7 +196,7 @@ export default function Footer() {
 						<div className="lg:col-span-2">
 							<h3 className="font-semibold text-sm text-white">Services</h3>
 							<ul className="mt-5 space-y-3">
-								{services.map(({ label, href }) => (
+								{footerServices.map(({ label, href }) => (
 									<li key={label}>
 										<FooterLink href={href}>{label}</FooterLink>
 									</li>
@@ -193,7 +220,7 @@ export default function Footer() {
 						<div className="lg:col-span-2">
 							<h3 className="font-semibold text-sm text-white">Company</h3>
 							<ul className="mt-5 space-y-3">
-								{company.map(({ label, href }) => (
+								{footerCompany.map(({ label, href }) => (
 									<li key={label}>
 										<FooterLink href={href}>{label}</FooterLink>
 									</li>
@@ -222,7 +249,7 @@ export default function Footer() {
 
 							<h3 className="mt-8 font-semibold text-sm text-white">Legal</h3>
 							<ul className="mt-5 space-y-3">
-								{legal.map(({ label, href }) => (
+								{footerLegal.map(({ label, href }) => (
 									<li key={label}>
 										<FooterLink href={href}>{label}</FooterLink>
 									</li>
@@ -233,11 +260,14 @@ export default function Footer() {
 
 					{/* Bottom bar */}
 					<div className="flex flex-col gap-4 border-white/10 border-t pt-8 text-neutral-500 text-sm md:flex-row md:items-center md:justify-between">
-						<p>© {year} Selim Solution. All rights reserved.</p>
+						<p>
+							© {year}{" "}
+							{config?.copyrightText || "Selim Solution. All rights reserved."}
+						</p>
 
 						<div className="flex flex-wrap items-center gap-4">
 							<span className="rounded-full border border-white/15 px-3 py-1 font-medium text-neutral-300 text-xs">
-								ISO 27001
+								{config?.isoBadgeText || "ISO 27001"}
 							</span>
 						</div>
 					</div>

@@ -9,6 +9,8 @@ import {
 	Sparkles,
 } from "lucide-react";
 
+import { useCmsPage } from "@/hooks/use-cms-page";
+
 const contactMethods = [
 	{
 		title: "Email",
@@ -66,6 +68,7 @@ export const Route = createFileRoute("/contact")({
 });
 
 function ContactPage() {
+	useCmsPage("/contact");
 	return (
 		<section className="relative isolate overflow-hidden bg-background py-16 sm:py-24">
 			<div

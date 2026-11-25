@@ -15,6 +15,8 @@ import {
 	Star,
 } from "lucide-react";
 
+import { useCmsPage } from "@/hooks/use-cms-page";
+
 export const Route = createFileRoute("/solutions/banking-finance")({
 	component: BankingFinanceSolutionPage,
 	head: () => ({
@@ -90,6 +92,7 @@ const faqs = [
 ] as const;
 
 function BankingFinanceSolutionPage() {
+	useCmsPage("/solutions/banking-finance");
 	return (
 		<section className="relative isolate overflow-hidden bg-background py-16 sm:py-24">
 			{/* Grid Pattern and Ambient Light */}

@@ -12,6 +12,8 @@ import {
 	Star,
 } from "lucide-react";
 
+import { useCmsPage } from "@/hooks/use-cms-page";
+
 export const Route = createFileRoute("/services/edr")({
 	component: EdrServicePage,
 	head: () => ({
@@ -87,6 +89,7 @@ const faqs = [
 ] as const;
 
 function EdrServicePage() {
+	useCmsPage("/services/edr");
 	return (
 		<section className="relative isolate overflow-hidden bg-background py-16 sm:py-24">
 			{/* Grid Pattern and Ambient Light */}

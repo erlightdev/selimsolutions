@@ -14,6 +14,8 @@ import {
 	TowerControl,
 } from "lucide-react";
 
+import { useCmsPage } from "@/hooks/use-cms-page";
+
 export const Route = createFileRoute("/services/soc-as-a-service")({
 	component: SocServicePage,
 	head: () => ({
@@ -89,6 +91,7 @@ const faqs = [
 ] as const;
 
 function SocServicePage() {
+	useCmsPage("/services/soc-as-a-service");
 	return (
 		<section className="relative isolate overflow-hidden bg-background py-16 sm:py-24">
 			{/* Grid Pattern and Ambient Light */}

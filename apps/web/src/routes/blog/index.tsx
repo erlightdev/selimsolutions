@@ -1,8 +1,10 @@
 import { Badge } from "@selimsolutions/ui/components/badge";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight, Clock } from "lucide-react";
 import { useState } from "react";
-import { BlogPost, blogPosts } from "@/data/blog";
+import { type BlogPost, blogPosts } from "@/data/blog";
+import { orpc } from "@/utils/orpc";
 
 export const Route = createFileRoute("/blog/")({
 	component: BlogIndexPage,
@@ -20,15 +22,47 @@ export const Route = createFileRoute("/blog/")({
 
 function BlogIndexPage() {
 	const [activeCategory, setActiveTab] = useState<string>("All");
+	const postsQuery = useQuery({
+		...orpc.cms.public.listPosts.queryOptions(),
+		staleTime: 60_000,
+	});
 
-	const categories = ["All", "Threat Intel", "VAPT", "Compliance"];
+	const livePosts: BlogPost[] =
+		postsQuery.data && postsQuery.data.length > 0
+			? postsQuery.data.map((p) => ({
+					slug: p.slug,
+					category: p.category?.name ?? "Insights",
+					title: p.title,
+					excerpt: p.excerpt,
+					date: p.publishedAt
+						? new Date(p.publishedAt).toLocaleDateString(undefined, {
+								month: "long",
+								day: "numeric",
+								year: "numeric",
+							})
+						: "Recent",
+					readTime: p.readTime,
+					img:
+						p.coverImage ||
+						"https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80&auto=format&fit=crop",
+					seoTitle: p.seoTitle || p.title,
+					seoDesc: p.seoDesc || p.excerpt,
+					content: p.contentHtml,
+					featured: p.featured,
+				}))
+			: blogPosts;
+
+	const categories = [
+		"All",
+		...Array.from(new Set(livePosts.map((p) => p.category))),
+	];
 
 	const filteredPosts =
 		activeCategory === "All"
-			? blogPosts
-			: blogPosts.filter((post) => post.category === activeCategory);
+			? livePosts
+			: livePosts.filter((post) => post.category === activeCategory);
 
-	const featuredPost = blogPosts.find((p) => p.featured) || blogPosts[0];
+	const featuredPost = livePosts.find((p) => p.featured) || livePosts[0];
 	const gridPosts = filteredPosts.filter(
 		(p) => p.slug !== featuredPost.slug || activeCategory !== "All",
 	);

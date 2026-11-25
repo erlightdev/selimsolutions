@@ -9,6 +9,8 @@ import {
 	ShieldCheck,
 } from "lucide-react";
 
+import { useCmsPage } from "@/hooks/use-cms-page";
+
 const standards = [
 	{
 		name: "ISO 27001",
@@ -92,6 +94,7 @@ export const Route = createFileRoute("/certifications")({
 });
 
 function CertificationsPage() {
+	useCmsPage("/certifications");
 	return (
 		<section className="bg-background py-16 sm:py-24">
 			<div className="mx-auto max-w-5xl px-6 lg:px-10">

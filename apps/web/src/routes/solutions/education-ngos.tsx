@@ -14,6 +14,8 @@ import {
 	Users,
 } from "lucide-react";
 
+import { useCmsPage } from "@/hooks/use-cms-page";
+
 export const Route = createFileRoute("/solutions/education-ngos")({
 	component: EducationNgosSolutionPage,
 	head: () => ({
@@ -89,6 +91,7 @@ const faqs = [
 ] as const;
 
 function EducationNgosSolutionPage() {
+	useCmsPage("/solutions/education-ngos");
 	return (
 		<section className="relative isolate overflow-hidden bg-background py-16 sm:py-24">
 			{/* Grid Pattern and Ambient Light */}

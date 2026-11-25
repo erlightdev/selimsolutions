@@ -13,6 +13,8 @@ import {
 	Wifi,
 } from "lucide-react";
 
+import { useCmsPage } from "@/hooks/use-cms-page";
+
 export const Route = createFileRoute("/solutions/telecom-isps")({
 	component: TelecomIspsSolutionPage,
 	head: () => ({
@@ -88,6 +90,7 @@ const faqs = [
 ] as const;
 
 function TelecomIspsSolutionPage() {
+	useCmsPage("/solutions/telecom-isps");
 	return (
 		<section className="relative isolate overflow-hidden bg-background py-16 sm:py-24">
 			{/* Grid Pattern and Ambient Light */}

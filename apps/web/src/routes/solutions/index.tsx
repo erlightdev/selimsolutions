@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 import { sectorHighlights, solutionItems } from "@/data/offerings";
+import { useCmsPage } from "@/hooks/use-cms-page";
 
 export const Route = createFileRoute("/solutions/")({
 	component: SolutionsPage,
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/solutions/")({
 });
 
 function SolutionsPage() {
+	useCmsPage("/solutions");
 	return (
 		<section className="relative isolate overflow-hidden bg-background py-16 sm:py-24">
 			<div

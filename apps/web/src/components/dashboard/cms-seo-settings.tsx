@@ -10,23 +10,43 @@ import {
 	TabsTrigger,
 } from "@selimsolutions/ui/components/tabs";
 import { AlertTriangle, CheckCircle2, Save } from "lucide-react";
-import { useState } from "react";
-import { toast } from "sonner";
+import { useEffect, useState } from "react";
 
-import type {
-	CmsGeneralSettings,
-	CmsPage,
-	CmsPost,
-	CmsSeoConfig,
-} from "./cms-data";
+import type { ApiPage, ApiPost } from "./cms-content-manager";
+
+export type SeoSettingsPayload = {
+	titleSeparator: string;
+	siteTitle: string;
+	defaultDescription: string;
+	canonicalBase: string;
+	robotsIndex: boolean;
+	sitemapEnabled: boolean;
+	structuredData: boolean;
+	ogTitle: string;
+	ogDescription: string;
+};
+
+export type GeneralSettingsPayload = {
+	siteName: string;
+	tagline: string;
+	siteUrl: string;
+	adminEmail: string;
+	permalinkStyle: string;
+	contactEmail: string;
+	contactPhone: string;
+	contactAddress: string;
+	isoBadgeText: string;
+	copyrightText: string;
+};
 
 interface CmsSettingsAndSeoViewProps {
-	settings: CmsGeneralSettings;
-	onSaveSettings: (next: CmsGeneralSettings) => void;
-	seo: CmsSeoConfig;
-	pages: CmsPage[];
-	posts: CmsPost[];
-	onSaveSeo: (next: CmsSeoConfig) => void;
+	settings: GeneralSettingsPayload;
+	onSaveSettings: (next: GeneralSettingsPayload) => Promise<void>;
+	seo: SeoSettingsPayload;
+	pages: ApiPage[];
+	posts: ApiPost[];
+	onSaveSeo: (next: SeoSettingsPayload) => Promise<void>;
+	isSaving: boolean;
 	user: { name?: string | null; email?: string | null };
 	apiStatus: string;
 }
@@ -38,11 +58,12 @@ export function CmsSettingsAndSeoView({
 	pages,
 	posts,
 	onSaveSeo,
+	isSaving,
 	user,
 	apiStatus,
 }: CmsSettingsAndSeoViewProps) {
 	const seoIssues = [...pages, ...posts].filter(
-		(e) => !e.seo.metaTitle.trim() || e.seo.metaDescription.trim().length < 30,
+		(e) => !e.seoTitle.trim() || e.seoDesc.trim().length < 30,
 	).length;
 
 	return (
@@ -60,7 +81,7 @@ export function CmsSettingsAndSeoView({
 					)}
 				</TabsTrigger>
 				<TabsTrigger value="general" className="rounded-md px-3 text-xs">
-					General
+					General &amp; Contact
 				</TabsTrigger>
 			</TabsList>
 
@@ -69,6 +90,7 @@ export function CmsSettingsAndSeoView({
 					seo={seo}
 					pages={pages}
 					posts={posts}
+					isSaving={isSaving}
 					onSaveSeo={onSaveSeo}
 				/>
 			</TabsContent>
@@ -76,6 +98,7 @@ export function CmsSettingsAndSeoView({
 			<TabsContent value="general">
 				<CmsSettingsView
 					settings={settings}
+					isSaving={isSaving}
 					onSaveSettings={onSaveSettings}
 					user={user}
 					apiStatus={apiStatus}
@@ -85,25 +108,33 @@ export function CmsSettingsAndSeoView({
 	);
 }
 
-interface CmsSeoViewProps {
-	seo: CmsSeoConfig;
-	pages: CmsPage[];
-	posts: CmsPost[];
-	onSaveSeo: (next: CmsSeoConfig) => void;
-}
+function CmsSeoView({
+	seo,
+	pages,
+	posts,
+	isSaving,
+	onSaveSeo,
+}: {
+	seo: SeoSettingsPayload;
+	pages: ApiPage[];
+	posts: ApiPost[];
+	isSaving: boolean;
+	onSaveSeo: (next: SeoSettingsPayload) => Promise<void>;
+}) {
+	const [draft, setDraft] = useState<SeoSettingsPayload>(seo);
 
-export function CmsSeoView({ seo, pages, posts, onSaveSeo }: CmsSeoViewProps) {
-	const [draft, setDraft] = useState<CmsSeoConfig>(seo);
+	useEffect(() => {
+		setDraft(seo);
+	}, [seo]);
 
 	const allEntries = [
 		...pages.map((p) => ({ kind: "Page", ...p })),
 		...posts.map((p) => ({ kind: "Post", ...p })),
 	];
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		onSaveSeo(draft);
-		toast.success("SEO configuration updated.");
+		await onSaveSeo(draft);
 	};
 
 	return (
@@ -224,6 +255,7 @@ export function CmsSeoView({ seo, pages, posts, onSaveSeo }: CmsSeoViewProps) {
 					<Button
 						type="submit"
 						size="sm"
+						disabled={isSaving}
 						className="rounded-lg active:scale-[0.97]"
 					>
 						<Save className="size-3.5" />
@@ -231,7 +263,6 @@ export function CmsSeoView({ seo, pages, posts, onSaveSeo }: CmsSeoViewProps) {
 					</Button>
 				</div>
 
-				{/* SERP & OpenGraph Preview */}
 				<div className="space-y-3 rounded-xl border border-border/80 bg-card p-4 lg:col-span-5">
 					<div className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
 						Search Snippet Preview
@@ -263,7 +294,6 @@ export function CmsSeoView({ seo, pages, posts, onSaveSeo }: CmsSeoViewProps) {
 				</div>
 			</form>
 
-			{/* Live Content SEO Audit */}
 			<div className="rounded-xl border border-border/80 bg-card p-4">
 				<div className="mb-3 flex items-center justify-between">
 					<h2 className="font-semibold text-foreground text-sm">
@@ -275,8 +305,8 @@ export function CmsSeoView({ seo, pages, posts, onSaveSeo }: CmsSeoViewProps) {
 				</div>
 				<div className="divide-y divide-border/70">
 					{allEntries.map((entry) => {
-						const hasTitle = entry.seo.metaTitle.trim().length > 0;
-						const hasDesc = entry.seo.metaDescription.trim().length >= 30;
+						const hasTitle = entry.seoTitle.trim().length > 0;
+						const hasDesc = entry.seoDesc.trim().length >= 30;
 						const healthy = hasTitle && hasDesc;
 						return (
 							<div
@@ -320,25 +350,28 @@ export function CmsSeoView({ seo, pages, posts, onSaveSeo }: CmsSeoViewProps) {
 	);
 }
 
-interface CmsSettingsViewProps {
-	settings: CmsGeneralSettings;
-	onSaveSettings: (next: CmsGeneralSettings) => void;
-	user: { name?: string | null; email?: string | null };
-	apiStatus: string;
-}
-
-export function CmsSettingsView({
+function CmsSettingsView({
 	settings,
+	isSaving,
 	onSaveSettings,
 	user,
 	apiStatus,
-}: CmsSettingsViewProps) {
-	const [draft, setDraft] = useState<CmsGeneralSettings>(settings);
+}: {
+	settings: GeneralSettingsPayload;
+	isSaving: boolean;
+	onSaveSettings: (next: GeneralSettingsPayload) => Promise<void>;
+	user: { name?: string | null; email?: string | null };
+	apiStatus: string;
+}) {
+	const [draft, setDraft] = useState<GeneralSettingsPayload>(settings);
 
-	const handleSubmit = (e: React.FormEvent) => {
+	useEffect(() => {
+		setDraft(settings);
+	}, [settings]);
+
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		onSaveSettings(draft);
-		toast.success("General settings saved.");
+		await onSaveSettings(draft);
 	};
 
 	return (
@@ -407,11 +440,7 @@ export function CmsSettingsView({
 							id="permalink"
 							value={draft.permalinkStyle}
 							onChange={(e) =>
-								setDraft({
-									...draft,
-									permalinkStyle: e.target
-										.value as CmsGeneralSettings["permalinkStyle"],
-								})
+								setDraft({ ...draft, permalinkStyle: e.target.value })
 							}
 							className="h-9 w-full rounded-lg border border-input bg-background px-2.5 font-mono text-foreground text-xs"
 						>
@@ -422,9 +451,68 @@ export function CmsSettingsView({
 					</div>
 				</div>
 
+				<div className="grid gap-3 border-border/60 border-t pt-3 sm:grid-cols-2">
+					<div className="space-y-1.5">
+						<Label htmlFor="contact-email" className="text-xs">
+							Footer Contact Email
+						</Label>
+						<Input
+							id="contact-email"
+							value={draft.contactEmail}
+							onChange={(e) =>
+								setDraft({ ...draft, contactEmail: e.target.value })
+							}
+							className="h-8 rounded-lg text-xs"
+						/>
+					</div>
+					<div className="space-y-1.5">
+						<Label htmlFor="contact-phone" className="text-xs">
+							Footer Phone
+						</Label>
+						<Input
+							id="contact-phone"
+							value={draft.contactPhone}
+							onChange={(e) =>
+								setDraft({ ...draft, contactPhone: e.target.value })
+							}
+							className="h-8 rounded-lg text-xs"
+						/>
+					</div>
+				</div>
+
+				<div className="grid gap-3 sm:grid-cols-2">
+					<div className="space-y-1.5">
+						<Label htmlFor="iso-badge" className="text-xs">
+							ISO Badge Text
+						</Label>
+						<Input
+							id="iso-badge"
+							value={draft.isoBadgeText}
+							onChange={(e) =>
+								setDraft({ ...draft, isoBadgeText: e.target.value })
+							}
+							className="h-8 rounded-lg text-xs"
+						/>
+					</div>
+					<div className="space-y-1.5">
+						<Label htmlFor="copyright" className="text-xs">
+							Copyright Text
+						</Label>
+						<Input
+							id="copyright"
+							value={draft.copyrightText}
+							onChange={(e) =>
+								setDraft({ ...draft, copyrightText: e.target.value })
+							}
+							className="h-8 rounded-lg text-xs"
+						/>
+					</div>
+				</div>
+
 				<Button
 					type="submit"
 					size="sm"
+					disabled={isSaving}
 					className="rounded-lg active:scale-[0.97]"
 				>
 					<Save className="size-3.5" />

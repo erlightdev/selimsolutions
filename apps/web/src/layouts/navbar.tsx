@@ -1,4 +1,5 @@
 import { cn } from "@selimsolutions/ui/lib/utils";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import {
 	ArrowRight,
@@ -15,11 +16,8 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTheme } from "@/components/theme-provider";
-import {
-	resourceItems,
-	serviceItems,
-	solutionItems,
-} from "@/data/offerings";
+import { resourceItems, serviceItems, solutionItems } from "@/data/offerings";
+import { orpc } from "@/utils/orpc";
 
 /* ── Content (source of truth) ─────────────────────────────────────── */
 
@@ -378,6 +376,12 @@ export default function Navbar() {
 	);
 	const [mobileOpen, setMobileOpen] = useState(false);
 	const [scrolled, setScrolled] = useState(false);
+	const siteBundle = useQuery({
+		...orpc.cms.public.getSiteBundle.queryOptions(),
+		staleTime: 60_000,
+	});
+	const config = siteBundle.data?.config;
+	const showAnnouncement = config?.showAnnouncementBar ?? true;
 
 	useEffect(() => {
 		const onScroll = () => setScrolled(window.scrollY > 8);
@@ -390,22 +394,32 @@ export default function Navbar() {
 		// Fixed → overlaps the hero/section below (grid row collapses to 0).
 		<header className="fixed inset-x-0 top-0 z-40">
 			{/* Announcement bar */}
-			<div className="bg-[#405cfe] text-white">
-				<div className="mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-2 text-center text-xs sm:text-sm">
-					{/* Live pulse */}
-					<span className="relative flex h-2 w-2 shrink-0">
-						<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
-						<span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
-					</span>
-					<span className="font-medium">
-						<span className="hidden sm:inline">
-							24/7 managed security operations, incident response, and
-							continuous threat monitoring.
+			{showAnnouncement && (
+				<div className="bg-[#405cfe] text-white">
+					<div className="mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-2 text-center text-xs sm:text-sm">
+						{/* Live pulse */}
+						<span className="relative flex h-2 w-2 shrink-0">
+							<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
+							<span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
 						</span>
-						<span className="sm:hidden">24/7 SOC and threat monitoring.</span>
-					</span>
+						<span className="font-medium">
+							{config?.announcementText ? (
+								<span>{config.announcementText}</span>
+							) : (
+								<>
+									<span className="hidden sm:inline">
+										24/7 managed security operations, incident response, and
+										continuous threat monitoring.
+									</span>
+									<span className="sm:hidden">
+										24/7 SOC and threat monitoring.
+									</span>
+								</>
+							)}
+						</span>
+					</div>
 				</div>
-			</div>
+			)}
 
 			{/* Main header */}
 			<div

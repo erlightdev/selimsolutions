@@ -11,7 +11,9 @@ const requireAuth = o.middleware(async ({ context, next }) => {
 	if (!context.session?.user) {
 		throw new ORPCError("UNAUTHORIZED");
 	}
-	const admin = await prisma.admin.findUnique({ where: { userId: context.session.user.id } });
+	const admin = await prisma.admin.findUnique({
+		where: { userId: context.session.user.id },
+	});
 	if (!admin) throw new ORPCError("FORBIDDEN");
 	return next({
 		context: {

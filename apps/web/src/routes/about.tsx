@@ -15,6 +15,7 @@ import {
 import { useState } from "react";
 import type { Swiper as SwiperClass } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useCmsPage } from "@/hooks/use-cms-page";
 import "swiper/css";
 
 export const Route = createFileRoute("/about")({
@@ -109,6 +110,7 @@ const team: readonly TeamMember[] = [
 ];
 
 function AboutPage() {
+	useCmsPage("/about");
 	const [swiper, setSwiper] = useState<SwiperClass | null>(null);
 	const [activePillar, setActivePillar] = useState(0);
 

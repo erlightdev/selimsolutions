@@ -3,6 +3,7 @@ import { Separator } from "@selimsolutions/ui/components/separator";
 import { createFileRoute } from "@tanstack/react-router";
 
 import LegalPage from "@/components/legal-page";
+import { useCmsPage } from "@/hooks/use-cms-page";
 
 export const Route = createFileRoute("/privacy")({
 	component: PrivacyPolicyPage,
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/privacy")({
 });
 
 function PrivacyPolicyPage() {
+	useCmsPage("/privacy");
 	return (
 		<LegalPage
 			eyebrow="Privacy Policy"

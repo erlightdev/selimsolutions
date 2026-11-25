@@ -9,6 +9,7 @@ model User {
   sessions      Session[]
   accounts      Account[]
   admin         Admin?
+  posts         CmsPost[]
 
   @@unique([email])
   @@map("user")

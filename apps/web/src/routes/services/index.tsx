@@ -21,6 +21,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperClass } from "swiper";
 import gsap from "gsap";
 
+import { useCmsPage } from "@/hooks/use-cms-page";
 import "swiper/css";
 
 export const Route = createFileRoute("/services/")({
@@ -189,6 +190,7 @@ const faqs = [
 /* ── Component Render ───────────────────────────────────────────────── */
 
 export default function ServicesPage() {
+	useCmsPage("/services");
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [swiper, setSwiper] = useState<SwiperClass | null>(null);
 	const [activeSlide, setActiveSlide] = useState(0);

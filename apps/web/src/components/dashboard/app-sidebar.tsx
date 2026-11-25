@@ -28,12 +28,15 @@ import {
 	ExternalLink,
 	FileText,
 	Image,
+	Layers,
 	LayoutDashboard,
 	ListTree,
 	LogOut,
 	Newspaper,
 	Palette,
+	Scale,
 	Settings,
+	Shield,
 } from "lucide-react";
 
 import type { CmsView } from "./cms-data";
@@ -43,6 +46,9 @@ interface AppSidebarProps {
 	onSelectView: (view: CmsView) => void;
 	counts: {
 		pages: number;
+		services: number;
+		solutions: number;
+		legal: number;
 		posts: number;
 		media: number;
 		seoIssues: number;
@@ -138,6 +144,45 @@ export function AppSidebar({
 									<span>Pages</span>
 									<SidebarMenuBadge className="bg-muted text-muted-foreground">
 										{counts.pages}
+									</SidebarMenuBadge>
+								</SidebarMenuButton>
+							</SidebarMenuItem>
+							<SidebarMenuItem>
+								<SidebarMenuButton
+									isActive={activeView === "services"}
+									tooltip="Services"
+									onClick={() => handleNavigate("services")}
+								>
+									<Shield />
+									<span>Services</span>
+									<SidebarMenuBadge className="bg-muted text-muted-foreground">
+										{counts.services}
+									</SidebarMenuBadge>
+								</SidebarMenuButton>
+							</SidebarMenuItem>
+							<SidebarMenuItem>
+								<SidebarMenuButton
+									isActive={activeView === "solutions"}
+									tooltip="Solutions"
+									onClick={() => handleNavigate("solutions")}
+								>
+									<Layers />
+									<span>Solutions</span>
+									<SidebarMenuBadge className="bg-muted text-muted-foreground">
+										{counts.solutions}
+									</SidebarMenuBadge>
+								</SidebarMenuButton>
+							</SidebarMenuItem>
+							<SidebarMenuItem>
+								<SidebarMenuButton
+									isActive={activeView === "legal"}
+									tooltip="Legal"
+									onClick={() => handleNavigate("legal")}
+								>
+									<Scale />
+									<span>Legal</span>
+									<SidebarMenuBadge className="bg-muted text-muted-foreground">
+										{counts.legal}
 									</SidebarMenuBadge>
 								</SidebarMenuButton>
 							</SidebarMenuItem>

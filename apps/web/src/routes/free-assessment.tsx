@@ -10,6 +10,8 @@ import {
 	Waypoints,
 } from "lucide-react";
 
+import { useCmsPage } from "@/hooks/use-cms-page";
+
 export const Route = createFileRoute("/free-assessment")({
 	component: FreeAssessmentPage,
 	head: () => ({
@@ -59,6 +61,7 @@ const deliverables = [
 ] as const;
 
 function FreeAssessmentPage() {
+	useCmsPage("/free-assessment");
 	return (
 		<section className="relative isolate overflow-hidden bg-background py-16 sm:py-24">
 			<div
