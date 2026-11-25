@@ -1,0 +1,36 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: server
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DATABASE_URL=mysql://selimsolutions:SelimDbPass2026%23@selim-vvdj4f:3306/selimsolutions
+      - BETTER_AUTH_SECRET=g/+suZubopeXSIC2uJHJ3DDKtQb1LcEFq8dshuBXbxeSAit+f7HQ14STw51i4r8z
+      - BETTER_AUTH_URL=https://selim.solutions
+      - CORS_ORIGIN=https://selim.solutions
+    volumes:
+      - selim-uploads:/app/apps/server/uploads
+    networks:
+      - dokploy-network
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: web
+    restart: unless-stopped
+    networks:
+      - dokploy-network
+    depends_on:
+      - server
+
+volumes:
+  selim-uploads:
+
+networks:
+  dokploy-network:
+    external: true
