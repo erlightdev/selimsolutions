@@ -1,7 +1,9 @@
 import { Badge } from "@selimsolutions/ui/components/badge";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight, Clock } from "lucide-react";
 import { type BlogPost, blogPosts } from "@/data/blog";
+import { orpc } from "@/utils/orpc";
 
 function PostThumb({ img, alt }: { img: string; alt: string }) {
 	return (
@@ -92,7 +94,35 @@ function PostCard({ post }: { post: BlogPost }) {
 }
 
 export default function BlogInsights() {
-	const [featured, ...rest] = blogPosts;
+	const postsQuery = useQuery({
+		...orpc.cms.public.listPosts.queryOptions({ input: { limit: 3 } }),
+		staleTime: 60_000,
+	});
+	const livePosts: BlogPost[] =
+		postsQuery.data && postsQuery.data.length > 0
+			? postsQuery.data.map((p) => ({
+					slug: p.slug,
+					category: p.category?.name ?? "Insights",
+					title: p.title,
+					excerpt: p.excerpt,
+					date: p.publishedAt
+						? new Date(p.publishedAt).toLocaleDateString(undefined, {
+								month: "long",
+								day: "numeric",
+								year: "numeric",
+							})
+						: "Recent",
+					readTime: p.readTime,
+					img:
+						p.coverImage ||
+						"https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80&auto=format&fit=crop",
+					seoTitle: p.seoTitle || p.title,
+					seoDesc: p.seoDesc || p.excerpt,
+					content: p.contentHtml,
+					featured: p.featured,
+				}))
+			: blogPosts;
+	const [featured, ...rest] = livePosts;
 
 	return (
 		<section className="border-border/40 border-t bg-background py-16 sm:py-24">

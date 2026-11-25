@@ -15,11 +15,16 @@ import cors from "cors";
 import express from "express";
 
 const app = express();
+app.set("trust proxy", 1);
+
+const allowedOrigins = env.CORS_ORIGIN.split(",")
+	.map((origin) => origin.trim())
+	.filter(Boolean);
 
 app.use(
 	cors({
-		origin: env.CORS_ORIGIN,
-		methods: ["GET", "POST", "OPTIONS"],
+		origin: allowedOrigins.length === 1 ? allowedOrigins[0] : allowedOrigins,
+		methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 		allowedHeaders: ["Content-Type", "Authorization"],
 		credentials: true,
 	}),
@@ -141,7 +146,7 @@ app.get("/", (_req, res) => {
 
 app.get("/robots.txt", async (_req, res) => {
 	const config = await prisma.cmsSiteConfig.findUnique({ where: { id: 1 } });
-	const base = (config?.canonicalBase || "https://selimsolutions.com").replace(
+	const base = (config?.canonicalBase || "https://selim.solutions").replace(
 		/\/$/,
 		"",
 	);
@@ -162,7 +167,7 @@ app.get("/sitemap.xml", async (_req, res) => {
 		res.status(404).send("Sitemap disabled");
 		return;
 	}
-	const base = (config?.canonicalBase || "https://selimsolutions.com").replace(
+	const base = (config?.canonicalBase || "https://selim.solutions").replace(
 		/\/$/,
 		"",
 	);
@@ -197,6 +202,6 @@ ${urls
 	res.type("application/xml").send(xml);
 });
 
-app.listen(3000, () => {
-	console.log("Server is running on http://localhost:3000");
+app.listen(env.PORT, () => {
+	console.log(`Server is running on port ${env.PORT}`);
 });

@@ -20,8 +20,10 @@ import {
 	Save,
 	Trash2,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
+import type { CmsPageContentJson } from "@/lib/cms-types";
+import { PageStructuredEditor } from "./page-structured-editor";
 import { TiptapEditor } from "./tiptap-editor";
 
 export type ApiPageSection = {
@@ -43,6 +45,7 @@ export type ApiPage = {
 	status: "DRAFT" | "PUBLISHED";
 	isSystem: boolean;
 	contentHtml: string;
+	contentJson?: unknown;
 	seoTitle: string;
 	seoDesc: string;
 	canonicalUrl?: string | null;
@@ -85,12 +88,19 @@ interface CmsPagesManagerProps {
 	isSaving: boolean;
 	defaultTemplate?: ApiPage["template"];
 	entityLabel?: string;
+	editId?: string;
+	onEditChange?: (editId?: string) => void;
+	onDirtyChange?: (dirty: boolean) => void;
+	onRequestLeave?: (onConfirm: () => void) => void;
+	statusFilter?: "all" | "PUBLISHED" | "DRAFT";
+	onStatusFilterChange?: (status: "all" | "PUBLISHED" | "DRAFT") => void;
 	onCreate: (payload: {
 		title: string;
 		slug: string;
 		template: ApiPage["template"];
 		status: ApiPage["status"];
 		contentHtml: string;
+		contentJson?: Record<string, unknown> | null;
 		seoTitle: string;
 		seoDesc: string;
 		canonicalUrl?: string | null;
@@ -104,6 +114,7 @@ interface CmsPagesManagerProps {
 		template: ApiPage["template"];
 		status: ApiPage["status"];
 		contentHtml: string;
+		contentJson?: Record<string, unknown> | null;
 		seoTitle: string;
 		seoDesc: string;
 		canonicalUrl?: string | null;
@@ -130,6 +141,12 @@ interface CmsPostsManagerProps {
 	searchQuery: string;
 	siteBaseUrl: string;
 	isSaving: boolean;
+	editId?: string;
+	onEditChange?: (editId?: string) => void;
+	onDirtyChange?: (dirty: boolean) => void;
+	onRequestLeave?: (onConfirm: () => void) => void;
+	statusFilter?: "all" | "PUBLISHED" | "DRAFT";
+	onStatusFilterChange?: (status: "all" | "PUBLISHED" | "DRAFT") => void;
 	onCreate: (payload: {
 		title: string;
 		slug: string;
@@ -177,6 +194,39 @@ function formatDate(val: string | Date) {
 	return d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
 }
 
+function getPageSnapshot(page: ApiPage) {
+	return JSON.stringify({
+		title: page.title,
+		slug: page.slug,
+		template: page.template,
+		status: page.status,
+		contentHtml: page.contentHtml,
+		contentJson: page.contentJson ?? null,
+		seoTitle: page.seoTitle,
+		seoDesc: page.seoDesc,
+		canonicalUrl: page.canonicalUrl ?? null,
+		ogImageUrl: page.ogImageUrl ?? null,
+		noIndex: page.noIndex,
+	});
+}
+
+function getPostSnapshot(post: ApiPost) {
+	return JSON.stringify({
+		title: post.title,
+		slug: post.slug,
+		excerpt: post.excerpt,
+		contentHtml: post.contentHtml,
+		coverImage: post.coverImage ?? null,
+		readTime: post.readTime,
+		featured: post.featured,
+		status: post.status,
+		categoryId: post.categoryId ?? null,
+		seoTitle: post.seoTitle,
+		seoDesc: post.seoDesc,
+		noIndex: post.noIndex,
+	});
+}
+
 export function CmsPagesManager({
 	pages,
 	searchQuery,
@@ -184,6 +234,12 @@ export function CmsPagesManager({
 	isSaving,
 	defaultTemplate = "STANDARD",
 	entityLabel = "Page",
+	editId,
+	onEditChange,
+	onDirtyChange,
+	onRequestLeave,
+	statusFilter: controlledStatusFilter,
+	onStatusFilterChange,
 	onCreate,
 	onUpdate,
 	onDuplicate,
@@ -191,15 +247,103 @@ export function CmsPagesManager({
 	onUpsertSection,
 	onDeleteSection,
 }: CmsPagesManagerProps) {
-	const [statusFilter, setStatusFilter] = useState<
+	const [localStatusFilter, setLocalStatusFilter] = useState<
 		"all" | "PUBLISHED" | "DRAFT"
 	>("all");
+	const statusFilter = controlledStatusFilter ?? localStatusFilter;
+	const setStatusFilter = (next: "all" | "PUBLISHED" | "DRAFT") => {
+		setLocalStatusFilter(next);
+		onStatusFilterChange?.(next);
+	};
 	const [editing, setEditing] = useState<ApiPage | null>(null);
 	const [isNew, setIsNew] = useState(false);
+	const initialSnapshotRef = useRef<string>("");
 
 	const [newSecType, setNewSecType] = useState("RICH_TEXT");
 	const [newSecTitle, setNewSecTitle] = useState("");
 	const [newSecSubtitle, setNewSecSubtitle] = useState("");
+
+	useEffect(() => {
+		const dirty =
+			!!editing && getPageSnapshot(editing) !== initialSnapshotRef.current;
+		onDirtyChange?.(dirty);
+	}, [editing, onDirtyChange]);
+
+	useEffect(() => {
+		return () => {
+			onDirtyChange?.(false);
+		};
+	}, [onDirtyChange]);
+
+	useEffect(() => {
+		if (!editId) {
+			initialSnapshotRef.current = "";
+			setEditing(null);
+			setIsNew(false);
+			return;
+		}
+		if (editId === "new") {
+			const prefix =
+				defaultTemplate === "SERVICE"
+					? "/services/"
+					: defaultTemplate === "SOLUTION"
+						? "/solutions/"
+						: "/";
+			const draft: ApiPage = {
+				id: "",
+				title: "",
+				slug: prefix,
+				template: defaultTemplate,
+				status: "DRAFT",
+				isSystem: false,
+				contentHtml: "",
+				seoTitle: "",
+				seoDesc: "",
+				noIndex: false,
+				updatedAt: new Date(),
+				sections: [],
+			};
+			setIsNew(true);
+			setEditing((prev) => {
+				if (prev && prev.id === "") return prev;
+				initialSnapshotRef.current = getPageSnapshot(draft);
+				return draft;
+			});
+			return;
+		}
+		const found = pages.find((p) => p.id === editId);
+		if (found) {
+			setIsNew(false);
+			setEditing((prev) => {
+				if (prev?.id === found.id) return prev;
+				initialSnapshotRef.current = getPageSnapshot(found);
+				return found;
+			});
+		}
+	}, [editId, pages, defaultTemplate]);
+
+	const openEditor = (item: ApiPage) => {
+		initialSnapshotRef.current = getPageSnapshot(item);
+		setIsNew(false);
+		setEditing(item);
+		onEditChange?.(item.id);
+	};
+
+	const closeEditorImmediate = () => {
+		initialSnapshotRef.current = "";
+		onDirtyChange?.(false);
+		setEditing(null);
+		setIsNew(false);
+		onEditChange?.(undefined);
+	};
+
+	const closeEditor = () => {
+		if (onRequestLeave) {
+			onRequestLeave(closeEditorImmediate);
+		} else {
+			closeEditorImmediate();
+		}
+	};
 
 	const filtered = pages.filter((item) => {
 		const matchesStatus =
@@ -220,7 +364,7 @@ export function CmsPagesManager({
 				: defaultTemplate === "SOLUTION"
 					? "/solutions/"
 					: "/";
-		setEditing({
+		const draft: ApiPage = {
 			id: "",
 			title: "",
 			slug: prefix,
@@ -233,7 +377,10 @@ export function CmsPagesManager({
 			noIndex: false,
 			updatedAt: new Date(),
 			sections: [],
-		});
+		};
+		initialSnapshotRef.current = getPageSnapshot(draft);
+		setEditing(draft);
+		onEditChange?.("new");
 	};
 
 	const handleSave = async (e: React.FormEvent) => {
@@ -248,6 +395,9 @@ export function CmsPagesManager({
 			template: editing.template,
 			status: editing.status,
 			contentHtml: editing.contentHtml,
+			contentJson:
+				(editing.contentJson as Record<string, unknown> | null | undefined) ??
+				null,
 			seoTitle: editing.seoTitle,
 			seoDesc: editing.seoDesc,
 			canonicalUrl: editing.canonicalUrl,
@@ -259,7 +409,7 @@ export function CmsPagesManager({
 		} else {
 			await onUpdate({ id: editing.id, ...payload });
 		}
-		setEditing(null);
+		closeEditorImmediate();
 	};
 
 	const liveEditing = editing
@@ -280,11 +430,11 @@ export function CmsPagesManager({
 						type="button"
 						variant="ghost"
 						size="sm"
-						onClick={() => setEditing(null)}
+						onClick={closeEditor}
 						className="rounded-lg active:scale-[0.97]"
 					>
 						<ArrowLeft className="size-3.5" />
-						<span>Back to Pages</span>
+						<span>Back to {entityLabel}s</span>
 					</Button>
 
 					<div className="flex items-center gap-2">
@@ -379,8 +529,24 @@ export function CmsPagesManager({
 							</select>
 						</div>
 
+						<PageStructuredEditor
+							template={editing.template}
+							value={
+								(editing.contentJson as
+									| CmsPageContentJson
+									| null
+									| undefined) ?? {}
+							}
+							onChange={(nextJson) =>
+								setEditing({
+									...editing,
+									contentJson: nextJson as Record<string, unknown>,
+								})
+							}
+						/>
+
 						<div className="space-y-1.5">
-							<Label className="text-xs">Body</Label>
+							<Label className="text-xs">Rich Text Body (TipTap)</Label>
 							<TiptapEditor
 								value={editing.contentHtml}
 								onChange={(html) =>
@@ -680,10 +846,7 @@ export function CmsPagesManager({
 									<div className="flex flex-wrap items-center gap-2">
 										<button
 											type="button"
-											onClick={() => {
-												setIsNew(false);
-												setEditing(item);
-											}}
+											onClick={() => openEditor(item)}
 											className="truncate text-left font-semibold text-foreground text-xs hover:text-primary"
 										>
 											{item.title}
@@ -720,10 +883,7 @@ export function CmsPagesManager({
 									<Button
 										variant="ghost"
 										size="icon-sm"
-										onClick={() => {
-											setIsNew(false);
-											setEditing(item);
-										}}
+										onClick={() => openEditor(item)}
 										title="Edit"
 										className="rounded-lg active:scale-[0.97]"
 									>
@@ -765,16 +925,107 @@ export function CmsPostsManager({
 	searchQuery,
 	siteBaseUrl,
 	isSaving,
+	editId,
+	onEditChange,
+	onDirtyChange,
+	onRequestLeave,
+	statusFilter: controlledStatusFilter,
+	onStatusFilterChange,
 	onCreate,
 	onUpdate,
 	onDuplicate,
 	onDelete,
 }: CmsPostsManagerProps) {
-	const [statusFilter, setStatusFilter] = useState<
+	const [localStatusFilter, setLocalStatusFilter] = useState<
 		"all" | "PUBLISHED" | "DRAFT"
 	>("all");
+	const statusFilter = controlledStatusFilter ?? localStatusFilter;
+	const setStatusFilter = (next: "all" | "PUBLISHED" | "DRAFT") => {
+		setLocalStatusFilter(next);
+		onStatusFilterChange?.(next);
+	};
 	const [editing, setEditing] = useState<ApiPost | null>(null);
 	const [isNew, setIsNew] = useState(false);
+	const initialSnapshotRef = useRef<string>("");
+
+	useEffect(() => {
+		const dirty =
+			!!editing && getPostSnapshot(editing) !== initialSnapshotRef.current;
+		onDirtyChange?.(dirty);
+	}, [editing, onDirtyChange]);
+
+	useEffect(() => {
+		return () => {
+			onDirtyChange?.(false);
+		};
+	}, [onDirtyChange]);
+
+	useEffect(() => {
+		if (!editId) {
+			initialSnapshotRef.current = "";
+			setEditing(null);
+			setIsNew(false);
+			return;
+		}
+		if (editId === "new") {
+			const draft: ApiPost = {
+				id: "",
+				title: "",
+				slug: "",
+				excerpt: "",
+				contentHtml: "",
+				coverImage: null,
+				readTime: "5 min read",
+				featured: false,
+				status: "DRAFT",
+				categoryId: categories[0]?.id ?? null,
+				category: categories[0] ?? null,
+				seoTitle: "",
+				seoDesc: "",
+				noIndex: false,
+				updatedAt: new Date(),
+			};
+			setIsNew(true);
+			setEditing((prev) => {
+				if (prev && prev.id === "") return prev;
+				initialSnapshotRef.current = getPostSnapshot(draft);
+				return draft;
+			});
+			return;
+		}
+		const found = posts.find((p) => p.id === editId);
+		if (found) {
+			setIsNew(false);
+			setEditing((prev) => {
+				if (prev?.id === found.id) return prev;
+				initialSnapshotRef.current = getPostSnapshot(found);
+				return found;
+			});
+		}
+	}, [editId, posts, categories]);
+
+	const openEditor = (item: ApiPost) => {
+		initialSnapshotRef.current = getPostSnapshot(item);
+		setIsNew(false);
+		setEditing(item);
+		onEditChange?.(item.id);
+	};
+
+	const closeEditorImmediate = () => {
+		initialSnapshotRef.current = "";
+		onDirtyChange?.(false);
+		setEditing(null);
+		setIsNew(false);
+		onEditChange?.(undefined);
+	};
+
+	const closeEditor = () => {
+		if (onRequestLeave) {
+			onRequestLeave(closeEditorImmediate);
+		} else {
+			closeEditorImmediate();
+		}
+	};
 
 	const filtered = posts.filter((item) => {
 		const matchesStatus =
@@ -789,7 +1040,7 @@ export function CmsPostsManager({
 
 	const startNew = () => {
 		setIsNew(true);
-		setEditing({
+		const draft: ApiPost = {
 			id: "",
 			title: "",
 			slug: "",
@@ -805,7 +1056,10 @@ export function CmsPostsManager({
 			seoDesc: "",
 			noIndex: false,
 			updatedAt: new Date(),
-		});
+		};
+		initialSnapshotRef.current = getPostSnapshot(draft);
+		setEditing(draft);
+		onEditChange?.("new");
 	};
 
 	const handleSave = async (e: React.FormEvent) => {
@@ -831,7 +1085,7 @@ export function CmsPostsManager({
 		} else {
 			await onUpdate({ id: editing.id, ...payload });
 		}
-		setEditing(null);
+		closeEditorImmediate();
 	};
 
 	if (editing) {
@@ -849,7 +1103,7 @@ export function CmsPostsManager({
 						type="button"
 						variant="ghost"
 						size="sm"
-						onClick={() => setEditing(null)}
+						onClick={closeEditor}
 						className="rounded-lg active:scale-[0.97]"
 					>
 						<ArrowLeft className="size-3.5" />
@@ -993,7 +1247,7 @@ export function CmsPostsManager({
 						</div>
 
 						<div className="space-y-1.5">
-							<Label className="text-xs">Body</Label>
+							<Label className="text-xs">Rich Text Body (TipTap)</Label>
 							<TiptapEditor
 								value={editing.contentHtml}
 								onChange={(html) =>
@@ -1130,10 +1384,7 @@ export function CmsPostsManager({
 									<div className="flex flex-wrap items-center gap-2">
 										<button
 											type="button"
-											onClick={() => {
-												setIsNew(false);
-												setEditing(item);
-											}}
+											onClick={() => openEditor(item)}
 											className="truncate text-left font-semibold text-foreground text-xs hover:text-primary"
 										>
 											{item.title}
@@ -1164,10 +1415,7 @@ export function CmsPostsManager({
 									<Button
 										variant="ghost"
 										size="icon-sm"
-										onClick={() => {
-											setIsNew(false);
-											setEditing(item);
-										}}
+										onClick={() => openEditor(item)}
 										title="Edit"
 										className="rounded-lg active:scale-[0.97]"
 									>

@@ -10,7 +10,7 @@ import {
 	Waypoints,
 } from "lucide-react";
 
-import { useCmsPage } from "@/hooks/use-cms-page";
+import { useCmsPageData } from "@/hooks/use-cms-page";
 
 export const Route = createFileRoute("/free-assessment")({
 	component: FreeAssessmentPage,
@@ -61,7 +61,15 @@ const deliverables = [
 ] as const;
 
 function FreeAssessmentPage() {
-	useCmsPage("/free-assessment");
+	const { cms } = useCmsPageData("/free-assessment", {
+		hero: {
+			eyebrow: "Free Assessment",
+			headline:
+				"See where your security posture breaks before an attacker does.",
+			subheadline:
+				"A short working session with our team to review visibility gaps, incident readiness, and the highest-priority risks across your environment.",
+		},
+	});
 	return (
 		<section className="relative isolate overflow-hidden bg-background py-16 sm:py-24">
 			<div
@@ -87,15 +95,15 @@ function FreeAssessmentPage() {
 							variant="outline"
 							className="rounded-none border-primary/20 bg-primary/5 px-3.5 py-1.5 font-mono text-[11px] text-primary uppercase tracking-widest"
 						>
-							Free Assessment
+							{cms.hero?.eyebrow || "Free Assessment"}
 						</Badge>
 						<h1 className="mt-6 max-w-4xl text-balance font-serif text-4xl text-foreground leading-[1.05] tracking-[-0.02em] sm:text-5xl lg:text-6xl">
-							See where your security posture breaks before an attacker does.
+							{cms.hero?.headline ||
+								"See where your security posture breaks before an attacker does."}
 						</h1>
 						<p className="mt-6 max-w-2xl text-pretty text-base text-foreground/75 leading-relaxed sm:text-lg dark:text-zinc-300">
-							A short working session with our team to review visibility gaps,
-							incident readiness, and the highest-priority risks across your
-							environment.
+							{cms.hero?.subheadline ||
+								"A short working session with our team to review visibility gaps, incident readiness, and the highest-priority risks across your environment."}
 						</p>
 						<div className="mt-8 flex flex-col gap-3 sm:flex-row">
 							<a

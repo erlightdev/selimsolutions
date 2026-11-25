@@ -404,7 +404,7 @@ export function TiptapEditor({
 					<Input
 						value={linkUrl}
 						onChange={(e) => setLinkUrl(e.target.value)}
-						placeholder="https://selimsolutions.com/..."
+						placeholder="https://selim.solutions/..."
 						className="h-7 flex-1 rounded-md text-xs"
 						onKeyDown={(e) => {
 							if (e.key === "Enter") {

@@ -11,7 +11,9 @@ export function createAuth() {
 			provider: "mysql",
 		}),
 
-		trustedOrigins: [env.CORS_ORIGIN],
+		trustedOrigins: env.CORS_ORIGIN.split(",")
+			.map((origin) => origin.trim())
+			.filter(Boolean),
 		emailAndPassword: {
 			enabled: true,
 			disableSignUp: true,

@@ -39,6 +39,7 @@ export const cmsAdminRouter = {
 					.default("STANDARD"),
 				status: z.enum(["DRAFT", "PUBLISHED"]).default("DRAFT"),
 				contentHtml: z.string().default(""),
+				contentJson: z.record(z.string(), z.unknown()).nullable().optional(),
 				seoTitle: z.string().max(191).default(""),
 				seoDesc: z.string().default(""),
 				canonicalUrl: z.string().max(255).nullable().optional(),
@@ -61,6 +62,9 @@ export const cmsAdminRouter = {
 					template: input.template,
 					status: input.status,
 					contentHtml: sanitizeTipTapHtml(input.contentHtml),
+					...(input.contentJson !== undefined
+						? { contentJson: input.contentJson as object }
+						: {}),
 					seoTitle: input.seoTitle.trim(),
 					seoDesc: input.seoDesc.trim(),
 					canonicalUrl: input.canonicalUrl?.trim() || null,
@@ -87,6 +91,7 @@ export const cmsAdminRouter = {
 				]),
 				status: z.enum(["DRAFT", "PUBLISHED"]),
 				contentHtml: z.string(),
+				contentJson: z.record(z.string(), z.unknown()).nullable().optional(),
 				seoTitle: z.string().max(191).default(""),
 				seoDesc: z.string().default(""),
 				canonicalUrl: z.string().max(255).nullable().optional(),
@@ -112,6 +117,9 @@ export const cmsAdminRouter = {
 					template: input.template,
 					status: input.status,
 					contentHtml: sanitizeTipTapHtml(input.contentHtml),
+					...(input.contentJson !== undefined
+						? { contentJson: input.contentJson as object }
+						: {}),
 					seoTitle: input.seoTitle.trim(),
 					seoDesc: input.seoDesc.trim(),
 					canonicalUrl: input.canonicalUrl?.trim() || null,

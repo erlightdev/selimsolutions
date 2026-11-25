@@ -9,7 +9,7 @@ import {
 	ShieldCheck,
 } from "lucide-react";
 
-import { useCmsPage } from "@/hooks/use-cms-page";
+import { useCmsPageData } from "@/hooks/use-cms-page";
 
 const standards = [
 	{
@@ -94,21 +94,28 @@ export const Route = createFileRoute("/certifications")({
 });
 
 function CertificationsPage() {
-	useCmsPage("/certifications");
+	const { cms } = useCmsPageData("/certifications", {
+		hero: {
+			eyebrow: "Certifications & Standards",
+			headline: "Security credentials",
+			subheadline:
+				"The certifications, frameworks, and operational standards we follow to protect systems, data, and client trust.",
+		},
+	});
 	return (
 		<section className="bg-background py-16 sm:py-24">
 			<div className="mx-auto max-w-5xl px-6 lg:px-10">
 				{/* Header */}
 				<div className="max-w-2xl">
 					<p className="anim-fade-up font-medium text-[0.65rem] text-muted-foreground uppercase tracking-[0.16em]">
-						Certifications & Standards
+						{cms.hero?.eyebrow || "Certifications & Standards"}
 					</p>
 					<h1 className="anim-fade-up mt-4 text-balance font-serif text-4xl text-foreground leading-[1.05] tracking-[-0.02em] sm:text-5xl lg:text-6xl">
-						Security credentials
+						{cms.hero?.headline || "Security credentials"}
 					</h1>
 					<p className="anim-fade-up mt-5 max-w-xl text-pretty text-base text-muted-foreground leading-relaxed [animation-delay:80ms] sm:text-lg">
-						The certifications, frameworks, and operational standards we follow
-						to protect systems, data, and client trust.
+						{cms.hero?.subheadline ||
+							"The certifications, frameworks, and operational standards we follow to protect systems, data, and client trust."}
 					</p>
 				</div>
 

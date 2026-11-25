@@ -5,6 +5,8 @@ import { Label } from "@selimsolutions/ui/components/label";
 import { ArrowDown, ArrowUp, Plus, Save, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import type { GeneralSettingsPayload } from "./cms-seo-settings";
+
 const ACCENT_PRESETS = [
 	{ label: "Brand Blue", value: "#0069eb" },
 	{ label: "Royal Indigo", value: "#405cfe" },
@@ -28,24 +30,35 @@ export type AppearancePayload = {
 
 interface CmsAppearanceViewProps {
 	appearance: AppearancePayload;
+	general: GeneralSettingsPayload;
 	isSaving: boolean;
-	onSave: (next: AppearancePayload) => Promise<void>;
+	onSave: (
+		nextAppearance: AppearancePayload,
+		nextGeneral: GeneralSettingsPayload,
+	) => Promise<void>;
 }
 
 export function CmsAppearanceView({
 	appearance,
+	general,
 	isSaving,
 	onSave,
 }: CmsAppearanceViewProps) {
 	const [draft, setDraft] = useState<AppearancePayload>(appearance);
+	const [generalDraft, setGeneralDraft] =
+		useState<GeneralSettingsPayload>(general);
 
 	useEffect(() => {
 		setDraft(appearance);
 	}, [appearance]);
 
+	useEffect(() => {
+		setGeneralDraft(general);
+	}, [general]);
+
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		await onSave(draft);
+		await onSave(draft, generalDraft);
 	};
 
 	return (
@@ -155,10 +168,10 @@ export function CmsAppearanceView({
 					</div>
 				</div>
 
-				{/* Header Announcement & Footer CTA */}
+				{/* Announcement Bar */}
 				<div className="space-y-3 border-border/60 border-t pt-3">
 					<div className="font-semibold text-[11px] text-muted-foreground uppercase tracking-wider">
-						Header Announcement &amp; Footer CTA
+						Announcement Bar
 					</div>
 					<div className="grid gap-3 sm:grid-cols-3">
 						<div className="space-y-1.5 sm:col-span-2">
@@ -171,6 +184,7 @@ export function CmsAppearanceView({
 								onChange={(e) =>
 									setDraft({ ...draft, announcementText: e.target.value })
 								}
+								placeholder="24/7 managed security operations, incident response..."
 								className="h-8 rounded-lg text-xs"
 							/>
 						</div>
@@ -184,11 +198,18 @@ export function CmsAppearanceView({
 								onChange={(e) =>
 									setDraft({ ...draft, announcementHref: e.target.value })
 								}
+								placeholder="/free-assessment"
 								className="h-8 rounded-lg font-mono text-xs"
 							/>
 						</div>
 					</div>
+				</div>
 
+				{/* Footer Content & CTA */}
+				<div className="space-y-3 border-border/60 border-t pt-3">
+					<div className="font-semibold text-[11px] text-muted-foreground uppercase tracking-wider">
+						Footer CTA &amp; Content
+					</div>
 					<div className="grid gap-3 sm:grid-cols-2">
 						<div className="space-y-1.5">
 							<Label htmlFor="ft-cta-title" className="text-xs">
@@ -218,18 +239,105 @@ export function CmsAppearanceView({
 						</div>
 					</div>
 
-					<div className="space-y-1.5">
-						<Label htmlFor="ft-cta-sub" className="text-xs">
-							Footer CTA Subtitle
-						</Label>
-						<Input
-							id="ft-cta-sub"
-							value={draft.footerCtaSubtitle}
-							onChange={(e) =>
-								setDraft({ ...draft, footerCtaSubtitle: e.target.value })
-							}
-							className="h-8 rounded-lg text-xs"
-						/>
+					<div className="grid gap-3 sm:grid-cols-2">
+						<div className="space-y-1.5">
+							<Label htmlFor="ft-cta-sub" className="text-xs">
+								Footer CTA Subtitle
+							</Label>
+							<Input
+								id="ft-cta-sub"
+								value={draft.footerCtaSubtitle}
+								onChange={(e) =>
+									setDraft({ ...draft, footerCtaSubtitle: e.target.value })
+								}
+								className="h-8 rounded-lg text-xs"
+							/>
+						</div>
+						<div className="space-y-1.5">
+							<Label htmlFor="ft-cta-href" className="text-xs">
+								Footer Button Link
+							</Label>
+							<Input
+								id="ft-cta-href"
+								value={draft.footerCtaHref}
+								onChange={(e) =>
+									setDraft({ ...draft, footerCtaHref: e.target.value })
+								}
+								placeholder="/free-assessment"
+								className="h-8 rounded-lg font-mono text-xs"
+							/>
+						</div>
+					</div>
+
+					<div className="grid gap-3 sm:grid-cols-2">
+						<div className="space-y-1.5">
+							<Label htmlFor="ft-tagline" className="text-xs">
+								Footer Brand Tagline
+							</Label>
+							<Input
+								id="ft-tagline"
+								value={generalDraft.tagline}
+								onChange={(e) =>
+									setGeneralDraft({ ...generalDraft, tagline: e.target.value })
+								}
+								placeholder="Clarity from the highest ground."
+								className="h-8 rounded-lg text-xs"
+							/>
+						</div>
+						<div className="space-y-1.5">
+							<Label htmlFor="ft-email" className="text-xs">
+								Footer Contact Email
+							</Label>
+							<Input
+								id="ft-email"
+								value={generalDraft.contactEmail}
+								onChange={(e) =>
+									setGeneralDraft({
+										...generalDraft,
+										contactEmail: e.target.value,
+									})
+								}
+								placeholder="contact@selim.solutions"
+								className="h-8 rounded-lg text-xs"
+							/>
+						</div>
+					</div>
+
+					<div className="grid gap-3 sm:grid-cols-2">
+						<div className="space-y-1.5">
+							<Label htmlFor="ft-iso" className="text-xs">
+								Footer ISO Badge Text
+							</Label>
+							<Input
+								id="ft-iso"
+								value={generalDraft.isoBadgeText}
+								onChange={(e) =>
+									setGeneralDraft({
+										...generalDraft,
+										isoBadgeText: e.target.value,
+									})
+								}
+								placeholder="ISO/IEC 27001:2022 Certified"
+								className="h-8 rounded-lg text-xs"
+							/>
+						</div>
+						<div className="space-y-1.5">
+							<Label htmlFor="ft-copy" className="text-xs">
+								Footer Copyright Text
+							</Label>
+							<Input
+								id="ft-copy"
+								value={generalDraft.copyrightText}
+								onChange={(e) =>
+									setGeneralDraft({
+										...generalDraft,
+										copyrightText: e.target.value,
+									})
+								}
+								placeholder="Selim Solutions. All rights reserved."
+								className="h-8 rounded-lg text-xs"
+							/>
+						</div>
 					</div>
 				</div>
 
@@ -312,6 +420,7 @@ const LOCATION_LABELS: { value: NavLocation; label: string }[] = [
 	{ value: "MEGA_SERVICES", label: "Megamenu · Services" },
 	{ value: "MEGA_SOLUTIONS", label: "Megamenu · Solutions" },
 	{ value: "FOOTER_SERVICES", label: "Footer · Services" },
+	{ value: "FOOTER_SOLUTIONS", label: "Footer · Solutions" },
 	{ value: "FOOTER_COMPANY", label: "Footer · Company" },
 	{ value: "FOOTER_LEGAL", label: "Footer · Legal" },
 	{ value: "FOOTER_SOCIALS", label: "Footer · Socials" },

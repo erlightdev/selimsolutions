@@ -1,23 +1,23 @@
 import { Badge } from "@selimsolutions/ui/components/badge";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-	ArrowLeft,
-	ArrowRight,
-	ChevronDown,
-	Cloud,
-	Key,
-	ShieldCheck,
-	Sparkles,
-	Star,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, Cloud, Key } from "lucide-react";
 
-import { useCmsPage } from "@/hooks/use-cms-page";
+import {
+	CmsFaqSection,
+	CmsRichBodySection,
+	CmsStepsSection,
+	CmsTestimonialSection,
+	CmsUseCasesSection,
+} from "@/components/cms-detail-sections";
+import { useCmsPageData } from "@/hooks/use-cms-page";
 
 export const Route = createFileRoute("/services/cloud-security")({
 	component: CloudSecurityPage,
 	head: () => ({
 		meta: [
-			{ title: "Cloud Security Hardening & Posture Management | Selim Solution" },
+			{
+				title: "Cloud Security Hardening & Posture Management | Selim Solution",
+			},
 			{
 				name: "description",
 				content:
@@ -55,17 +55,20 @@ const steps = [
 	{
 		number: "01",
 		title: "Cloud Posture Mapping",
-		subtitle: "Scan cloud accounts (AWS, Azure, Google Cloud) using read-only APIs to compile a complete controls gap list.",
+		subtitle:
+			"Scan cloud accounts (AWS, Azure, Google Cloud) using read-only APIs to compile a complete controls gap list.",
 	},
 	{
 		number: "02",
 		title: "Security Group Hardening",
-		subtitle: "Remediate open ports, tighten API gateways, align multi-factor settings, and restrict root account operations.",
+		subtitle:
+			"Remediate open ports, tighten API gateways, align multi-factor settings, and restrict root account operations.",
 	},
 	{
 		number: "03",
 		title: "Persistent Compliance Audits",
-		subtitle: "Initialize automated scanning templates to flag configuration drift and deliver audit logs to central panels.",
+		subtitle:
+			"Initialize automated scanning templates to flag configuration drift and deliver audit logs to central panels.",
 	},
 ] as const;
 
@@ -88,7 +91,25 @@ const faqs = [
 ] as const;
 
 function CloudSecurityPage() {
-	useCmsPage("/services/cloud-security");
+	const { page, cms } = useCmsPageData("/services/cloud-security", {
+		hero: {
+			eyebrow: "Cloud Infrastructure Defense",
+			headline: "Defend and harden cloud infrastructure.",
+			subheadline:
+				"We secure distributed cloud clusters, protect transaction nodes, and defend databases from configuration drifts, credential hijacks, and lateral pivots.",
+			ctaLabel: "Audit Cloud Security",
+			ctaHref: "/free-assessment",
+		},
+		useCases: [...useCases],
+		steps: [...steps],
+		testimonial: {
+			quote:
+				"Managing hundreds of cloud databases across multiple regions, we needed unyielding, automated posture governance. Selim Solution locked down our structures and simplified audit tracing completely.",
+			author: "Bishal Gurung",
+			role: "CTO, Daraz Logistics",
+		},
+		faqs: [...faqs],
+	});
 	return (
 		<section className="relative isolate overflow-hidden bg-background py-16 sm:py-24">
 			{/* Grid Pattern and Ambient Light */}
@@ -123,21 +144,23 @@ function CloudSecurityPage() {
 							variant="outline"
 							className="rounded-none border-primary/20 bg-primary/5 px-3.5 py-1.5 font-mono text-[11px] text-primary uppercase tracking-widest"
 						>
-							Cloud Infrastructure Defense
+							{cms.hero?.eyebrow || "Cloud Infrastructure Defense"}
 						</Badge>
 						<h1 className="mt-6 text-balance font-serif text-4xl text-foreground leading-[1.05] tracking-[-0.02em] sm:text-5xl lg:text-6xl">
-							Defend and harden cloud infrastructure.
+							{cms.hero?.headline || "Defend and harden cloud infrastructure."}
 						</h1>
 						<p className="mt-6 max-w-xl text-pretty text-base text-foreground/75 leading-relaxed sm:text-lg dark:text-zinc-300">
-							We secure distributed cloud clusters, protect transaction nodes,
-							and defend databases from configuration drifts, credential hijacks, and lateral pivots.
+							{cms.hero?.subheadline}
 						</p>
 						<div className="mt-8 flex flex-wrap gap-4">
 							<Link
-								to="/free-assessment"
+								to={
+									(cms.hero?.ctaHref ||
+										"/free-assessment") as "/free-assessment"
+								}
 								className="group inline-flex items-center justify-center gap-2 rounded-none bg-primary px-6 py-3 font-semibold text-primary-foreground text-sm tracking-wide transition-all duration-150 hover:bg-primary/90 active:scale-[0.97]"
 							>
-								Audit Cloud Security
+								{cms.hero?.ctaLabel || "Audit Cloud Security"}
 								<ArrowRight className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-0.5" />
 							</Link>
 						</div>
@@ -156,11 +179,11 @@ function CloudSecurityPage() {
 										<span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-indigo-400 opacity-75" />
 										<span className="relative inline-flex h-2 w-2 rounded-full bg-indigo-500" />
 									</span>
-									<span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+									<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
 										CLOUD POSTURE MONITOR
 									</span>
 								</div>
-								<span className="rounded-none bg-[#405cfe]/10 px-2 py-0.5 font-mono text-[9px] font-bold text-primary">
+								<span className="rounded-none bg-[#405cfe]/10 px-2 py-0.5 font-bold font-mono text-[9px] text-primary">
 									CSPM Drift Shield
 								</span>
 							</div>
@@ -172,9 +195,13 @@ function CloudSecurityPage() {
 									<div className="flex items-center justify-between">
 										<div className="flex items-center gap-2.5 text-primary">
 											<Cloud className="h-4 w-4" />
-											<p className="font-serif text-sm text-foreground leading-none">AWS Configuration Baseline</p>
+											<p className="font-serif text-foreground text-sm leading-none">
+												AWS Configuration Baseline
+											</p>
 										</div>
-										<span className="font-mono text-xs font-semibold tabular-nums text-emerald-500">Secure</span>
+										<span className="font-mono font-semibold text-emerald-500 text-xs tabular-nums">
+											Secure
+										</span>
 									</div>
 								</div>
 
@@ -183,11 +210,15 @@ function CloudSecurityPage() {
 									<div className="flex items-center gap-3">
 										<Key className="h-4 w-4 text-emerald-500" />
 										<div>
-											<p className="font-serif text-sm text-foreground leading-none">Google Workspace Admin Tokens</p>
-											<p className="mt-1 font-mono text-[9px] text-muted-foreground">Privileged Access Validation</p>
+											<p className="font-serif text-foreground text-sm leading-none">
+												Google Workspace Admin Tokens
+											</p>
+											<p className="mt-1 font-mono text-[9px] text-muted-foreground">
+												Privileged Access Validation
+											</p>
 										</div>
 									</div>
-									<span className="rounded-none bg-emerald-500/10 px-1.5 py-0.5 font-mono text-[8px] font-semibold text-emerald-500">
+									<span className="rounded-none bg-emerald-500/10 px-1.5 py-0.5 font-mono font-semibold text-[8px] text-emerald-500">
 										Verified OK
 									</span>
 								</div>
@@ -195,10 +226,14 @@ function CloudSecurityPage() {
 								<div className="relative overflow-hidden rounded-none border border-amber-500/20 bg-amber-500/[0.02] p-3">
 									<div className="flex items-center justify-between">
 										<div>
-											<p className="font-serif text-sm text-foreground leading-none">Configuration Drift Detected</p>
-											<p className="mt-1 font-mono text-[9px] text-muted-foreground">S3 Bucket permissions reverted</p>
+											<p className="font-serif text-foreground text-sm leading-none">
+												Configuration Drift Detected
+											</p>
+											<p className="mt-1 font-mono text-[9px] text-muted-foreground">
+												S3 Bucket permissions reverted
+											</p>
 										</div>
-										<span className="rounded-none bg-amber-500/15 px-2 py-0.5 font-mono text-[8px] font-bold text-amber-500">
+										<span className="rounded-none bg-amber-500/15 px-2 py-0.5 font-bold font-mono text-[8px] text-amber-500">
 											Auto-Healed
 										</span>
 									</div>
@@ -208,150 +243,26 @@ function CloudSecurityPage() {
 					</div>
 				</div>
 
-				{/* USE-CASE SECTION */}
-				<div className="mt-24 sm:mt-32 border-border/30 border-t pt-16 sm:pt-24">
-					<div className="max-w-3xl">
-						<span className="font-mono text-[10px] text-primary uppercase tracking-[0.25em]">
-							Proven Safeguards
-						</span>
-						<h2 className="mt-4 font-serif text-3xl text-foreground leading-[1.1] tracking-tight sm:text-4xl">
-							Operational scenarios we routinely defend
-						</h2>
-						<p className="mt-4 text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
-							We shift monitoring, prioritization, and response rules to target the
-							critical choke points in digital and core banking environments.
-						</p>
-					</div>
-
-					<div className="mt-16 grid gap-6 md:grid-cols-3">
-						{useCases.map((uc) => (
-							<div
-								key={uc.number}
-								className="group flex flex-col justify-between rounded-none border border-border/30 bg-card p-6 transition-all duration-300 hover:border-primary/25 hover:translate-y-[-2px]"
-							>
-								<div>
-									<div className="flex items-center justify-between">
-										<span className="font-mono text-xl font-bold text-[#405cfe]/30 group-hover:text-primary/70 transition-colors">
-											{uc.number}
-										</span>
-										<span className="rounded-none bg-[#405cfe]/5 border border-primary/15 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-[#405cfe]">
-											{uc.metric}
-										</span>
-									</div>
-									<h3 className="mt-6 font-serif text-xl text-foreground leading-snug">
-										{uc.title}
-									</h3>
-									<p className="mt-3 text-pretty text-sm text-foreground/70 leading-relaxed dark:text-zinc-300">
-										{uc.description}
-									</p>
-								</div>
-							</div>
-						))}
-					</div>
-				</div>
-
-				{/* THE WORKING PROCESS SECTION */}
-				<div className="mt-24 sm:mt-32 border-border/30 border-t pt-16 sm:pt-24">
-					<div className="mx-auto max-w-3xl text-center">
-						<span className="font-mono text-[10px] text-primary uppercase tracking-[0.25em]">
-							Operational Cycle
-						</span>
-						<h2 className="mt-4 font-serif text-3xl text-foreground leading-[1.1] tracking-tight sm:text-4xl">
-							How we collaborate with your team
-						</h2>
-						<p className="mx-auto mt-4 max-w-lg text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
-							A highly coordinated deployment, parsing, and triaging workflow designed to deliver clarity without operational friction.
-						</p>
-					</div>
-
-					{/* Process Timeline Blocks */}
-					<div className="relative mt-16 grid gap-8 md:grid-cols-3">
-						{/* Dotted connecting line */}
-						<div className="pointer-events-none absolute top-10 left-0 hidden h-[1px] w-full border-muted-foreground/25 border-t border-dashed md:block" />
-
-						{steps.map((st) => (
-							<div key={st.number} className="relative z-10 flex flex-col items-center text-center">
-								{/* Step Number Badge */}
-								<div className="flex h-12 w-12 items-center justify-center rounded-full border border-primary/30 bg-card text-primary font-mono text-sm font-semibold shadow-md transition-all duration-300 hover:border-primary/80">
-									{st.number}
-								</div>
-								<h3 className="mt-6 font-serif text-lg text-foreground">
-									{st.title}
-								</h3>
-								<p className="mt-3 text-pretty text-xs text-muted-foreground leading-relaxed max-w-xs">
-									{st.subtitle}
-								</p>
-							</div>
-						))}
-					</div>
-				</div>
-
-				{/* TESTIMONIAL SECTION */}
-				<div className="mt-24 sm:mt-32 rounded-none border border-border/30 bg-[#405cfe]/[0.02] p-8 sm:p-12">
-					<div className="mx-auto max-w-4xl text-center">
-						<div className="flex justify-center gap-0.5">
-							{Array.from({ length: 5 }).map((_, i) => (
-								<Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
-							))}
-						</div>
-						<blockquote className="mt-6 font-serif text-xl text-foreground leading-relaxed sm:text-2xl">
-							&ldquo;Managing hundreds of cloud databases across multiple regions, we needed unyielding, automated posture governance.
-							Selim Solution locked down our structures and simplified audit tracing completely.&rdquo;
-						</blockquote>
-						<div className="mt-8 flex items-center justify-center gap-3">
-							<span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-linear-to-br from-[#405cfe] to-cyan-400">
-								<img
-									src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150"
-									alt="Bishal Gurung"
-									className="h-full w-full object-cover"
-								/>
-							</span>
-							<div className="text-left">
-								<p className="font-semibold text-foreground text-sm">
-									Bishal Gurung
-								</p>
-								<p className="text-muted-foreground text-xs">
-									CTO, Daraz Logistics
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				{/* FAQ SECTION */}
-				<div className="mt-24 sm:mt-32 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-					<div>
-						<p className="font-bold font-mono text-[10px] text-primary uppercase tracking-[0.25em]">
-							FAQ
-						</p>
-						<h2 className="mt-4 text-balance font-serif text-3xl text-foreground leading-[1.05] tracking-tight sm:text-4xl">
-							Answering your team's core concerns
-						</h2>
-						<p className="mt-4 max-w-md text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
-							Direct, technical answers regarding logging compliance, data isolation, and
-							legacy integration.
-						</p>
-					</div>
-
-					<div className="space-y-3">
-						{faqs.map((faq) => (
-							<details
-								key={faq.question}
-								className="group rounded-none border border-border/30 bg-card/60 p-5 transition-colors open:border-[#405cfe]/30 open:bg-[#405cfe]/[0.02]"
-							>
-								<summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-foreground text-sm sm:text-base">
-									<span>{faq.question}</span>
-									<span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-background text-muted-foreground transition-transform duration-200 group-open:rotate-180 group-open:text-[#405cfe]">
-										<ChevronDown className="h-4 w-4" />
-									</span>
-								</summary>
-								<p className="text-pretty pt-4 pr-10 text-muted-foreground text-sm leading-relaxed">
-									{faq.answer}
-								</p>
-							</details>
-						))}
-					</div>
-				</div>
+				<CmsUseCasesSection
+					eyebrow="Proven Safeguards"
+					heading="Operational scenarios we routinely defend"
+					subtitle="Continuous configuration scanning, IAM review, and sovereign data governance across multi-cloud accounts."
+					items={cms.useCases ?? useCases}
+				/>
+				<CmsStepsSection
+					heading="How we collaborate with your team"
+					subtitle="A highly coordinated deployment, hardening, and auditing workflow designed for zero latency."
+					items={cms.steps ?? steps}
+				/>
+				<CmsTestimonialSection
+					testimonial={cms.testimonial ?? {}}
+					avatarUrl="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150"
+				/>
+				<CmsFaqSection
+					subtitle="Direct, technical answers regarding cloud coverage, read-only posture scans, and token governance."
+					items={cms.faqs ?? faqs}
+				/>
+				<CmsRichBodySection html={page?.contentHtml} />
 			</div>
 		</section>
 	);

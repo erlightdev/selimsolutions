@@ -1,18 +1,15 @@
 import { Badge } from "@selimsolutions/ui/components/badge";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-	Activity,
-	ArrowLeft,
-	ArrowRight,
-	BadgeCheck,
-	ChevronDown,
-	FileLock,
-	ShieldCheck,
-	Sparkles,
-	Star,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, BadgeCheck, FileLock } from "lucide-react";
 
-import { useCmsPage } from "@/hooks/use-cms-page";
+import {
+	CmsFaqSection,
+	CmsRichBodySection,
+	CmsStepsSection,
+	CmsTestimonialSection,
+	CmsUseCasesSection,
+} from "@/components/cms-detail-sections";
+import { useCmsPageData } from "@/hooks/use-cms-page";
 
 export const Route = createFileRoute("/services/grc-compliance")({
 	component: GrcServicePage,
@@ -56,17 +53,20 @@ const steps = [
 	{
 		number: "01",
 		title: "Framework Baseline Selection",
-		subtitle: "Select and establish baseline parameters matching your targeted auditing standards (ISO 27001, PCI, SOC 2).",
+		subtitle:
+			"Select and establish baseline parameters matching your targeted auditing standards (ISO 27001, PCI, SOC 2).",
 	},
 	{
 		number: "02",
 		title: "Control Analysis & Remediation",
-		subtitle: "Audit system configurations, user access levels, and logs, closing critical technical gaps on subnets.",
+		subtitle:
+			"Audit system configurations, user access levels, and logs, closing critical technical gaps on subnets.",
 	},
 	{
 		number: "03",
 		title: "External Audit Representation",
-		subtitle: "Generate read-only evidence cards and walkthrough guides, coordinating with third-party certification bodies during inspections.",
+		subtitle:
+			"Generate read-only evidence cards and walkthrough guides, coordinating with third-party certification bodies during inspections.",
 	},
 ] as const;
 
@@ -89,7 +89,25 @@ const faqs = [
 ] as const;
 
 function GrcServicePage() {
-	useCmsPage("/services/grc-compliance");
+	const { page, cms } = useCmsPageData("/services/grc-compliance", {
+		hero: {
+			eyebrow: "GRC & COMPLIANCE PREPARATION",
+			headline: "Standard compliance built for operations.",
+			subheadline:
+				"We translate compliance guidelines into clean technical controls. Map operations, automate log audits, and generate structured evidence files to clear external inspections with zero friction.",
+			ctaLabel: "Request Compliance Prep",
+			ctaHref: "/free-assessment",
+		},
+		useCases: [...useCases],
+		steps: [...steps],
+		testimonial: {
+			quote:
+				"ISO 27001 and SOC 2 readiness that used to take quarters took weeks. Selim Solution mapped controls to our reality instead of handing us a generic checklist.",
+			author: "Rohan Karki",
+			role: "GRC Lead, NIC Asia",
+		},
+		faqs: [...faqs],
+	});
 	return (
 		<section className="relative isolate overflow-hidden bg-background py-16 sm:py-24">
 			{/* Grid Pattern and Ambient Light */}
@@ -124,20 +142,24 @@ function GrcServicePage() {
 							variant="outline"
 							className="rounded-none border-primary/20 bg-primary/5 px-3.5 py-1.5 font-mono text-[11px] text-primary uppercase tracking-widest"
 						>
-							GRC & COMPLIANCE PREPARATION
+							{cms.hero?.eyebrow || "GRC & COMPLIANCE PREPARATION"}
 						</Badge>
 						<h1 className="mt-6 text-balance font-serif text-4xl text-foreground leading-[1.05] tracking-[-0.02em] sm:text-5xl lg:text-6xl">
-							Standard compliance built for operations.
+							{cms.hero?.headline ||
+								"Standard compliance built for operations."}
 						</h1>
 						<p className="mt-6 max-w-xl text-pretty text-base text-foreground/75 leading-relaxed sm:text-lg dark:text-zinc-300">
-							We translate compliance guidelines into clean technical controls. Map operations, automate log audits, and generate structured evidence files to clear external inspections with zero friction.
+							{cms.hero?.subheadline}
 						</p>
 						<div className="mt-8 flex flex-wrap gap-4">
 							<Link
-								to="/free-assessment"
+								to={
+									(cms.hero?.ctaHref ||
+										"/free-assessment") as "/free-assessment"
+								}
 								className="group inline-flex items-center justify-center gap-2 rounded-none bg-primary px-6 py-3 font-semibold text-primary-foreground text-sm tracking-wide transition-all duration-150 hover:bg-primary/90 active:scale-[0.97]"
 							>
-								Request Compliance Prep
+								{cms.hero?.ctaLabel || "Request Compliance Prep"}
 								<ArrowRight className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-0.5" />
 							</Link>
 						</div>
@@ -156,11 +178,11 @@ function GrcServicePage() {
 										<span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-emerald-400 opacity-75" />
 										<span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
 									</span>
-									<span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+									<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
 										COMPLIANCE CONTROLS AUDITOR
 									</span>
 								</div>
-								<span className="rounded-none bg-[#405cfe]/10 px-2 py-0.5 font-mono text-[9px] font-bold text-primary">
+								<span className="rounded-none bg-[#405cfe]/10 px-2 py-0.5 font-bold font-mono text-[9px] text-primary">
 									MULTI-STANDARD ALIGNED
 								</span>
 							</div>
@@ -170,11 +192,18 @@ function GrcServicePage() {
 								{/* Activity Block 1: Readiness slider progress */}
 								<div className="rounded-none border border-border/20 bg-muted/10 p-3">
 									<div className="flex items-center justify-between">
-										<span className="font-serif text-sm text-foreground">Global Audit Readiness</span>
-										<span className="font-mono text-xs font-semibold tabular-nums text-emerald-500">Passed: 100%</span>
+										<span className="font-serif text-foreground text-sm">
+											Global Audit Readiness
+										</span>
+										<span className="font-mono font-semibold text-emerald-500 text-xs tabular-nums">
+											Passed: 100%
+										</span>
 									</div>
 									<div className="mt-2.5 h-2 w-full bg-border/20">
-										<div className="h-full bg-emerald-500" style={{ width: "100%" }} />
+										<div
+											className="h-full bg-emerald-500"
+											style={{ width: "100%" }}
+										/>
 									</div>
 								</div>
 
@@ -183,11 +212,15 @@ function GrcServicePage() {
 									<div className="flex items-center gap-3">
 										<FileLock className="h-4 w-4 text-[#405cfe]" />
 										<div>
-											<p className="font-serif text-sm text-foreground leading-none">ISO 27001 ISMS Binders</p>
-											<p className="mt-1 font-mono text-[9px] text-muted-foreground">Automated evidence mapping files</p>
+											<p className="font-serif text-foreground text-sm leading-none">
+												ISO 27001 ISMS Binders
+											</p>
+											<p className="mt-1 font-mono text-[9px] text-muted-foreground">
+												Automated evidence mapping files
+											</p>
 										</div>
 									</div>
-									<span className="rounded-none bg-emerald-500/10 px-1.5 py-0.5 font-mono text-[8px] text-emerald-500 font-bold">
+									<span className="rounded-none bg-emerald-500/10 px-1.5 py-0.5 font-bold font-mono text-[8px] text-emerald-500">
 										Verified OK
 									</span>
 								</div>
@@ -195,9 +228,11 @@ function GrcServicePage() {
 								<div className="flex items-center justify-between rounded-none border border-border/20 bg-muted/10 p-3">
 									<div className="flex items-center gap-3">
 										<BadgeCheck className="h-4 w-4 text-emerald-500" />
-										<span className="font-serif text-sm text-foreground">PCI-DSS Requirement 10 logs</span>
+										<span className="font-serif text-foreground text-sm">
+											PCI-DSS Requirement 10 logs
+										</span>
 									</div>
-									<span className="rounded-none bg-emerald-500/10 px-1.5 py-0.5 font-mono text-[8px] font-semibold text-emerald-500 font-bold">
+									<span className="rounded-none bg-emerald-500/10 px-1.5 py-0.5 font-bold font-mono font-semibold text-[8px] text-emerald-500">
 										Audit ready
 									</span>
 								</div>
@@ -206,150 +241,26 @@ function GrcServicePage() {
 					</div>
 				</div>
 
-				{/* USE-CASE SECTION */}
-				<div className="mt-24 sm:mt-32 border-border/30 border-t pt-16 sm:pt-24">
-					<div className="max-w-3xl">
-						<span className="font-mono text-[10px] text-primary uppercase tracking-[0.25em]">
-							Proven Compliance
-						</span>
-						<h2 className="mt-4 font-serif text-3xl text-foreground leading-[1.1] tracking-tight sm:text-4xl">
-							Operational scenarios we routinely defend
-						</h2>
-						<p className="mt-4 text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
-							We shift monitoring, prioritization, and response rules to target the
-							critical choke points in digital and core banking environments.
-						</p>
-					</div>
-
-					<div className="mt-16 grid gap-6 md:grid-cols-3">
-						{useCases.map((uc) => (
-							<div
-								key={uc.number}
-								className="group flex flex-col justify-between rounded-none border border-border/30 bg-card p-6 transition-all duration-300 hover:border-primary/25 hover:translate-y-[-2px]"
-							>
-								<div>
-									<div className="flex items-center justify-between">
-										<span className="font-mono text-xl font-bold text-[#405cfe]/30 group-hover:text-primary/70 transition-colors">
-											{uc.number}
-										</span>
-										<span className="rounded-none bg-[#405cfe]/5 border border-primary/15 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-[#405cfe]">
-											{uc.metric}
-										</span>
-									</div>
-									<h3 className="mt-6 font-serif text-xl text-foreground leading-snug">
-										{uc.title}
-									</h3>
-									<p className="mt-3 text-pretty text-sm text-foreground/70 leading-relaxed dark:text-zinc-300">
-										{uc.description}
-									</p>
-								</div>
-							</div>
-						))}
-					</div>
-				</div>
-
-				{/* THE WORKING PROCESS SECTION */}
-				<div className="mt-24 sm:mt-32 border-border/30 border-t pt-16 sm:pt-24">
-					<div className="mx-auto max-w-3xl text-center">
-						<span className="font-mono text-[10px] text-primary uppercase tracking-[0.25em]">
-							Operational Cycle
-						</span>
-						<h2 className="mt-4 font-serif text-3xl text-foreground leading-[1.1] tracking-tight sm:text-4xl">
-							How we collaborate with your team
-						</h2>
-						<p className="mx-auto mt-4 max-w-lg text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
-							A highly coordinated deployment, parsing, and triaging workflow designed to deliver clarity without operational friction.
-						</p>
-					</div>
-
-					{/* Process Timeline Blocks */}
-					<div className="relative mt-16 grid gap-8 md:grid-cols-3">
-						{/* Dotted connecting line */}
-						<div className="pointer-events-none absolute top-10 left-0 hidden h-[1px] w-full border-muted-foreground/25 border-t border-dashed md:block" />
-
-						{steps.map((st) => (
-							<div key={st.number} className="relative z-10 flex flex-col items-center text-center">
-								{/* Step Number Badge */}
-								<div className="flex h-12 w-12 items-center justify-center rounded-full border border-primary/30 bg-card text-primary font-mono text-sm font-semibold shadow-md transition-all duration-300 hover:border-primary/80">
-									{st.number}
-								</div>
-								<h3 className="mt-6 font-serif text-lg text-foreground">
-									{st.title}
-								</h3>
-								<p className="mt-3 text-pretty text-xs text-muted-foreground leading-relaxed max-w-xs">
-									{st.subtitle}
-								</p>
-							</div>
-						))}
-					</div>
-				</div>
-
-				{/* TESTIMONIAL SECTION */}
-				<div className="mt-24 sm:mt-32 rounded-none border border-border/30 bg-[#405cfe]/[0.02] p-8 sm:p-12">
-					<div className="mx-auto max-w-4xl text-center">
-						<div className="flex justify-center gap-0.5">
-							{Array.from({ length: 5 }).map((_, i) => (
-								<Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
-							))}
-						</div>
-						<blockquote className="mt-6 font-serif text-xl text-foreground leading-relaxed sm:text-2xl">
-							&ldquo;ISO 27001 and SOC 2 readiness that used to take quarters took weeks. Selim Solution mapped controls
-							to our reality instead of handing us a generic checklist.&rdquo;
-						</blockquote>
-						<div className="mt-8 flex items-center justify-center gap-3">
-							<span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-linear-to-br from-[#405cfe] to-cyan-400">
-								<img
-									src="https://images.pexels.com/photos/2182968/pexels-photo-2182968.jpeg?auto=compress&cs=tinysrgb&w=150"
-									alt="Rohan Karki"
-									className="h-full w-full object-cover"
-								/>
-							</span>
-							<div className="text-left">
-								<p className="font-semibold text-foreground text-sm">
-									Rohan Karki
-								</p>
-								<p className="text-muted-foreground text-xs">
-									GRC Lead, NIC Asia
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				{/* FAQ SECTION */}
-				<div className="mt-24 sm:mt-32 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-					<div>
-						<p className="font-bold font-mono text-[10px] text-primary uppercase tracking-[0.25em]">
-							FAQ
-						</p>
-						<h2 className="mt-4 text-balance font-serif text-3xl text-foreground leading-[1.05] tracking-tight sm:text-4xl">
-							Answering your team's core concerns
-						</h2>
-						<p className="mt-4 max-w-md text-pretty text-muted-foreground text-sm leading-relaxed sm:text-base">
-							Direct, technical answers regarding logging compliance, data isolation, and
-							legacy integration.
-						</p>
-					</div>
-
-					<div className="space-y-3">
-						{faqs.map((faq) => (
-							<details
-								key={faq.question}
-								className="group rounded-none border border-border/30 bg-card/60 p-5 transition-colors open:border-[#405cfe]/30 open:bg-[#405cfe]/[0.02]"
-							>
-								<summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-foreground text-sm sm:text-base">
-									<span>{faq.question}</span>
-									<span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-background text-muted-foreground transition-transform duration-200 group-open:rotate-180 group-open:text-[#405cfe]">
-										<ChevronDown className="h-4 w-4" />
-									</span>
-								</summary>
-								<p className="text-pretty pt-4 pr-10 text-muted-foreground text-sm leading-relaxed">
-									{faq.answer}
-								</p>
-							</details>
-						))}
-					</div>
-				</div>
+				<CmsUseCasesSection
+					eyebrow="Proven Compliance"
+					heading="Operational scenarios we routinely defend"
+					subtitle="Continuous control mapping, policy drafting, and automated auditor-ready evidence collection."
+					items={cms.useCases ?? useCases}
+				/>
+				<CmsStepsSection
+					heading="How we collaborate with your team"
+					subtitle="Baseline selection, control remediation, and external audit representation."
+					items={cms.steps ?? steps}
+				/>
+				<CmsTestimonialSection
+					testimonial={cms.testimonial ?? {}}
+					avatarUrl="https://images.pexels.com/photos/2182968/pexels-photo-2182968.jpeg?auto=compress&cs=tinysrgb&w=150"
+				/>
+				<CmsFaqSection
+					subtitle="Direct, technical answers regarding compliance frameworks, automated evidence, and policy templates."
+					items={cms.faqs ?? faqs}
+				/>
+				<CmsRichBodySection html={page?.contentHtml} />
 			</div>
 		</section>
 	);

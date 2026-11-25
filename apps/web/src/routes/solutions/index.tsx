@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 import { sectorHighlights, solutionItems } from "@/data/offerings";
-import { useCmsPage } from "@/hooks/use-cms-page";
+import { useCmsPageData } from "@/hooks/use-cms-page";
 
 export const Route = createFileRoute("/solutions/")({
 	component: SolutionsPage,
@@ -20,7 +20,14 @@ export const Route = createFileRoute("/solutions/")({
 });
 
 function SolutionsPage() {
-	useCmsPage("/solutions");
+	const { cms } = useCmsPageData("/solutions", {
+		hero: {
+			eyebrow: "Solutions",
+			headline: "Security programs tuned to how each sector actually operates.",
+			subheadline:
+				"We shape monitoring, escalation, and control priorities around industry-specific systems, operational pressure, and data sensitivity.",
+		},
+	});
 	return (
 		<section className="relative isolate overflow-hidden bg-background py-16 sm:py-24">
 			<div
@@ -45,15 +52,15 @@ function SolutionsPage() {
 							variant="outline"
 							className="rounded-none border-primary/20 bg-primary/5 px-3.5 py-1.5 font-mono text-[11px] text-primary uppercase tracking-widest"
 						>
-							Solutions
+							{cms.hero?.eyebrow || "Solutions"}
 						</Badge>
 						<h1 className="mt-6 max-w-4xl text-balance font-serif text-4xl text-foreground leading-[1.05] tracking-[-0.02em] sm:text-5xl lg:text-6xl">
-							Security programs tuned to how each sector actually operates.
+							{cms.hero?.headline ||
+								"Security programs tuned to how each sector actually operates."}
 						</h1>
 						<p className="mt-6 max-w-2xl text-pretty text-base text-foreground/75 leading-relaxed sm:text-lg dark:text-zinc-300">
-							We shape monitoring, escalation, and control priorities around
-							industry-specific systems, operational pressure, and data
-							sensitivity.
+							{cms.hero?.subheadline ||
+								"We shape monitoring, escalation, and control priorities around industry-specific systems, operational pressure, and data sensitivity."}
 						</p>
 					</div>
 					<div className="lg:col-span-5 lg:pt-4">

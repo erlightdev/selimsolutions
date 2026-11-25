@@ -9,7 +9,7 @@ import {
 	Sparkles,
 } from "lucide-react";
 
-import { useCmsPage } from "@/hooks/use-cms-page";
+import { useCmsPageData } from "@/hooks/use-cms-page";
 
 const contactMethods = [
 	{
@@ -68,7 +68,12 @@ export const Route = createFileRoute("/contact")({
 });
 
 function ContactPage() {
-	useCmsPage("/contact");
+	const { cms } = useCmsPageData("/contact", {
+		hero: {
+			eyebrow: "Contact",
+			headline: "Talk directly to the security team.",
+		},
+	});
 	return (
 		<section className="relative isolate overflow-hidden bg-background py-16 sm:py-24">
 			<div
@@ -91,10 +96,10 @@ function ContactPage() {
 				<div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-start">
 					<div className="lg:col-span-7">
 						<p className="font-bold text-[10px] text-primary uppercase tracking-widest">
-							Contact
+							{cms.hero?.eyebrow || "Contact"}
 						</p>
 						<h1 className="mt-5 max-w-3xl text-balance font-serif text-4xl text-foreground leading-[1.05] tracking-[-0.02em] sm:text-5xl lg:text-6xl">
-							Talk directly to the security team.
+							{cms.hero?.headline || "Talk directly to the security team."}
 						</h1>
 					</div>
 					<div className="lg:col-span-5 lg:pt-4">

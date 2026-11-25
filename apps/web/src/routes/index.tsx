@@ -24,7 +24,7 @@ import FeatureShowcase from "@/components/feature-showcase";
 import OrchestrationTabs from "@/components/orchestration-tabs";
 import ServicesTabs from "@/components/services-tabs";
 import Testimonials from "@/components/testimonials";
-import { useCmsPage } from "@/hooks/use-cms-page";
+import { useCmsPageData } from "@/hooks/use-cms-page";
 
 export const Route = createFileRoute("/")({
 	component: HomeComponent,
@@ -293,7 +293,20 @@ const certifications = [
 ] as const;
 
 function HomeComponent() {
-	useCmsPage("/");
+	const { cms } = useCmsPageData("/", {
+		hero: {
+			eyebrow: "SOC operational",
+			headline: "Clarity from the highest ground.",
+			subheadline:
+				"Selim Solution guards your digital frontier — a 24/7 SOC with threat detection, incident response and compliance.",
+			ctaLabel: "Get Free Assessment",
+			ctaHref: "/free-assessment",
+			secondaryCtaLabel: "Explore services",
+			secondaryCtaHref: "/services",
+		},
+		stats: [...stats],
+	});
+	const heroStats = cms.stats ?? stats;
 	return (
 		<>
 			{/* Hero — full-bleed video, slides under the fixed navbar (-mt-23) */}
@@ -322,41 +335,48 @@ function HomeComponent() {
 								<span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
 							</span>
 							<span className="font-medium text-white/80 text-xs uppercase tracking-[0.16em]">
-								SOC operational
+								{cms.hero?.eyebrow || "SOC operational"}
 							</span>
 						</div>
 
 						<h1 className="anim-fade-up mt-6 text-balance font-semibold text-5xl leading-[1.02] tracking-tight [animation-delay:80ms] sm:text-6xl lg:text-7xl">
-							Clarity from the{" "}
-							<span className="bg-gradient-to-r from-white via-white to-[#7d8efc] bg-clip-text text-transparent">
-								highest ground.
-							</span>
+							{cms.hero?.headline &&
+							cms.hero.headline !== "Clarity from the highest ground." ? (
+								cms.hero.headline
+							) : (
+								<>
+									Clarity from the{" "}
+									<span className="bg-gradient-to-r from-white via-white to-[#7d8efc] bg-clip-text text-transparent">
+										highest ground.
+									</span>
+								</>
+							)}
 						</h1>
 
 						<p className="anim-fade-up mt-6 max-w-xl text-pretty text-base text-white/70 leading-relaxed [animation-delay:160ms] sm:text-lg">
-							Selim Solution guards your digital frontier — a 24/7 SOC with
-							threat detection, incident response and compliance.
+							{cms.hero?.subheadline ||
+								"Selim Solution guards your digital frontier — a 24/7 SOC with threat detection, incident response and compliance."}
 						</p>
 
 						<div className="anim-fade-up mt-9 flex flex-col gap-3 [animation-delay:240ms] sm:flex-row sm:items-center">
 							<a
-								href="/free-assessment"
+								href={cms.hero?.ctaHref || "/free-assessment"}
 								className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#405cfe] px-6 py-3 font-medium text-sm text-white transition-[background-color,scale] duration-150 ease-out hover:bg-[#3550e0] active:scale-[0.96]"
 							>
-								Get Free Assessment
+								{cms.hero?.ctaLabel || "Get Free Assessment"}
 								<ArrowRight className="h-4 w-4 transition-transform duration-150 ease-out group-hover:translate-x-0.5" />
 							</a>
 							<a
-								href="/services"
+								href={cms.hero?.secondaryCtaHref || "/services"}
 								className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 py-3 font-medium text-sm text-white backdrop-blur-sm transition-[background-color,scale] duration-150 ease-out hover:bg-white/10 active:scale-[0.96]"
 							>
-								Explore services
+								{cms.hero?.secondaryCtaLabel || "Explore services"}
 							</a>
 						</div>
 
 						{/* Trust stats */}
 						<dl className="anim-fade-up mt-12 grid max-w-lg grid-cols-2 gap-x-8 gap-y-6 border-white/10 border-t pt-8 [animation-delay:320ms] sm:grid-cols-4">
-							{stats.map(({ value, label }) => (
+							{heroStats.map(({ value, label }) => (
 								<div key={label}>
 									<dt className="font-semibold text-2xl text-white tabular-nums tracking-tight">
 										{value}

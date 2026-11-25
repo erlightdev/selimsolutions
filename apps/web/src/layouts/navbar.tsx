@@ -4,14 +4,26 @@ import { Link } from "@tanstack/react-router";
 import {
 	ArrowRight,
 	ArrowUpRight,
+	BadgeCheck,
+	Banknote,
 	Blocks,
+	Building2,
 	ChevronDown,
+	Cloud,
+	Cross,
+	GraduationCap,
+	Landmark,
 	Mail,
 	Menu,
 	Moon,
 	PanelsTopLeft,
+	ScanSearch,
+	Shield,
+	ShieldAlert,
+	Siren,
 	Sparkles,
 	Sun,
+	TowerControl,
 	X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -19,9 +31,37 @@ import { useTheme } from "@/components/theme-provider";
 import { resourceItems, serviceItems, solutionItems } from "@/data/offerings";
 import { orpc } from "@/utils/orpc";
 
-/* ── Content (source of truth) ─────────────────────────────────────── */
+/* ── Content (source of truth + CMS hydration) ─────────────────────── */
 
-const primaryNav = [
+type MegaNavItem = {
+	label: string;
+	href: string;
+	description: string;
+	icon: typeof Shield;
+};
+
+type PrimaryNavLink = {
+	to: string;
+	label: string;
+	description: string;
+};
+
+const NAV_ICON_MAP: Record<string, typeof Shield> = {
+	BadgeCheck,
+	Banknote,
+	Building2,
+	Cloud,
+	Cross,
+	GraduationCap,
+	Landmark,
+	ScanSearch,
+	Shield,
+	ShieldAlert,
+	Siren,
+	TowerControl,
+};
+
+const primaryNav: readonly PrimaryNavLink[] = [
 	{ to: "/about", label: "About", description: "Our story from Seim Lake" },
 	{
 		to: "/blog",
@@ -29,7 +69,7 @@ const primaryNav = [
 		description: "Read our security blog",
 	},
 	{ to: "/contact", label: "Contact", description: "Talk to our SOC team" },
-] as const;
+];
 
 const routerLinks = new Set([
 	"/about",
@@ -68,7 +108,13 @@ function AnimatedThemeToggler() {
 
 /* ── Megamenu ──────────────────────────────────────────────────────── */
 
-function ServicesMegamenu({ onClose }: { onClose: () => void }) {
+function ServicesMegamenu({
+	onClose,
+	items,
+}: {
+	onClose: () => void;
+	items: readonly MegaNavItem[];
+}) {
 	return (
 		<div className="grid w-[min(72rem,calc(100vw-2rem))] grid-cols-1 gap-8 p-6 lg:grid-cols-12">
 			<div className="rounded-2xl border border-border bg-muted/30 p-5 lg:col-span-3">
@@ -95,10 +141,10 @@ function ServicesMegamenu({ onClose }: { onClose: () => void }) {
 					Core Services
 				</p>
 				<ul className="grid grid-cols-1 gap-1 sm:grid-cols-2">
-					{serviceItems.map(({ label, href, description, icon: Icon }) => (
-						<li key={label}>
+					{items.map(({ label, href, description, icon: Icon }) => (
+						<li key={`${href}-${label}`}>
 							<Link
-								to={href}
+								to={href as "/services/soc-as-a-service"}
 								onClick={onClose}
 								className="group flex gap-3 rounded-xl p-3 transition-colors hover:bg-foreground/5"
 							>
@@ -153,7 +199,13 @@ function ServicesMegamenu({ onClose }: { onClose: () => void }) {
 	);
 }
 
-function SolutionsMegamenu({ onClose }: { onClose: () => void }) {
+function SolutionsMegamenu({
+	onClose,
+	items,
+}: {
+	onClose: () => void;
+	items: readonly MegaNavItem[];
+}) {
 	return (
 		<div className="grid w-[min(72rem,calc(100vw-2rem))] grid-cols-1 gap-8 p-6 lg:grid-cols-12">
 			<div className="rounded-2xl border border-border bg-muted/30 p-5 lg:col-span-3">
@@ -180,10 +232,10 @@ function SolutionsMegamenu({ onClose }: { onClose: () => void }) {
 					Solutions by Industry
 				</p>
 				<ul className="grid grid-cols-1 gap-1 sm:grid-cols-2">
-					{solutionItems.map(({ label, href, description, icon: Icon }) => (
-						<li key={label}>
+					{items.map(({ label, href, description, icon: Icon }) => (
+						<li key={`${href}-${label}`}>
 							<Link
-								to={href}
+								to={href as "/solutions/banking-finance"}
 								onClick={onClose}
 								className="group flex gap-3 rounded-xl p-3 transition-colors hover:bg-foreground/5"
 							>
@@ -254,7 +306,17 @@ function SolutionsMegamenu({ onClose }: { onClose: () => void }) {
 
 /* ── Mobile menu ───────────────────────────────────────────────────── */
 
-function MobileMenu({ onClose }: { onClose: () => void }) {
+function MobileMenu({
+	onClose,
+	headerLinks,
+	servicesList,
+	solutionsList,
+}: {
+	onClose: () => void;
+	headerLinks: readonly PrimaryNavLink[];
+	servicesList: readonly MegaNavItem[];
+	solutionsList: readonly MegaNavItem[];
+}) {
 	return (
 		<div className="fixed inset-0 z-50 lg:hidden">
 			<button
@@ -278,10 +340,10 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
 
 				<nav className="flex-1 px-5 py-4">
 					<ul className="space-y-1">
-						{primaryNav.map(({ to, label }) => (
-							<li key={to}>
+						{headerLinks.map(({ to, label }) => (
+							<li key={`${to}-${label}`}>
 								<Link
-									to={to}
+									to={to as "/about"}
 									onClick={onClose}
 									className="block rounded-lg px-3 py-2.5 font-medium text-sm transition-colors hover:bg-foreground/5"
 								>
@@ -296,10 +358,10 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
 							Services
 						</p>
 						<ul className="mt-3 space-y-1">
-							{serviceItems.map(({ label, href }) => (
-								<li key={label}>
+							{servicesList.map(({ label, href }) => (
+								<li key={`${href}-${label}`}>
 									<Link
-										to={href}
+										to={href as "/services/soc-as-a-service"}
 										onClick={onClose}
 										className="block rounded-lg px-3 py-2 text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
 									>
@@ -323,10 +385,10 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
 							Solutions
 						</p>
 						<ul className="mt-3 space-y-1">
-							{solutionItems.map(({ label, href }) => (
-								<li key={label}>
+							{solutionsList.map(({ label, href }) => (
+								<li key={`${href}-${label}`}>
 									<Link
-										to={href}
+										to={href as "/solutions/banking-finance"}
 										onClick={onClose}
 										className="block rounded-lg px-3 py-2 text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
 									>
@@ -381,7 +443,46 @@ export default function Navbar() {
 		staleTime: 60_000,
 	});
 	const config = siteBundle.data?.config;
+	const navItems = siteBundle.data?.navItems ?? [];
 	const showAnnouncement = config?.showAnnouncementBar ?? true;
+
+	const headerLinks: readonly PrimaryNavLink[] = (() => {
+		const dbItems = navItems.filter(
+			(item) => item.location === "HEADER_PRIMARY",
+		);
+		if (dbItems.length === 0) return primaryNav;
+		return dbItems.map((item) => ({
+			to: item.href,
+			label: item.label,
+			description: item.description ?? "",
+		}));
+	})();
+
+	const dynamicServices: readonly MegaNavItem[] = (() => {
+		const dbItems = navItems.filter(
+			(item) => item.location === "MEGA_SERVICES",
+		);
+		if (dbItems.length === 0) return serviceItems;
+		return dbItems.map((item) => ({
+			label: item.label,
+			href: item.href,
+			description: item.description ?? "",
+			icon: NAV_ICON_MAP[item.iconName ?? ""] ?? TowerControl,
+		}));
+	})();
+
+	const dynamicSolutions: readonly MegaNavItem[] = (() => {
+		const dbItems = navItems.filter(
+			(item) => item.location === "MEGA_SOLUTIONS",
+		);
+		if (dbItems.length === 0) return solutionItems;
+		return dbItems.map((item) => ({
+			label: item.label,
+			href: item.href,
+			description: item.description ?? "",
+			icon: NAV_ICON_MAP[item.iconName ?? ""] ?? Landmark,
+		}));
+	})();
 
 	useEffect(() => {
 		const onScroll = () => setScrolled(window.scrollY > 8);
@@ -404,7 +505,16 @@ export default function Navbar() {
 						</span>
 						<span className="font-medium">
 							{config?.announcementText ? (
-								<span>{config.announcementText}</span>
+								config.announcementHref ? (
+									<Link
+										to={config.announcementHref as "/free-assessment"}
+										className="underline-offset-2 hover:underline"
+									>
+										{config.announcementText}
+									</Link>
+								) : (
+									<span>{config.announcementText}</span>
+								)
 							) : (
 								<>
 									<span className="hidden sm:inline">
@@ -489,10 +599,10 @@ export default function Navbar() {
 							/>
 						</button>
 
-						{primaryNav.map(({ to, label }) => (
+						{headerLinks.map(({ to, label }) => (
 							<Link
-								key={to}
-								to={to}
+								key={`${to}-${label}`}
+								to={to as "/about"}
 								onMouseEnter={() => setOpenMenu(null)}
 								className="rounded-lg px-3 py-2 font-medium text-foreground/80 text-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
 							>
@@ -506,9 +616,15 @@ export default function Navbar() {
 						<div className="absolute top-full left-1/2 z-50 hidden w-[min(72rem,calc(100vw-2rem))] -translate-x-1/2 pt-3 lg:block">
 							<div className="anim-megamenu overflow-hidden rounded-2xl border border-border bg-popover shadow-2xl shadow-black/20">
 								{openMenu === "services" ? (
-									<ServicesMegamenu onClose={() => setOpenMenu(null)} />
+									<ServicesMegamenu
+										onClose={() => setOpenMenu(null)}
+										items={dynamicServices}
+									/>
 								) : (
-									<SolutionsMegamenu onClose={() => setOpenMenu(null)} />
+									<SolutionsMegamenu
+										onClose={() => setOpenMenu(null)}
+										items={dynamicSolutions}
+									/>
 								)}
 							</div>
 						</div>
@@ -538,7 +654,14 @@ export default function Navbar() {
 				</div>
 			</div>
 
-			{mobileOpen && <MobileMenu onClose={() => setMobileOpen(false)} />}
+			{mobileOpen && (
+				<MobileMenu
+					onClose={() => setMobileOpen(false)}
+					headerLinks={headerLinks}
+					servicesList={dynamicServices}
+					solutionsList={dynamicSolutions}
+				/>
+			)}
 		</header>
 	);
 }

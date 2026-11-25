@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
+import { type CmsPageContentJson, mergeCmsPageData } from "@/lib/cms-types";
 import { orpc } from "@/utils/orpc";
 
 export function useCmsPage(slug: string) {
@@ -46,4 +47,14 @@ export function useCmsPage(slug: string) {
 	}, [page]);
 
 	return query;
+}
+
+export function useCmsPageData(slug: string, defaults: CmsPageContentJson) {
+	const query = useCmsPage(slug);
+	const data = mergeCmsPageData(query.data?.contentJson, defaults);
+	return {
+		...query,
+		page: query.data,
+		cms: data,
+	};
 }

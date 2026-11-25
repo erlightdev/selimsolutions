@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { Globe, Mail, MessageCircle, Phone } from "lucide-react";
+import { Globe, Mail, MessageCircle } from "lucide-react";
 
 import { orpc } from "@/utils/orpc";
 
@@ -101,10 +101,15 @@ export default function Footer() {
 	};
 
 	const footerServices = byLoc("FOOTER_SERVICES", services);
+	const footerSolutions = byLoc("FOOTER_SOLUTIONS", solutions);
 	const footerCompany = byLoc("FOOTER_COMPANY", company);
 	const footerLegal = byLoc("FOOTER_LEGAL", legal);
+	const footerSocials = byLoc(
+		"FOOTER_SOCIALS",
+		socials.map((s) => ({ label: s.label, href: s.href })),
+	);
 	const contactEmail = config?.contactEmail || "contact@selim.solutions";
-	const contactPhone = config?.contactPhone || "+977 — 24/7 hotline";
+	const brandTagline = config?.tagline || "Clarity from the highest ground.";
 
 	return (
 		<footer className="mt-20">
@@ -163,7 +168,7 @@ export default function Footer() {
 								/>
 							</a>
 							<p className="mt-5 max-w-xs text-neutral-400 text-sm leading-relaxed">
-								Clarity from the highest ground.
+								{brandTagline}
 							</p>
 
 							<ul className="mt-8 space-y-4">
@@ -175,10 +180,6 @@ export default function Footer() {
 									>
 										{contactEmail}
 									</a>
-								</li>
-								<li className="flex items-start gap-3 text-neutral-400 text-sm">
-									<Phone className="mt-0.5 h-4 w-4 shrink-0 text-neutral-500" />
-									<span>{contactPhone}</span>
 								</li>
 								<li className="flex items-start gap-3 text-neutral-400 text-sm">
 									<MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-neutral-500" />
@@ -208,8 +209,8 @@ export default function Footer() {
 						<div className="lg:col-span-3">
 							<h3 className="font-semibold text-sm text-white">Solutions</h3>
 							<ul className="mt-5 space-y-3">
-								{solutions.map(({ label, href }) => (
-									<li key={label}>
+								{footerSolutions.map(({ label, href }) => (
+									<li key={`${href}-${label}`}>
 										<FooterLink href={href}>{label}</FooterLink>
 									</li>
 								))}
@@ -221,7 +222,7 @@ export default function Footer() {
 							<h3 className="font-semibold text-sm text-white">Company</h3>
 							<ul className="mt-5 space-y-3">
 								{footerCompany.map(({ label, href }) => (
-									<li key={label}>
+									<li key={`${href}-${label}`}>
 										<FooterLink href={href}>{label}</FooterLink>
 									</li>
 								))}
@@ -232,19 +233,22 @@ export default function Footer() {
 						<div className="lg:col-span-2">
 							<h3 className="font-semibold text-sm text-white">Connect</h3>
 							<ul className="mt-5 space-y-3">
-								{socials.map(({ label, href, Icon }) => (
-									<li key={label}>
-										<a
-											href={href}
-											target={href.startsWith("http") ? "_blank" : undefined}
-											rel={href.startsWith("http") ? "noreferrer" : undefined}
-											className="inline-flex items-center gap-2 text-neutral-400 text-sm transition-colors hover:text-white"
-										>
-											<Icon className="h-4 w-4" />
-											{label}
-										</a>
-									</li>
-								))}
+								{footerSocials.map(({ label, href }) => {
+									const Icon = href.startsWith("mailto:") ? Mail : Globe;
+									return (
+										<li key={`${href}-${label}`}>
+											<a
+												href={href}
+												target={href.startsWith("http") ? "_blank" : undefined}
+												rel={href.startsWith("http") ? "noreferrer" : undefined}
+												className="inline-flex items-center gap-2 text-neutral-400 text-sm transition-colors hover:text-white"
+											>
+												<Icon className="h-4 w-4" />
+												{label}
+											</a>
+										</li>
+									);
+								})}
 							</ul>
 
 							<h3 className="mt-8 font-semibold text-sm text-white">Legal</h3>

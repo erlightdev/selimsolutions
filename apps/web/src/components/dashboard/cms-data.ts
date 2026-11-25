@@ -289,7 +289,7 @@ export const INITIAL_SEO: CmsSeoConfig = {
 	siteTitle: "Selim Solutions",
 	defaultDescription:
 		"Managed SOC, Cloud Security, VAPT, and GRC Compliance for modern enterprises.",
-	canonicalBase: "https://selimsolutions.com",
+	canonicalBase: "https://selim.solutions",
 	robotsIndex: true,
 	sitemapEnabled: true,
 	structuredData: true,
@@ -301,7 +301,7 @@ export const INITIAL_SEO: CmsSeoConfig = {
 export const INITIAL_SETTINGS: CmsGeneralSettings = {
 	siteName: "Selim Solutions",
 	tagline: "Secure, confident, enterprise defense.",
-	siteUrl: "https://selimsolutions.com",
-	adminEmail: "admin@selimsolutions.com",
+	siteUrl: "https://selim.solutions",
+	adminEmail: "admin@selim.solutions",
 	permalinkStyle: "/blog/:slug",
 };

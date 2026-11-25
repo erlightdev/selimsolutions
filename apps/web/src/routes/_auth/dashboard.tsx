@@ -9,7 +9,7 @@ import { Skeleton } from "@selimsolutions/ui/components/skeleton";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Search } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { AppSidebar } from "@/components/dashboard/app-sidebar";
@@ -34,11 +34,60 @@ import {
 	ConfirmDeleteDialog,
 	type DeleteTarget,
 } from "@/components/dashboard/confirm-delete-dialog";
+import { ConfirmLeaveDialog } from "@/components/dashboard/confirm-leave-dialog";
 import { ModeToggle } from "@/components/mode-toggle";
 import { authClient } from "@/lib/auth-client";
 import { orpc } from "@/utils/orpc";
 
+const VALID_VIEWS = new Set<CmsView>([
+	"overview",
+	"pages",
+	"services",
+	"solutions",
+	"legal",
+	"posts",
+	"media",
+	"appearance",
+	"menus",
+	"settings",
+]);
+
+type StatusFilter = "all" | "PUBLISHED" | "DRAFT";
+
+export type DashboardSearch = {
+	tab?: CmsView;
+	edit?: string;
+	status?: StatusFilter;
+	q?: string;
+};
+
 export const Route = createFileRoute("/_auth/dashboard")({
+	validateSearch: (search: Record<string, unknown>): DashboardSearch => {
+		const tab =
+			typeof search.tab === "string" && VALID_VIEWS.has(search.tab as CmsView)
+				? (search.tab as CmsView)
+				: undefined;
+		const edit =
+			typeof search.edit === "string" && search.edit.trim()
+				? search.edit.trim()
+				: undefined;
+		const status =
+			search.status === "PUBLISHED" ||
+			search.status === "DRAFT" ||
+			search.status === "all"
+				? search.status
+				: undefined;
+		const q =
+			typeof search.q === "string" && search.q.length > 0
+				? search.q
+				: undefined;
+		return {
+			...(tab ? { tab } : {}),
+			...(edit ? { edit } : {}),
+			...(status && status !== "all" ? { status } : {}),
+			...(q ? { q } : {}),
+		};
+	},
 	component: RouteComponent,
 });
 
@@ -87,13 +136,86 @@ const VIEW_META: Record<CmsView, { title: string; subtitle: string }> = {
 
 function RouteComponent() {
 	const { session } = Route.useRouteContext();
+	const search = Route.useSearch();
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const searchRef = useRef<HTMLInputElement>(null);
 
-	const [activeView, setActiveView] = useState<CmsView>("overview");
-	const [searchQuery, setSearchQuery] = useState("");
+	const activeView: CmsView = search.tab ?? "overview";
+	const editId = search.edit;
+	const statusFilter: StatusFilter = search.status ?? "all";
+	const searchQuery = search.q ?? "";
 	const [deleteTarget, setDeleteTarget] = useState<DeleteTarget | null>(null);
+	const [isEditorDirty, setIsEditorDirty] = useState(false);
+	const [pendingLeaveAction, setPendingLeaveAction] = useState<
+		(() => void) | null
+	>(null);
+
+	useEffect(() => {
+		if (!isEditorDirty) return;
+		const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+			e.preventDefault();
+			e.returnValue = "";
+		};
+		window.addEventListener("beforeunload", handleBeforeUnload);
+		return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+	}, [isEditorDirty]);
+
+	const requestLeave = (action: () => void) => {
+		if (isEditorDirty) {
+			setPendingLeaveAction(() => action);
+			return;
+		}
+		action();
+	};
+
+	const selectView = (view: CmsView) => {
+		requestLeave(() => {
+			setIsEditorDirty(false);
+			navigate({
+				to: "/dashboard",
+				search: view === "overview" ? {} : { tab: view },
+			});
+		});
+	};
+
+	const setEditId = (nextEdit?: string) => {
+		navigate({
+			to: "/dashboard",
+			search: (prev) => ({
+				...(prev.tab ? { tab: prev.tab } : {}),
+				...(prev.status ? { status: prev.status } : {}),
+				...(prev.q ? { q: prev.q } : {}),
+				...(nextEdit ? { edit: nextEdit } : {}),
+			}),
+		});
+	};
+
+	const setStatusFilter = (nextStatus: StatusFilter) => {
+		navigate({
+			to: "/dashboard",
+			replace: true,
+			search: (prev) => ({
+				...(prev.tab ? { tab: prev.tab } : {}),
+				...(prev.edit ? { edit: prev.edit } : {}),
+				...(prev.q ? { q: prev.q } : {}),
+				...(nextStatus !== "all" ? { status: nextStatus } : {}),
+			}),
+		});
+	};
+
+	const setSearchQuery = (nextQ: string) => {
+		navigate({
+			to: "/dashboard",
+			replace: true,
+			search: (prev) => ({
+				...(prev.tab ? { tab: prev.tab } : {}),
+				...(prev.edit ? { edit: prev.edit } : {}),
+				...(prev.status ? { status: prev.status } : {}),
+				...(nextQ ? { q: nextQ } : {}),
+			}),
+		});
+	};
 
 	const privateData = useQuery(orpc.privateData.queryOptions());
 	const pagesQuery = useQuery(orpc.cms.pagesList.queryOptions());
@@ -303,48 +425,57 @@ function RouteComponent() {
 		),
 	);
 
-	const appearancePayload: AppearancePayload = {
-		accentColor: cfg?.accentColor ?? "#0069eb",
-		defaultTheme:
-			(cfg?.defaultTheme as AppearancePayload["defaultTheme"]) ?? "dark",
-		containerWidth:
-			(cfg?.containerWidth as AppearancePayload["containerWidth"]) ??
-			"standard",
-		showAnnouncementBar: cfg?.showAnnouncementBar ?? true,
-		stickyHeader: cfg?.stickyHeader ?? true,
-		announcementText: cfg?.announcementText ?? "",
-		announcementHref: cfg?.announcementHref ?? "/free-assessment",
-		footerCtaTitle: cfg?.footerCtaTitle ?? "",
-		footerCtaSubtitle: cfg?.footerCtaSubtitle ?? "",
-		footerCtaLabel: cfg?.footerCtaLabel ?? "Get Free Assessment",
-		footerCtaHref: cfg?.footerCtaHref ?? "/free-assessment",
-	};
+	const appearancePayload: AppearancePayload = useMemo(
+		() => ({
+			accentColor: cfg?.accentColor ?? "#0069eb",
+			defaultTheme:
+				(cfg?.defaultTheme as AppearancePayload["defaultTheme"]) ?? "dark",
+			containerWidth:
+				(cfg?.containerWidth as AppearancePayload["containerWidth"]) ??
+				"standard",
+			showAnnouncementBar: cfg?.showAnnouncementBar ?? true,
+			stickyHeader: cfg?.stickyHeader ?? true,
+			announcementText: cfg?.announcementText ?? "",
+			announcementHref: cfg?.announcementHref ?? "/free-assessment",
+			footerCtaTitle: cfg?.footerCtaTitle ?? "",
+			footerCtaSubtitle: cfg?.footerCtaSubtitle ?? "",
+			footerCtaLabel: cfg?.footerCtaLabel ?? "Get Free Assessment",
+			footerCtaHref: cfg?.footerCtaHref ?? "/free-assessment",
+		}),
+		[cfg],
+	);
 
-	const generalPayload: GeneralSettingsPayload = {
-		siteName: cfg?.siteName ?? "Selim Solutions",
-		tagline: cfg?.tagline ?? "",
-		siteUrl: cfg?.siteUrl ?? "https://selimsolutions.com",
-		adminEmail: cfg?.adminEmail ?? "admin@selimsolutions.com",
-		permalinkStyle: cfg?.permalinkStyle ?? "/blog/:slug",
-		contactEmail: cfg?.contactEmail ?? "contact@selim.solutions",
-		contactPhone: cfg?.contactPhone ?? "+977-1-4000000",
-		contactAddress: cfg?.contactAddress ?? "Kathmandu, Nepal",
-		isoBadgeText: cfg?.isoBadgeText ?? "ISO/IEC 27001:2022 Certified",
-		copyrightText:
-			cfg?.copyrightText ?? "Selim Solutions. All rights reserved.",
-	};
+	const generalPayload: GeneralSettingsPayload = useMemo(
+		() => ({
+			siteName: cfg?.siteName ?? "Selim Solutions",
+			tagline: cfg?.tagline ?? "",
+			siteUrl: cfg?.siteUrl ?? "https://selim.solutions",
+			adminEmail: cfg?.adminEmail ?? "admin@selim.solutions",
+			permalinkStyle: cfg?.permalinkStyle ?? "/blog/:slug",
+			contactEmail: cfg?.contactEmail ?? "contact@selim.solutions",
+			contactPhone: cfg?.contactPhone ?? "+977-1-4000000",
+			contactAddress: cfg?.contactAddress ?? "Kathmandu, Nepal",
+			isoBadgeText: cfg?.isoBadgeText ?? "ISO/IEC 27001:2022 Certified",
+			copyrightText:
+				cfg?.copyrightText ?? "Selim Solutions. All rights reserved.",
+		}),
+		[cfg],
+	);
 
-	const seoPayload: SeoSettingsPayload = {
-		titleSeparator: cfg?.titleSeparator ?? "—",
-		siteTitle: cfg?.siteTitle ?? "Selim Solutions",
-		defaultDescription: cfg?.defaultDescription ?? "",
-		canonicalBase: cfg?.canonicalBase ?? "https://selimsolutions.com",
-		robotsIndex: cfg?.robotsIndex ?? true,
-		sitemapEnabled: cfg?.sitemapEnabled ?? true,
-		structuredData: cfg?.structuredData ?? true,
-		ogTitle: cfg?.ogTitle ?? "Selim Solutions",
-		ogDescription: cfg?.ogDescription ?? "",
-	};
+	const seoPayload: SeoSettingsPayload = useMemo(
+		() => ({
+			titleSeparator: cfg?.titleSeparator ?? "—",
+			siteTitle: cfg?.siteTitle ?? "Selim Solutions",
+			defaultDescription: cfg?.defaultDescription ?? "",
+			canonicalBase: cfg?.canonicalBase ?? "https://selim.solutions",
+			robotsIndex: cfg?.robotsIndex ?? true,
+			sitemapEnabled: cfg?.sitemapEnabled ?? true,
+			structuredData: cfg?.structuredData ?? true,
+			ogTitle: cfg?.ogTitle ?? "Selim Solutions",
+			ogDescription: cfg?.ogDescription ?? "",
+		}),
+		[cfg],
+	);
 
 	const handleSignOut = () => {
 		authClient.signOut({
@@ -365,10 +496,7 @@ function RouteComponent() {
 		<SidebarProvider defaultOpen>
 			<AppSidebar
 				activeView={activeView}
-				onSelectView={(view) => {
-					setActiveView(view);
-					setSearchQuery("");
-				}}
+				onSelectView={selectView}
 				counts={{
 					pages: corePages.length,
 					services: servicePages.length,
@@ -448,7 +576,7 @@ function RouteComponent() {
 										posts={posts}
 										media={media}
 										seoScore={seoScore}
-										onNavigate={setActiveView}
+										onNavigate={selectView}
 									/>
 								)}
 
@@ -457,6 +585,7 @@ function RouteComponent() {
 									activeView === "solutions" ||
 									activeView === "legal") && (
 									<CmsPagesManager
+										key={activeView}
 										pages={
 											activeView === "services"
 												? servicePages
@@ -485,6 +614,12 @@ function RouteComponent() {
 														: "Page"
 										}
 										searchQuery={searchQuery}
+										editId={editId}
+										onEditChange={setEditId}
+										onDirtyChange={setIsEditorDirty}
+										onRequestLeave={requestLeave}
+										statusFilter={statusFilter}
+										onStatusFilterChange={setStatusFilter}
 										siteBaseUrl={generalPayload.siteUrl}
 										isSaving={createPage.isPending || updatePage.isPending}
 										onCreate={async (payload) => {
@@ -534,6 +669,12 @@ function RouteComponent() {
 										posts={posts}
 										categories={categories}
 										searchQuery={searchQuery}
+										editId={editId}
+										onEditChange={setEditId}
+										onDirtyChange={setIsEditorDirty}
+										onRequestLeave={requestLeave}
+										statusFilter={statusFilter}
+										onStatusFilterChange={setStatusFilter}
 										siteBaseUrl={generalPayload.siteUrl}
 										isSaving={createPost.isPending || updatePost.isPending}
 										onCreate={async (payload) => {
@@ -583,9 +724,15 @@ function RouteComponent() {
 								{activeView === "appearance" && (
 									<CmsAppearanceView
 										appearance={appearancePayload}
-										isSaving={updateAppearance.isPending}
-										onSave={async (next) => {
-											await updateAppearance.mutateAsync(next);
+										general={generalPayload}
+										isSaving={
+											updateAppearance.isPending || updateGeneral.isPending
+										}
+										onSave={async (nextAppearance, nextGeneral) => {
+											await Promise.all([
+												updateAppearance.mutateAsync(nextAppearance),
+												updateGeneral.mutateAsync(nextGeneral),
+											]);
 										}}
 									/>
 								)}
@@ -651,6 +798,17 @@ function RouteComponent() {
 					deleteMedia.isPending ||
 					deleteMenu.isPending
 				}
+			/>
+
+			<ConfirmLeaveDialog
+				open={!!pendingLeaveAction}
+				onStay={() => setPendingLeaveAction(null)}
+				onLeave={() => {
+					const action = pendingLeaveAction;
+					setPendingLeaveAction(null);
+					setIsEditorDirty(false);
+					action?.();
+				}}
 			/>
 		</SidebarProvider>
 	);

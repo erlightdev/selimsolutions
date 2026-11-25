@@ -3,19 +3,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
 	Activity,
 	ArrowRight,
-	Award,
-	Cpu,
-	Globe,
 	Lock,
 	Shield,
 	Sparkles,
 	Terminal,
-	UserCheck,
 } from "lucide-react";
 import { useState } from "react";
 import type { Swiper as SwiperClass } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useCmsPage } from "@/hooks/use-cms-page";
+import { useCmsPageData } from "@/hooks/use-cms-page";
 import "swiper/css";
 
 export const Route = createFileRoute("/about")({
@@ -110,7 +106,16 @@ const team: readonly TeamMember[] = [
 ];
 
 function AboutPage() {
-	useCmsPage("/about");
+	const { cms } = useCmsPageData("/about", {
+		hero: {
+			eyebrow: "Who We Are",
+			headline: "Defending digital borders with continuous engineering.",
+			subheadline:
+				"Selim Solution is a premier Managed Cyber Security Service Provider (MSSP). Founded with the vision to deliver world-class cybersecurity defense, we provide 24/7 Security Operations Center monitoring, manual penetration testing, risk governance compliance, and tactical digital forensics response.",
+		},
+		stats: [...stats],
+	});
+	const aboutStats = cms.stats ?? stats;
 	const [swiper, setSwiper] = useState<SwiperClass | null>(null);
 	const [activePillar, setActivePillar] = useState(0);
 
@@ -138,30 +143,28 @@ function AboutPage() {
 			<div className="relative z-10 mx-auto max-w-6xl px-6 lg:px-10">
 				{/* Back button or tiny category cue */}
 				<p className="anim-fade-up mb-4 font-bold text-[10px] text-primary uppercase tracking-widest">
-					Who We Are
+					{cms.hero?.eyebrow || "Who We Are"}
 				</p>
 
 				{/* Title Section */}
 				<div className="mb-24 grid grid-cols-1 items-start gap-12 lg:grid-cols-12">
 					<div className="lg:col-span-7">
 						<h1 className="anim-fade-up text-balance font-serif text-4xl text-foreground leading-[1.1] tracking-[-0.02em] sm:text-5xl lg:text-6xl">
-							Defending digital borders with continuous engineering.
+							{cms.hero?.headline ||
+								"Defending digital borders with continuous engineering."}
 						</h1>
 					</div>
 					<div className="pt-2 sm:pt-4 lg:col-span-5">
 						<p className="max-w-[65ch] text-foreground/75 text-lg leading-[1.8] sm:text-[19px] dark:text-zinc-300">
-							Selim Solution is a premier Managed Cyber Security Service
-							Provider (MSSP). Founded with the vision to deliver world-class
-							cybersecurity defense, we provide 24/7 Security Operations Center
-							monitoring, manual penetration testing, risk governance
-							compliance, and tactical digital forensics response.
+							{cms.hero?.subheadline ||
+								"Selim Solution is a premier Managed Cyber Security Service Provider (MSSP)."}
 						</p>
 					</div>
 				</div>
 
 				{/* High-Contrast Stats Section */}
 				<div className="mb-28 grid grid-cols-2 gap-px overflow-hidden rounded-none bg-foreground/10 ring-1 ring-foreground/10 lg:grid-cols-4">
-					{stats.map((s) => (
+					{aboutStats.map((s) => (
 						<div
 							key={s.label}
 							className="group relative bg-background p-8 sm:p-10"
@@ -201,7 +204,6 @@ function AboutPage() {
 						<div className="hidden flex-col justify-center gap-4 lg:col-span-4 lg:flex">
 							{pillars.map((p, idx) => {
 								const active = idx === activePillar;
-								const IconComp = p.icon;
 								return (
 									<button
 										key={p.id}

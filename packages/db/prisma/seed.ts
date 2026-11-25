@@ -6,6 +6,7 @@ dotenv.config({
 });
 
 import prisma from "../src/index";
+import { PAGE_CONTENT_BY_SLUG } from "./seed-pages-data";
 
 async function main() {
 	// 1. Site Config (General, Appearance, Header Announcement, Footer, Global SEO)
@@ -16,8 +17,8 @@ async function main() {
 			id: 1,
 			siteName: "Selim Solutions",
 			tagline: "Secure, confident, enterprise defense.",
-			siteUrl: "https://selimsolutions.com",
-			adminEmail: "admin@selimsolutions.com",
+			siteUrl: "https://selim.solutions",
+			adminEmail: "admin@selim.solutions",
 			permalinkStyle: "/blog/:slug",
 			accentColor: "#0069eb",
 			defaultTheme: "dark",
@@ -43,7 +44,7 @@ async function main() {
 			siteTitle: "Selim Solutions",
 			defaultDescription:
 				"Managed SOC, VAPT, Cloud Security, EDR, DFIR, and GRC Compliance for modern enterprises.",
-			canonicalBase: "https://selimsolutions.com",
+			canonicalBase: "https://selim.solutions",
 			robotsIndex: true,
 			sitemapEnabled: true,
 			structuredData: true,
@@ -567,7 +568,8 @@ async function main() {
 			{
 				slug: "/services/soc-as-a-service",
 				title: "SOC as a Service",
-				seoDesc: "24/7 monitoring, triage, detection engineering, and response.",
+				seoDesc:
+					"24/7 monitoring, triage, detection engineering, and response.",
 			},
 			{
 				slug: "/services/vapt",
@@ -616,8 +618,7 @@ async function main() {
 			{
 				slug: "/solutions/banking-finance",
 				title: "Banking & Finance Security",
-				seoDesc:
-					"Core banking, payments, and NRB-aligned cyber resilience.",
+				seoDesc: "Core banking, payments, and NRB-aligned cyber resilience.",
 			},
 			{
 				slug: "/solutions/insurance",
@@ -660,6 +661,7 @@ async function main() {
 
 	for (const p of pages) {
 		const { sections, ...pageData } = p;
+		const contentJson = PAGE_CONTENT_BY_SLUG[pageData.slug];
 		const existing = await prisma.cmsPage.findUnique({
 			where: { slug: pageData.slug },
 		});
@@ -667,10 +669,16 @@ async function main() {
 			await prisma.cmsPage.create({
 				data: {
 					...pageData,
+					...(contentJson ? { contentJson } : {}),
 					sections: {
 						create: sections,
 					},
 				},
+			});
+		} else if (!existing.contentJson && contentJson) {
+			await prisma.cmsPage.update({
+				where: { id: existing.id },
+				data: { contentJson },
 			});
 		}
 	}

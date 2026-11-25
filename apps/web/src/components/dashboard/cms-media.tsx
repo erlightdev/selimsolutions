@@ -1,4 +1,4 @@
-import { env } from "@selimsolutions/env/web";
+import { SERVER_URL } from "@selimsolutions/env/web";
 import { Badge } from "@selimsolutions/ui/components/badge";
 import { Button } from "@selimsolutions/ui/components/button";
 import { Input } from "@selimsolutions/ui/components/input";
@@ -104,7 +104,7 @@ export function CmsMedia({
 					continue;
 				}
 				const dataBase64 = await fileToBase64(file);
-				const res = await fetch(`${env.VITE_SERVER_URL}/api/cms/upload`, {
+				const res = await fetch(`${SERVER_URL}/api/cms/upload`, {
 					method: "POST",
 					credentials: "include",
 					headers: { "Content-Type": "application/json" },

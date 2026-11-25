@@ -295,7 +295,7 @@ export function AppSidebar({
 								{user.name || "CMS Editor"}
 							</div>
 							<div className="truncate text-[11px] text-muted-foreground">
-								{user.email || "admin@selimsolutions.com"}
+								{user.email || "admin@selim.solutions"}
 							</div>
 						</div>
 						<ChevronsUpDown className="size-3.5 shrink-0 text-muted-foreground group-data-[collapsible=icon]:hidden" />
