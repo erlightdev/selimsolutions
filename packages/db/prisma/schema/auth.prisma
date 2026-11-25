@@ -8,9 +8,16 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  admin         Admin?
 
   @@unique([email])
   @@map("user")
+}
+
+model Admin {
+  id     Int    @id @default(1)
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Session {

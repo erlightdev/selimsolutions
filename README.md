@@ -12,7 +12,7 @@ This project was created with [Better-T-Stack](https://github.com/AmanVarshney01
 - **oRPC** - End-to-end type-safe APIs with OpenAPI integration
 - **Node.js** - Runtime environment
 - **Prisma** - TypeScript-first ORM
-- **MySQL** - Database engine
+- **MariaDB** - Database engine
 - **Authentication** - Better-Auth
 - **Biome** - Linting and formatting
 - **Turborepo** - Optimized monorepo build system
@@ -27,10 +27,10 @@ npm install
 
 ## Database Setup
 
-This project uses MySQL with Prisma.
+This project uses MariaDB with Prisma (whose connection URL uses the `mysql://` scheme).
 
-1. Make sure you have a MySQL database set up.
-2. Update your `apps/server/.env` file with your MySQL connection details.
+1. Start the local MariaDB container with `npm run db:start`, or provide an existing MariaDB database.
+2. Update your `apps/server/.env` file with your database connection details.
 
 3. Apply the schema to your database:
 
@@ -43,6 +43,8 @@ Then, run the development server:
 ```bash
 npm run dev
 ```
+
+Public registration is disabled. After applying migrations, create the first administrator from `apps/server` using `ADMIN_NAME`, `ADMIN_EMAIL`, and `ADMIN_PASSWORD` environment variables and `npm run create-admin`. Use a unique password of at least 12 characters and avoid placing it in shell history. The command refuses to create a second administrator. Existing accounts are not automatically administrators.
 
 Open [http://localhost:5173](http://localhost:5173) in your browser to see the web application.
 The API is running at [http://localhost:3000](http://localhost:3000).

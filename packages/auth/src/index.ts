@@ -14,16 +14,10 @@ export function createAuth() {
 		trustedOrigins: [env.CORS_ORIGIN],
 		emailAndPassword: {
 			enabled: true,
+			disableSignUp: true,
 		},
 		secret: env.BETTER_AUTH_SECRET,
 		baseURL: env.BETTER_AUTH_URL,
-		advanced: {
-			defaultCookieAttributes: {
-				sameSite: "none",
-				secure: true,
-				httpOnly: true,
-			},
-		},
 		plugins: [],
 	});
 }
