@@ -8,6 +8,7 @@ import {
 	createRootRouteWithContext,
 	HeadContent,
 	Outlet,
+	useRouterState,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useState } from "react";
@@ -49,6 +50,8 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 function RootComponent() {
 	const [client] = useState<AppRouterClient>(() => createORPCClient(link));
 	const [orpcUtils] = useState(() => createTanstackQueryUtils(client));
+	const pathname = useRouterState({ select: (s) => s.location.pathname });
+	const isAppShell = pathname.startsWith("/dashboard");
 
 	return (
 		<>
@@ -59,14 +62,18 @@ function RootComponent() {
 				disableTransitionOnChange
 				storageKey="vite-ui-theme"
 			>
-				<div className="grid min-h-svh grid-rows-[1fr_auto] overflow-x-clip">
-					<Navbar />
-					{/* pt clears the fixed navbar (announcement bar + header) */}
-					<main className="min-w-0 pt-23">
-						<Outlet />
-					</main>
-					<Footer />
-				</div>
+				{isAppShell ? (
+					<Outlet />
+				) : (
+					<div className="grid min-h-svh grid-rows-[1fr_auto] overflow-x-clip">
+						<Navbar />
+						{/* pt clears the fixed navbar (announcement bar + header) */}
+						<main className="min-w-0 pt-23">
+							<Outlet />
+						</main>
+						<Footer />
+					</div>
+				)}
 				<Toaster richColors />
 			</ThemeProvider>
 			<TanStackRouterDevtools position="bottom-left" />
