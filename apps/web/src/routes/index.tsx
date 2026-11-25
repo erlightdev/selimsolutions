@@ -1,5 +1,4 @@
 import { Marquee } from "@selimsolutions/ui/components/marquee";
-import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import {
 	Activity,
@@ -25,7 +24,6 @@ import FeatureShowcase from "@/components/feature-showcase";
 import OrchestrationTabs from "@/components/orchestration-tabs";
 import ServicesTabs from "@/components/services-tabs";
 import Testimonials from "@/components/testimonials";
-import { orpc } from "@/utils/orpc";
 
 export const Route = createFileRoute("/")({
 	component: HomeComponent,
@@ -294,8 +292,6 @@ const certifications = [
 ] as const;
 
 function HomeComponent() {
-	const healthCheck = useQuery(orpc.healthCheck.queryOptions());
-
 	return (
 		<>
 			{/* Hero — full-bleed video, slides under the fixed navbar (-mt-23) */}

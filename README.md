@@ -47,6 +47,37 @@ npm run dev
 Open [http://localhost:5173](http://localhost:5173) in your browser to see the web application.
 The API is running at [http://localhost:3000](http://localhost:3000).
 
+Copy `apps/server/.env.example` to `apps/server/.env` and `apps/web/.env.example` to `apps/web/.env` before starting. The frontend needs the API running on port 3000 for authentication and API requests.
+
+## VPS deployment
+
+Serve the built frontend and proxy `/rpc` and `/api/auth` to the API on the same HTTPS domain. For example, set `VITE_SERVER_URL=https://your-domain.com` in `apps/web/.env` **before** running `npm run build`; Vite embeds this value in the frontend build. In `apps/server/.env`, set `BETTER_AUTH_URL` and `CORS_ORIGIN` to `https://your-domain.com`, configure `DATABASE_URL` for the VPS database, and generate a unique `BETTER_AUTH_SECRET` of at least 32 characters. Do not commit these files.
+
+Run the built API with `cd apps/server && NODE_ENV=production npm start` under a service manager, and serve `apps/web/dist` with a web server. An Nginx server block can use these locations (replace the domain and absolute path, and configure HTTPS certificates):
+
+```nginx
+root /path/to/selimsolutions/apps/web/dist;
+index index.html;
+
+location /rpc {
+    proxy_pass http://127.0.0.1:3000;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+location /api/auth {
+    proxy_pass http://127.0.0.1:3000;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+location / {
+    try_files $uri $uri/ /index.html;
+}
+```
+
+Restrict direct access to port 3000 and the database to the VPS or trusted hosts. Apply the database schema before starting the API; this repository currently has no checked-in Prisma migrations, so use `npm run db:push:prod` only after reviewing its effects on the production database.
+
 ## UI Customization
 
 React web apps in this stack share shadcn/ui primitives through `packages/ui`.
